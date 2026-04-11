@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ARCHITECT_OS | Research &amp; Academic Foundations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#201f1f",
+                        "tertiary-fixed": "#94aeff",
+                        "surface-container": "#1a1919",
+                        "on-secondary-fixed": "#29394e",
+                        "on-primary-fixed-variant": "#004c5e",
+                        "secondary-fixed": "#c8d8f3",
+                        "error-dim": "#d7383b",
+                        "primary-fixed-dim": "#00c3ed",
+                        "primary": "#72dcff",
+                        "on-primary-fixed": "#002c38",
+                        "surface-dim": "#0e0e0e",
+                        "on-secondary": "#3c4c61",
+                        "secondary-container": "#38485d",
+                        "tertiary": "#84a2ff",
+                        "on-error": "#490006",
+                        "on-tertiary": "#002266",
+                        "surface-variant": "#262626",
+                        "secondary-dim": "#bacae4",
+                        "on-background": "#ffffff",
+                        "tertiary-dim": "#7899ff",
+                        "on-primary": "#004c5e",
+                        "error-container": "#9f0519",
+                        "background": "#0e0e0e",
+                        "surface-tint": "#72dcff",
+                        "primary-container": "#00d2ff",
+                        "outline-variant": "#494847",
+                        "surface-container-low": "#131313",
+                        "surface-container-lowest": "#000000",
+                        "on-surface": "#ffffff",
+                        "surface-container-highest": "#262626",
+                        "on-tertiary-container": "#001649",
+                        "tertiary-fixed-dim": "#809fff",
+                        "secondary-fixed-dim": "#bacae4",
+                        "primary-fixed": "#00d2ff",
+                        "surface": "#0e0e0e",
+                        "tertiary-container": "#7294fa",
+                        "outline": "#777575",
+                        "on-secondary-fixed-variant": "#46556b",
+                        "inverse-primary": "#00687f",
+                        "secondary": "#c8d8f3",
+                        "inverse-on-surface": "#565554",
+                        "on-tertiary-fixed-variant": "#00318c",
+                        "inverse-surface": "#fcf8f8",
+                        "primary-dim": "#00c3ed",
+                        "on-secondary-container": "#c1d1eb",
+                        "on-error-container": "#ffa8a3",
+                        "on-surface-variant": "#adaaaa",
+                        "on-primary-container": "#004253",
+                        "on-tertiary-fixed": "#001444",
+                        "error": "#ff716c",
+                        "surface-bright": "#2c2c2c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-sm { text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
+        .bg-grid-subtle {
+            background-image: radial-gradient(circle at 2px 2px, rgba(114, 220, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/60 dark:bg-[#0e0e0e]/60 backdrop-blur-xl shadow-[0_0_20px_rgba(0,210,255,0.05)]">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-7xl mx-auto">
+<div class="text-xl font-bold tracking-tighter text-[#00d2ff] uppercase font-['Space_Grotesk']">
+                ARCHITECT_OS
+            </div>
+<div class="hidden md:flex items-center space-x-8 font-['Space_Grotesk'] tracking-tight">
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Systems</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Software</a>
+<a class="text-[#00d2ff] border-b-2 border-[#00d2ff] pb-1" href="#">Research</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Projects</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Logs</a>
+</div>
+<button class="bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] px-6 py-1.5 text-sm font-['Space_Grotesk'] uppercase tracking-widest hover:bg-[#00d2ff]/20 active:scale-95 transition-all duration-300">
+                Connect
+            </button>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto bg-grid-subtle min-h-screen">
+<!-- Hero Section -->
+<section class="mb-32">
+<div class="flex flex-col md:flex-row items-end gap-6 mb-8">
+<span class="text-primary font-label text-xs uppercase tracking-[0.4em] mb-4 md:mb-6">System.Node_04 // Research</span>
+<div class="h-[1px] flex-grow bg-outline-variant/30 mb-5 hidden md:block"></div>
+</div>
+<h1 class="font-headline text-5xl md:text-8xl font-bold tracking-tighter leading-[0.9] text-on-surface mb-8">
+                Research_<span class="text-primary">Archives</span>
+</h1>
+<p class="max-w-2xl text-on-surface-variant text-lg md:text-xl font-light leading-relaxed">
+                A repository of academic rigor and industrial innovation, bridging the gap between mechatronic theory and functional application. Investigating kinematic efficiency and structural optimization in complex machinery.
+            </p>
+</section>
+<!-- Bento Grid: Academic Foundations -->
+<section class="mb-32">
+<div class="flex items-center gap-4 mb-12">
+<span class="material-symbols-outlined text-primary" data-icon="school">school</span>
+<h2 class="font-headline text-2xl uppercase tracking-widest font-bold">Academic_Foundations</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Education Card -->
+<div class="md:col-span-7 bg-surface-container-low p-8 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl" data-icon="history_edu">history_edu</span>
+</div>
+<p class="text-primary font-label text-[10px] tracking-[0.3em] uppercase mb-4">Credential</p>
+<h3 class="text-3xl font-headline font-bold mb-2">B.Tech in Mechatronics</h3>
+<p class="text-on-surface-variant leading-relaxed max-w-md">
+                        Specialized in the integration of electronic control systems with mechanical design. Core focus on robotics, automation, and real-time embedded systems.
+                    </p>
+<div class="mt-12 flex gap-8">
+<div>
+<p class="text-primary font-bold text-2xl">3.9</p>
+<p class="text-on-surface-variant font-label text-[10px] uppercase">Major GPA</p>
+</div>
+<div>
+<p class="text-primary font-bold text-2xl">2020-2024</p>
+<p class="text-on-surface-variant font-label text-[10px] uppercase">Timeline</p>
+</div>
+</div>
+</div>
+<!-- Research Item 1 -->
+<div class="md:col-span-5 bg-surface-container p-8 border-t-2 border-primary">
+<p class="text-primary font-label text-[10px] tracking-[0.3em] uppercase mb-4">Research_Focus_01</p>
+<h3 class="text-2xl font-headline font-bold mb-4">5-axis milling toolpaths</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        Optimizing non-orthogonal tool vectors to reduce machining time by 15% while improving surface finish on complex aerospace alloys.
+                    </p>
+<div class="flex items-center gap-2 text-primary text-xs font-label">
+<span class="material-symbols-outlined text-sm" data-icon="terminal">terminal</span>
+<span>MATLAB SIMULATION / C++</span>
+</div>
+</div>
+<!-- Research Item 2 -->
+<div class="md:col-span-12 bg-surface-container-high p-10 flex flex-col md:flex-row items-center gap-12 group">
+<div class="w-full md:w-1/2 aspect-video bg-surface overflow-hidden relative border border-outline-variant/20">
+<img class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" data-alt="3D CAD model of a complex mechanical gripper arm with stress heat map showing structural optimization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ-UNCPSje37hAyYzRPOD0y-qvjLkR0jtbwZERm4fT7Wx6Bn05WrDXGnU0FQx7uRK443VF0WBk302dDdeqltNbX84Z4qOsxQFW22v83HG3tqxisc99C_Meghd48eaRnnXr1NXtv6fMNHEczRFUibesJPEXyxIxx7NoQuqkugvStaXIVZAvOMGRJG5Q5Ww3oJjuNFIdiAaKBz_nJpevSYAm5EP-f9NqEJnyAIvl22-iUYSAg0fW1KfVCktQ6_a_4t8YHTjz6_A9-0o"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+</div>
+<div class="w-full md:w-1/2">
+<p class="text-primary font-label text-[10px] tracking-[0.3em] uppercase mb-4">Research_Focus_02</p>
+<h3 class="text-3xl font-headline font-bold mb-4">Shape Optimization of Gripper Arm</h3>
+<p class="text-on-surface-variant leading-relaxed mb-8">
+                            A generative approach to reducing mass in end-effectors without compromising structural integrity. Utilized FEA analysis to identify and eliminate non-critical stress zones in pneumatic systems.
+                        </p>
+<button class="border border-primary/30 text-primary px-8 py-2 text-sm hover:bg-primary/10 transition-all font-label uppercase tracking-widest">View Dataset</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Intellectual Property Section -->
+<section class="mb-32">
+<div class="flex items-center gap-4 mb-12">
+<span class="material-symbols-outlined text-primary" data-icon="verified">verified</span>
+<h2 class="font-headline text-2xl uppercase tracking-widest font-bold">Intellectual_Property</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Patent 1 -->
+<div class="p-1 bg-gradient-to-br from-primary/20 to-transparent">
+<div class="bg-surface-container p-8 h-full">
+<div class="flex justify-between items-start mb-6">
+<span class="text-on-surface-variant font-label text-xs">PATENT // PENDING_2023</span>
+<span class="material-symbols-outlined text-primary" data-icon="engineering" data-weight="fill" style="font-variation-settings: 'FILL' 1;">engineering</span>
+</div>
+<h3 class="text-2xl font-headline font-bold mb-4">Stair Climbing Wheel</h3>
+<p class="text-on-surface-variant text-sm mb-8 leading-relaxed">
+                            A revolutionary tri-star wheel configuration designed for autonomous delivery robots navigating urban environments with variable height curbs and stairs.
+                        </p>
+<div class="flex gap-4">
+<span class="bg-primary/10 text-primary px-3 py-1 text-[10px] font-label uppercase">Kinematics</span>
+<span class="bg-primary/10 text-primary px-3 py-1 text-[10px] font-label uppercase">Mobility</span>
+</div>
+</div>
+</div>
+<!-- Patent 2 -->
+<div class="p-1 bg-gradient-to-br from-tertiary/20 to-transparent">
+<div class="bg-surface-container p-8 h-full">
+<div class="flex justify-between items-start mb-6">
+<span class="text-on-surface-variant font-label text-xs">PATENT // FILED_2024</span>
+<span class="material-symbols-outlined text-tertiary" data-icon="settings_input_component" data-weight="fill" style="font-variation-settings: 'FILL' 1;">settings_input_component</span>
+</div>
+<h3 class="text-2xl font-headline font-bold mb-4">Multi-Purpose Jig</h3>
+<p class="text-on-surface-variant text-sm mb-8 leading-relaxed">
+                            Modular fixturing system for CNC machining that reduces setup time across diverse geometries by implementing a high-precision magnetic locking mechanism.
+                        </p>
+<div class="flex gap-4">
+<span class="bg-tertiary/10 text-tertiary px-3 py-1 text-[10px] font-label uppercase">Manufacturing</span>
+<span class="bg-tertiary/10 text-tertiary px-3 py-1 text-[10px] font-label uppercase">Efficiency</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Technical Papers / Reports -->
+<section>
+<div class="flex items-center justify-between mb-12">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="article">article</span>
+<h2 class="font-headline text-2xl uppercase tracking-widest font-bold">Technical_Papers</h2>
+</div>
+<div class="h-[1px] flex-grow bg-outline-variant/20 mx-12 hidden md:block"></div>
+<p class="text-on-surface-variant font-label text-xs uppercase hidden md:block">LogCount: 08</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Paper Card 1 -->
+<div class="bg-surface-container-low p-6 group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex items-center justify-between mb-4">
+<span class="text-primary text-xs font-label">REF_092</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity" data-icon="open_in_new">open_in_new</span>
+</div>
+<h4 class="font-bold mb-4 leading-tight">Kinematic Analysis of Delta Robots</h4>
+<p class="text-on-surface-variant text-xs mb-6">Investigating Jacobian matrices for high-speed pick and place stability.</p>
+<div class="pt-4 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="text-[10px] font-label uppercase text-on-surface-variant">PDF // 4.2 MB</span>
+<span class="text-[10px] font-label uppercase text-primary">Read Case Study</span>
+</div>
+</div>
+<!-- Paper Card 2 -->
+<div class="bg-surface-container-low p-6 group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex items-center justify-between mb-4">
+<span class="text-primary text-xs font-label">REF_104</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity" data-icon="open_in_new">open_in_new</span>
+</div>
+<h4 class="font-bold mb-4 leading-tight">Generative Design in Industrial Machinery</h4>
+<p class="text-on-surface-variant text-xs mb-6">Comparative study between topological optimization and traditional CAD.</p>
+<div class="pt-4 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="text-[10px] font-label uppercase text-on-surface-variant">PDF // 6.8 MB</span>
+<span class="text-[10px] font-label uppercase text-primary">Read Case Study</span>
+</div>
+</div>
+<!-- Paper Card 3 -->
+<div class="bg-surface-container-low p-6 group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex items-center justify-between mb-4">
+<span class="text-primary text-xs font-label">REF_117</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity" data-icon="open_in_new">open_in_new</span>
+</div>
+<h4 class="font-bold mb-4 leading-tight">PID Control in Variable Loads</h4>
+<p class="text-on-surface-variant text-xs mb-6">Adaptive tuning algorithms for hydraulic actuators under stress.</p>
+<div class="pt-4 border-t border-outline-variant/30 flex justify-between items-center">
+<span class="text-[10px] font-label uppercase text-on-surface-variant">PDF // 2.1 MB</span>
+<span class="text-[10px] font-label uppercase text-primary">Read Case Study</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-[#ffffff]/5 bg-[#0e0e0e] font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em]">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full">
+<div class="text-[#72dcff] font-bold mb-4 md:mb-0">
+                ARCHITECT_OS // RESEARCH_UNIT
+            </div>
+<div class="flex space-x-8 mb-4 md:mb-0">
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all" href="#">Terminal</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all" href="#">Repository</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all" href="#">Circuitry</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all" href="#">Signal</a>
+</div>
+<div class="text-[#adaaaa]">
+                © 2024 AKASH MHAIS. ENCRYPTED TRANSMISSION.
+            </div>
+</div>
+</footer>
+<!-- Background Decorative Elements -->
+<div class="fixed top-1/4 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+<div class="fixed bottom-1/4 -right-20 w-96 h-96 bg-tertiary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+</body></html>

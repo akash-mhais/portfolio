@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#72dcff",
+                    "on-tertiary-container": "#001649",
+                    "on-secondary-container": "#c1d1eb",
+                    "secondary-container": "#38485d",
+                    "on-tertiary-fixed": "#001444",
+                    "primary-container": "#00d2ff",
+                    "tertiary": "#84a2ff",
+                    "outline": "#777575",
+                    "error-container": "#9f0519",
+                    "primary-fixed-dim": "#00c3ed",
+                    "on-secondary-fixed": "#29394e",
+                    "on-surface-variant": "#adaaaa",
+                    "inverse-on-surface": "#565554",
+                    "on-primary-container": "#004253",
+                    "error": "#ff716c",
+                    "surface-container-low": "#131313",
+                    "error-dim": "#d7383b",
+                    "tertiary-dim": "#7899ff",
+                    "surface-dim": "#0e0e0e",
+                    "secondary-fixed": "#c8d8f3",
+                    "inverse-surface": "#fcf8f8",
+                    "inverse-primary": "#00687f",
+                    "on-background": "#ffffff",
+                    "surface-variant": "#262626",
+                    "primary-dim": "#00c3ed",
+                    "on-tertiary": "#002266",
+                    "on-primary": "#004c5e",
+                    "outline-variant": "#494847",
+                    "on-surface": "#ffffff",
+                    "primary-fixed": "#00d2ff",
+                    "on-error-container": "#ffa8a3",
+                    "surface-container-high": "#201f1f",
+                    "secondary-fixed-dim": "#bacae4",
+                    "on-error": "#490006",
+                    "surface-container": "#1a1919",
+                    "surface-container-lowest": "#000000",
+                    "on-secondary": "#3c4c61",
+                    "on-tertiary-fixed-variant": "#00318c",
+                    "tertiary-fixed-dim": "#809fff",
+                    "secondary": "#c8d8f3",
+                    "on-secondary-fixed-variant": "#46556b",
+                    "on-primary-fixed-variant": "#004c5e",
+                    "surface-tint": "#72dcff",
+                    "tertiary-container": "#7294fa",
+                    "tertiary-fixed": "#94aeff",
+                    "background": "#0e0e0e",
+                    "surface-container-highest": "#262626",
+                    "on-primary-fixed": "#002c38",
+                    "surface-bright": "#2c2c2c",
+                    "secondary-dim": "#bacae4",
+                    "surface": "#0e0e0e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Space Grotesk"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-sm:hover {
+            text-shadow: 0 0 8px rgba(0, 210, 255, 0.6);
+        }
+        .circuit-line {
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 210, 255, 0.2) 50%, transparent 100%);
+            height: 1px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/60 dark:bg-[#0e0e0e]/60 backdrop-blur-xl shadow-[0_0_20px_rgba(0,210,255,0.05)]">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-7xl mx-auto">
+<div class="text-xl font-bold tracking-tighter text-[#00d2ff] uppercase font-['Space_Grotesk']">
+            ARCHITECT_OS
+        </div>
+<nav class="hidden md:flex gap-8 items-center font-['Space_Grotesk'] tracking-tight">
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Systems</a>
+<a class="text-[#00d2ff] border-b-2 border-[#00d2ff] pb-1" href="#">Software</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Research</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Projects</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Logs</a>
+</nav>
+<button class="bg-primary-container text-on-primary-container px-6 py-1.5 font-label font-bold text-sm hover:scale-95 active:scale-90 transition-transform">
+            Connect
+        </button>
+</div>
+</header>
+<main class="pt-32 pb-24 max-w-7xl mx-auto px-8">
+<!-- Hero Section -->
+<section class="mb-32">
+<div class="flex flex-col md:flex-row justify-between items-end gap-8">
+<div class="max-w-3xl">
+<span class="font-label text-primary text-sm uppercase tracking-widest mb-4 block">Deployment Log 04.2</span>
+<h1 class="font-headline text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] mb-8">
+                    Software_Forge
+                </h1>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-xl">
+                    Bridging the gap between kinetic hardware and digital intelligence. High-fidelity mechatronic automation tools and neural-vision pipelines.
+                </p>
+</div>
+<div class="flex flex-col items-end text-right">
+<span class="font-label text-xs text-outline mb-1 uppercase">Kernel Status</span>
+<span class="text-primary font-bold text-sm flex items-center gap-2">
+<span class="w-2 h-2 bg-primary animate-pulse"></span> OPERATIONAL
+                </span>
+</div>
+</div>
+<div class="circuit-line mt-12"></div>
+</section>
+<!-- Software Grid -->
+<div class="space-y-48">
+<!-- 1. PREcision 360 -->
+<section class="group" id="precision-360">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<div class="lg:col-span-5">
+<div class="sticky top-24">
+<div class="flex items-center gap-4 mb-6">
+<span class="w-12 h-[1px] bg-primary"></span>
+<span class="font-label text-primary uppercase text-sm tracking-[0.3em]">Module 01</span>
+</div>
+<h2 class="font-headline text-5xl font-bold mb-6 tracking-tight">PREcision 360</h2>
+<div class="space-y-6 text-on-surface-variant">
+<p>
+                                A high-fidelity CAD automation suite designed for industrial mechatronics. PREcision 360 streamlines the validation of complex kinetic structures by simulating mechanical stresses in real-time within the design phase.
+                            </p>
+<ul class="space-y-4 font-label text-xs text-primary/80">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    AUTOMATED GEOMETRY OPTIMIZATION
+                                </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    KINETIC INTERFERENCE ANALYTICS
+                                </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    PARAMETRIC COMPONENT INJECTION
+                                </li>
+</ul>
+<div class="pt-8">
+<button class="border border-primary/30 text-primary px-8 py-3 font-label text-xs tracking-widest hover:bg-primary/10 transition-all duration-300">
+                                    VIEW DOCUMENTATION
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7 grid grid-cols-2 gap-4">
+<div class="col-span-2 aspect-video bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" data-alt="Technical 3D wireframe render of a robotic arm with complex mechanical joint overlays in a dark UI environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdrVhJPwxUZt45e4DpIPdaL3q-y-Ug2TS7pG2jCwy-hkMM2j1v7lniM15vW1XlwT0WmjdLWLHU7xH7svnZOVQLHKEkoeQFuncoXzX0zyFD-QlBzq6WuXzsm0xVaA_DwmLZNF4fGAndI4SS_Fsme4fLPnCxsz3qjhYiJg9i5JHyCjUW6LJgWeBu5h2674TFnC8T8zK9YYB_0iW4-OiKXrX1hmmK7EaTU528HDVY9pyc5BSg07KWs3AORTYsZLpwqOy05Pjsj2vvE38"/>
+</div>
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 transition-all duration-500" data-alt="Close up of a technical circuit board schematic with digital neon glowing paths in deep cyan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMwpTnAtWCK2hG4BtBY7esfKDjMqVveASQOXE8W26qAhDVWDZx5Vp0RcVxKFREMiUH41OasI0xwMRJWK0ZSxklU4wbijjYmUIZ6iYEhVMF06BW52P18VefyvCNNebIeQA0pZparW79017CcmoXT7rAcMK_ksMfW0jV7eBHotAQl7gNrttP_30Qpxez5vW4UYWnHbXw3YcNZgzcpExLF_KLeMiLWlTRCmYTDmTczzgmMhLsxhrX9PQuSlsYrF0-9IUJ7CE6oVAkW08"/>
+</div>
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 transition-all duration-500" data-alt="Digital particle cloud representation of a mechanical assembly with fluid simulation dynamics in blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9QGgeJydDuOWs8x0bbk2FBtIUJYwPaDLH9B3j-Cfwp6JpzpbehPf7UujMbGSdTsdQAAwCVE3sNbU8-03FR2QRBvU9QhHXTEJlfVvBpvQqkW2-fIJ0owEjP9YW9O-5mnKe4epM2PqUrLKW_PrrPN7sQdWk9zlodeRL9C1Wcmzqjcqv5W8PetTGBRWebawMG-RS4zRkZ_fgyBjXv63LR6ObCgDOJoZeoLEN2dMvMW0sJjzkcsWfiRiGnQkhc2mbWNlp4Z1hEXQhalY"/>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Vision Studio -->
+<section class="group" id="vision-studio">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start direction-rtl">
+<div class="lg:col-span-7 order-2 lg:order-1 grid grid-cols-2 gap-4">
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 transition-all duration-500" data-alt="A dark computer screen displaying a computer vision object detection interface with bright bounding boxes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnqa-K9z6eGKtAU3dIH0SbD7kE2DmdbiRmklNW-B9gKMDSzUoapKwJVC87acCSUQbrDNxC4C9sWRWyCrcHAkFWdPaLcFmFPJKgvu1sI1iS3_j5Ob6iucOaQPIzr2MKxqaz-0vD0PYjjAm28qU6u9RTu4k1XR_IiNI5WJlEr_P-TOASYrlrnwfYi-NtsUl1gVClnmaJwCdabs0cXa20ZXrDhzPZun0nPlDel2pKWQNT4nrkDieLA_R29lK0MSDDpdwClWNFo2FPnCU"/>
+</div>
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 transition-all duration-500" data-alt="Abstract neural network visualization with interconnected nodes and glowing edges in a minimalist dark setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV_zO2zq-r4sWvAg5iWLPedErBzDzpy3TFHL_7MlHN-nJfpjqRqIIbTfVQQ1_iEgUWdvTqVeVJvUqXuJ4qPb5syNZbiaY4NYhTr16y-hXFvNGnhVvaD_mx38H1vOGd4kHNgj8Okh_cPqEW3IGwafo9O9Eo2sUQhsYoi8q3CZYIC2LKCchvCHh32KZwmk4gj8E0tH4OhDfYaf5pmUMdKkbOoaBc0Mi6-L1IMO4GZAuwrcH4xvGlJDnG0oEtLDetPqsKp5otxrOJRJU"/>
+</div>
+<div class="col-span-2 aspect-[21/9] bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" data-alt="Industrial robotic production line with laser sensors and high-speed motion capture cameras in motion blur" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz9K8l_4f7zx8zlz9XmL4FeFiBVqlVC1OGWtY9QitWcONIxw-_vFR_sVlUO-_rYDmW7adMIlkL0gxnTAzdr2Q94rPLZI36savThj0FPdOkWHVdWzxQbXMn11HJuzE_M1rjbDWsdToQvSoMoumgdcxhl7eD9ged3ZUlhUatdUMfD4A0WmzGmPKwOgA7gU544HqU92mpFak3puNzWfurI2TfOA4ispeAkz-xIaK-L8X_ODjGYccB1YY0Cir8eITpTjW6IK8C7UpaiYw"/>
+</div>
+</div>
+<div class="lg:col-span-5 order-1 lg:order-2">
+<div class="sticky top-24">
+<div class="flex items-center gap-4 mb-6">
+<span class="w-12 h-[1px] bg-primary"></span>
+<span class="font-label text-primary uppercase text-sm tracking-[0.3em]">Module 02</span>
+</div>
+<h2 class="font-headline text-5xl font-bold mb-6 tracking-tight">Vision Studio</h2>
+<div class="space-y-6 text-on-surface-variant">
+<p>
+                                An integrated environment for developing and deploying Computer Vision models at the edge. Vision Studio provides high-performance tracking and object recognition specifically tuned for robotic manufacturing environments.
+                            </p>
+<ul class="space-y-4 font-label text-xs text-primary/80">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    REAL-TIME LATENCY MONITORING
+                                </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    EDGE DEVICE DEPLOYMENT PIPELINE
+                                </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    CUSTOM NEURAL ARCHITECTURE SEARCH
+                                </li>
+</ul>
+<div class="pt-8">
+<button class="border border-primary/30 text-primary px-8 py-3 font-label text-xs tracking-widest hover:bg-primary/10 transition-all duration-300">
+                                    LAUNCH WORKSPACE
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Autodraft AI -->
+<section class="group" id="autodraft-ai">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<div class="lg:col-span-5">
+<div class="sticky top-24">
+<div class="flex items-center gap-4 mb-6">
+<span class="w-12 h-[1px] bg-primary"></span>
+<span class="font-label text-primary uppercase text-sm tracking-[0.3em]">Module 03</span>
+</div>
+<h2 class="font-headline text-5xl font-bold mb-6 tracking-tight">Autodraft AI</h2>
+<div class="space-y-6 text-on-surface-variant">
+<p>
+                                An LLM-powered assistant for mechatronics engineers. Autodraft AI converts natural language requirements into functional Python scripts for CAD environments and motion control logic, drastically reducing prototyping cycles.
+                            </p>
+<div class="bg-surface-container p-6 border-l-2 border-primary">
+<p class="font-label text-[10px] text-outline mb-3 uppercase tracking-widest">Neural Link Input</p>
+<p class="italic text-sm text-on-surface">"Generate a compliant joint mechanism for 5kg payload with integrated sensor mounting..."</p>
+</div>
+<ul class="space-y-4 font-label text-xs text-primary/80">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    SEMANTIC CODE GENERATION
+                                </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    FIRMWARE COMPATIBILITY CHECK
+                                </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    AUTOMATED BOM GENERATION
+                                </li>
+</ul>
+<div class="pt-8">
+<button class="border border-primary/30 text-primary px-8 py-3 font-label text-xs tracking-widest hover:bg-primary/10 transition-all duration-300">
+                                    ACCESS BETA
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7 flex flex-col gap-4">
+<div class="aspect-video bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" data-alt="A humanoid robot hand interacting with a holographic interface showing lines of futuristic code in cyan light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5FFSAKtAZfe84qCm82fmLCXC2Bif9qIuWHJ7xZz2V9NyBe-12GdpYg08jH6ET9eV6OebAeEM_Rvs5NDjPpAzDkxzJdG8uraQEvz-YbeXcINSi-ug3ChgyYcqFdxrbZXH2MSdf0sCGx0Qsbiv4osae_dmRlFuUnZO92Dg8RQ2rJUGWL_m-WcytYjO-hJ0gNrp_qCY62tXMEUIvOLB6mhCLUAeN9QLL1L6WXo3jMYXG-KjpJjMxcaV1tCgR0gkJJYjDMaNlZVzUL_4"/>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-100 transition-all duration-500" data-alt="Close up view of a sophisticated CNC machine head precision cutting through dark carbon fiber material" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaAawOahbqdcEtxXJ_bXxmbriMJ_HpBOZaBh9_KHRQUFwStyn14J60x_dmXQdEV_zqSAZrz6sAFpZUAQJbBM2EMvxH4Zmlq3pYU2v7ATmV2PL-g0yrPfvJDoW-FN4oYauybc-YCwasPY_f-KY_xrhYnK1X8pMd5dhwCPKbnN34IOOhWbK2wx4iseg0Z8-VVT5tCNlJREzJKh83ttXYBZCfdci26vzrdY6F5enIlcQOh8Y7eK8tNxFUjnfEIWULuBvKy717FiksD4c"/>
+</div>
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-100 transition-all duration-500" data-alt="Digital graphs and data analytics interface on a dark screen with glowing light blue progress bars" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBk9CBAnOCSiv6juWU49Cwp7R3y4wwy5fzYCnFvvPJaUsmAIU_9vA25EHYa0hM1sIqj-Gy0FQUu-aSIMAbn2hfQSHNkURUadQw2auABK1B-TB3YLqxEvjzeIfjcuTRM5R8mXM5g8xUWgwbsrGZViu4YdS76YAcqtttccojN2MMsCgVfVhLPGdLZ1kAQqMT0EUKn3x6Y-cLEITr0W78yNyTB5pGK_ogQEoJyJKjB60JQwEDGtesr2UmEpurFMOCC8u3FMKYxpUvdb3E"/>
+</div>
+<div class="aspect-square bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-100 transition-all duration-500" data-alt="Detailed view of internal robotic gears and micro-motors with high contrast metallic highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDra43fraxKsavOnnEQ-KN7R_QR_C5cv8cI4QpZvXluKxUsc-S_dGxYt0H41Bt6hsbdqO8eD88A_OQhvf7fQ9nzN1eTlJC6Gx7Ivapb6-E6sKjpCL-v5MMPHXySmjeHTyz0ir16CQ67NKGTvdm-Jx0oYGoGYMurBWG9FO4rGfMF7h8sNcQ8GlpTW77aMiGAZMw3NUexJCOsV_-hgSepPcIv0Kg8M0kWbDZkfWG-iDa4BpBPLDaxaVcfcDfeotp-MmXdE9oVZkb7iA8"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-[#ffffff]/5 bg-[#0e0e0e]">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full max-w-7xl mx-auto">
+<div class="text-[#72dcff] font-bold font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em]">
+            AKASH MHAIS // ARCHITECT
+        </div>
+<div class="flex gap-8 my-6 md:my-0">
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em]" href="#">Terminal</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em]" href="#">Repository</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em]" href="#">Circuitry</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em]" href="#">Signal</a>
+</div>
+<div class="text-[#adaaaa] font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em]">
+            © 2024 ENGINEER_IDENTITY. ENCRYPTED TRANSMISSION.
+        </div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ARCHITECT_OS | Project Vault</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#72dcff",
+                    "surface": "#0e0e0e",
+                    "surface-container": "#1a1919",
+                    "inverse-primary": "#00687f",
+                    "primary-dim": "#00c3ed",
+                    "surface-variant": "#262626",
+                    "on-primary-fixed": "#002c38",
+                    "on-primary-container": "#004253",
+                    "outline": "#777575",
+                    "on-tertiary-container": "#001649",
+                    "secondary": "#c8d8f3",
+                    "on-tertiary": "#002266",
+                    "tertiary-fixed-dim": "#809fff",
+                    "surface-tint": "#72dcff",
+                    "error": "#ff716c",
+                    "surface-container-high": "#201f1f",
+                    "tertiary": "#84a2ff",
+                    "on-primary": "#004c5e",
+                    "on-secondary-fixed-variant": "#46556b",
+                    "inverse-surface": "#fcf8f8",
+                    "surface-container-highest": "#262626",
+                    "primary-fixed-dim": "#00c3ed",
+                    "primary-fixed": "#00d2ff",
+                    "secondary-fixed": "#c8d8f3",
+                    "surface-bright": "#2c2c2c",
+                    "secondary-container": "#38485d",
+                    "inverse-on-surface": "#565554",
+                    "on-secondary": "#3c4c61",
+                    "on-background": "#ffffff",
+                    "tertiary-fixed": "#94aeff",
+                    "outline-variant": "#494847",
+                    "on-error": "#490006",
+                    "background": "#0e0e0e",
+                    "tertiary-container": "#7294fa",
+                    "on-secondary-fixed": "#29394e",
+                    "on-secondary-container": "#c1d1eb",
+                    "surface-container-low": "#131313",
+                    "on-surface-variant": "#adaaaa",
+                    "on-tertiary-fixed": "#001444",
+                    "on-error-container": "#ffa8a3",
+                    "secondary-dim": "#bacae4",
+                    "on-primary-fixed-variant": "#004c5e",
+                    "tertiary-dim": "#7899ff",
+                    "surface-dim": "#0e0e0e",
+                    "primary-container": "#00d2ff",
+                    "secondary-fixed-dim": "#bacae4",
+                    "error-container": "#9f0519",
+                    "on-tertiary-fixed-variant": "#00318c",
+                    "on-surface": "#ffffff",
+                    "surface-container-lowest": "#000000",
+                    "error-dim": "#d7383b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Space Grotesk"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(38, 38, 38, 0.4);
+            backdrop-filter: blur(12px);
+            border-top: 2px solid #72dcff33;
+        }
+        .glass-card:hover {
+            background: rgba(38, 38, 38, 0.6);
+            border-top: 2px solid #00d2ff;
+        }
+        .glow-sm {
+            text-shadow: 0 0 10px rgba(114, 220, 255, 0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/60 dark:bg-[#0e0e0e]/60 backdrop-blur-xl shadow-[0_0_20px_rgba(0,210,255,0.05)]">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-7xl mx-auto font-['Space_Grotesk'] tracking-tight">
+<div class="text-xl font-bold tracking-tighter text-[#00d2ff] uppercase">ARCHITECT_OS</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Systems</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Software</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Research</a>
+<a class="text-[#00d2ff] border-b-2 border-[#00d2ff] pb-1" href="#">Projects</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="#">Logs</a>
+</div>
+<button class="bg-primary-container text-on-primary-container px-5 py-1.5 rounded-sm font-label font-bold text-sm uppercase tracking-wider scale-95 active:scale-90 transition-transform hover:bg-[#00d2ff]/10">
+                Connect
+            </button>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+<!-- Header Section -->
+<header class="mb-20">
+<div class="inline-flex items-center gap-2 mb-4">
+<span class="w-12 h-[1px] bg-primary"></span>
+<span class="font-label text-primary uppercase tracking-[0.3em] text-xs font-bold">Project Archive // System.Log_Projects</span>
+</div>
+<h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-6 uppercase">Vault <span class="text-primary-dim">_01</span></h1>
+<p class="max-w-2xl text-on-surface-variant text-lg leading-relaxed">
+                A definitive collection of engineering pursuits spanning industrial robotics, autonomous systems, and AI integration. These modules represent the synthesis of hardware precision and software logic.
+            </p>
+</header>
+<!-- Bento Grid Projects -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Project 1: OLP Validator -->
+<div class="md:col-span-8 group relative overflow-hidden glass-card p-8 transition-all duration-500">
+<div class="flex justify-between items-start mb-12">
+<div>
+<span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Software / Automation</span>
+<h3 class="font-headline text-3xl font-bold mt-2 uppercase tracking-tight">OLP Validator</h3>
+</div>
+<span class="material-symbols-outlined text-primary text-4xl opacity-50 group-hover:opacity-100 transition-opacity">terminal</span>
+</div>
+<p class="text-on-surface-variant mb-8 max-w-md">Industrial Robot Code Validation Tool designed to bridge the gap between simulation and real-world execution. Enhancing safety in automated production lines.</p>
+<div class="flex gap-4">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label text-on-surface-variant uppercase">C++</span>
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label text-on-surface-variant uppercase">Kuka-KRL</span>
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label text-on-surface-variant uppercase">Robotics</span>
+</div>
+</div>
+<!-- Project 2: AutoDraft AI -->
+<div class="md:col-span-4 group relative overflow-hidden glass-card p-8 transition-all duration-500">
+<span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Software / CAD</span>
+<h3 class="font-headline text-2xl font-bold mt-2 uppercase tracking-tight mb-4">AutoDraft AI</h3>
+<p class="text-on-surface-variant text-sm mb-6">Generative drafting module for CATIA V5, automating technical drawing sequences with neural logic.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label text-[10px] text-on-surface-variant">CATIA V5 API</span>
+<span class="material-symbols-outlined text-primary-dim">auto_awesome</span>
+</div>
+</div>
+<!-- Project 3: AVA -->
+<div class="md:col-span-4 group relative overflow-hidden bg-surface-container-low p-8 border-t-2 border-primary/20 hover:border-primary transition-all duration-500">
+<span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">AI / IoT</span>
+<h3 class="font-headline text-2xl font-bold mt-2 uppercase tracking-tight mb-4">AVA Assistant</h3>
+<p class="text-on-surface-variant text-sm mb-6">Offline Personal AI Assistant localized for edge computing, prioritizing data sovereignty and low latency.</p>
+<div class="w-full h-32 bg-surface-container-highest relative overflow-hidden mb-4">
+<img class="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700" data-alt="minimalist sci-fi blue circular waveform interface on a dark screen representing a personal ai assistant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5aFGMsVAQp4wdKf2HxLqqn0xDh9baCCFJEyG3mAwXfSDWZJmbzvjzfijBxhVGldSHVxbfisV5k2wdQoOSXl3Qo5WimR7l5yyxcZVkyUwOEJSeB9b8HceFw_za1QYo4McGad7mzUT4D-OQ9wacx7NconfJWd1TE5P4DHbU1Ks6Bd3_3dCODxi5ye0IAV0ehWtE9Sz9IRvaKQAsiaTdM1LeAxZcZ4Fmwi10cblmVIl3S-mNVOVdz5nsICd3ifORr1Lg3W1qVsiZ_Oc"/>
+</div>
+</div>
+<!-- Project 4: 6-DOF Robotic Arm -->
+<div class="md:col-span-8 group relative overflow-hidden glass-card p-8 transition-all duration-500">
+<div class="grid md:grid-cols-2 gap-8 items-center h-full">
+<div>
+<span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Robotics / Computer Vision</span>
+<h3 class="font-headline text-3xl font-bold mt-2 uppercase tracking-tight mb-4 leading-none">Vision-Guided 6-DOF Arm</h3>
+<p class="text-on-surface-variant text-sm mb-6">Conveyor-based object sorting system utilizing OpenCV and kinematics for high-precision manipulation.</p>
+<div class="flex gap-2 flex-wrap">
+<span class="px-2 py-1 border border-outline-variant text-[9px] font-label text-on-surface-variant uppercase">OpenCV</span>
+<span class="px-2 py-1 border border-outline-variant text-[9px] font-label text-on-surface-variant uppercase">Kinematics</span>
+<span class="px-2 py-1 border border-outline-variant text-[9px] font-label text-on-surface-variant uppercase">ROS</span>
+</div>
+</div>
+<div class="h-64 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="industrial robotic arm assembly line with blue neon atmospheric lighting in a high-tech factory setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRDsFZe9KPrxImq4I84K8UUUCSoZPWTMd6NLZxhq1fRyNr8R8qc5G79f8itzdpZpuoqBkhvDREv94FdLdMaLDoev1aYxKasZ_PagokHULUS6aCLYWlCEcmh_Rz0jmHQiGPp6qaVfqXjWhh-BuczMjFshXNtBtQTvF2wkwaUYm3EzBYpOCdOT7N3mww4LxPTRmZmkk-7-pPVpbdW523reV0NJVKpI9tHm_JzuCkNvD0KuOWquB-mBzRrYgvcYX0DZuB42CQANyd_nA"/>
+</div>
+</div>
+</div>
+<!-- Project 5: Cartesian Robot -->
+<div class="md:col-span-3 group relative overflow-hidden glass-card p-6 transition-all duration-500">
+<h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-2">Cartesian Robot</h3>
+<span class="font-label text-[9px] text-on-surface-variant uppercase mb-4 block">Palletization Systems</span>
+<p class="text-on-surface-variant text-xs mb-6">Linear movement optimization for heavy-duty payload distribution.</p>
+<div class="h-[1px] w-full bg-outline-variant/30 mb-4"></div>
+<div class="flex justify-between items-center">
+<span class="text-primary text-xs font-label">ROB_X_04</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+</div>
+</div>
+<!-- Project 6: Delta Robot -->
+<div class="md:col-span-3 group relative overflow-hidden glass-card p-6 transition-all duration-500">
+<h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-2">High-Speed Delta</h3>
+<span class="font-label text-[9px] text-on-surface-variant uppercase mb-4 block">Pick &amp; Place</span>
+<p class="text-on-surface-variant text-xs mb-6">High-acceleration parallel kinematics for rapid component assembly.</p>
+<div class="h-[1px] w-full bg-outline-variant/30 mb-4"></div>
+<div class="flex justify-between items-center">
+<span class="text-primary text-xs font-label">FAST_TRAK</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+</div>
+<!-- Project 7: EMO Robot -->
+<div class="md:col-span-3 group relative overflow-hidden glass-card p-6 transition-all duration-500">
+<h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-2">EMO Robot</h3>
+<span class="font-label text-[9px] text-on-surface-variant uppercase mb-4 block">Social Robotics</span>
+<p class="text-on-surface-variant text-xs mb-6">Emotive interface research focusing on human-robot interaction patterns.</p>
+<div class="h-[1px] w-full bg-outline-variant/30 mb-4"></div>
+<div class="flex justify-between items-center">
+<span class="text-primary text-xs font-label">HMI_MOD_01</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">sentiment_satisfied</span>
+</div>
+</div>
+<!-- Project 8: Shape Optimization -->
+<div class="md:col-span-3 group relative overflow-hidden glass-card p-6 transition-all duration-500">
+<h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-2">Gripper Optimization</h3>
+<span class="font-label text-[9px] text-on-surface-variant uppercase mb-4 block">Design / FEA</span>
+<p class="text-on-surface-variant text-xs mb-6">Topology optimization for lightweight, high-strength end effectors.</p>
+<div class="h-[1px] w-full bg-outline-variant/30 mb-4"></div>
+<div class="flex justify-between items-center">
+<span class="text-primary text-xs font-label">FEA_OPT_204</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+</div>
+<!-- Project 9: Ore Secure Armor -->
+<div class="md:col-span-6 group relative overflow-hidden glass-card p-8 transition-all duration-500">
+<span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Design / Defense</span>
+<h3 class="font-headline text-3xl font-bold mt-2 uppercase tracking-tight mb-4">Ore Secure Armor</h3>
+<p class="text-on-surface-variant mb-6 leading-relaxed">Advanced ballistic shielding concept integrating modular kinetic absorption layers for extreme environment protection.</p>
+<img class="w-full h-48 object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 rounded-sm" data-alt="close-up of intricate metallic hexagonal armor plating with subtle glowing cybernetic highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe9HzzHaLlD5hd7Io-8A06R4CKoLcYF1poYPgcLR4d-xfmVY0vvUSLDGp-ITncbwTUBQkonnkBLiFiXoDu8O2Olq2qOgrcz5Hb2W_SLjR1y4kpziDMICACmiAJy7r8FAlZZHzSN7rzKLbSrjWm5c8tDC-hsaFtCGIqa632PwSDcL8DT9X9FaueNf3uyqtLqxtwI0NTltuawEJIqkxaBaAJhQ2P2vLswJLuw0aTynl7pmmlZazMWnxBk55htQ9rntH0gnmoNmekZRY"/>
+</div>
+<!-- Project 10: Push Sorting System -->
+<div class="md:col-span-6 group relative overflow-hidden glass-card p-8 transition-all duration-500">
+<span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">IoT / Automation</span>
+<h3 class="font-headline text-3xl font-bold mt-2 uppercase tracking-tight mb-4">Push Sorting System</h3>
+<p class="text-on-surface-variant mb-6 leading-relaxed">Integrated conveyor logic using decentralized sensors for real-time logistics sorting and tracking.</p>
+<div class="grid grid-cols-3 gap-2">
+<div class="h-20 bg-surface-container-highest"></div>
+<div class="h-20 bg-surface-container-highest"></div>
+<div class="h-20 bg-surface-container-highest"></div>
+</div>
+</div>
+<!-- Project 11: Drone Design -->
+<div class="md:col-span-4 group relative overflow-hidden glass-card p-8 transition-all duration-500">
+<span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Design / Aerodynamics</span>
+<h3 class="font-headline text-2xl font-bold mt-2 uppercase tracking-tight mb-4">Photography Drone</h3>
+<p class="text-on-surface-variant text-sm mb-6">Carbon-fiber frame design optimized for stability and long-exposure aerial photography.</p>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-dim">flight_takeoff</span>
+<span class="font-label text-[10px] text-on-surface-variant tracking-widest uppercase">Aero_Dynamics_v3</span>
+</div>
+</div>
+<!-- Project 12: STEM Kit -->
+<div class="md:col-span-4 group relative overflow-hidden glass-card p-8 transition-all duration-500">
+<span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">IoT / Education</span>
+<h3 class="font-headline text-2xl font-bold mt-2 uppercase tracking-tight mb-4">Learning Kit</h3>
+<p class="text-on-surface-variant text-sm mb-6">Modular STEM platform for electronics and mechatronics education in early learning stages.</p>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-dim">memory</span>
+<span class="font-label text-[10px] text-on-surface-variant tracking-widest uppercase">Educ_Hardware</span>
+</div>
+</div>
+<!-- Project 13: Aakruti 2023 -->
+<div class="md:col-span-4 group relative overflow-hidden glass-card p-8 transition-all duration-500 bg-gradient-to-br from-surface-container-low to-primary/5">
+<span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Robotics / Prosthetics</span>
+<h3 class="font-headline text-2xl font-bold mt-2 uppercase tracking-tight mb-4">Aakruti 2023</h3>
+<p class="text-on-surface-variant text-sm mb-6">Prosthetic Hand development focused on biomimetic articulation and low-cost manufacturing.</p>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-dim">front_hand</span>
+<span class="font-label text-[10px] text-on-surface-variant tracking-widest uppercase">Bio_Link_System</span>
+</div>
+</div>
+</div>
+<!-- Technical Specs Section -->
+<section class="mt-32 pt-20 border-t border-outline-variant/20">
+<div class="grid md:grid-cols-4 gap-12">
+<div>
+<h4 class="font-label text-primary font-bold text-xs tracking-[0.2em] uppercase mb-6">System.Stack</h4>
+<ul class="space-y-4 font-body text-sm text-on-surface-variant">
+<li class="flex justify-between border-b border-outline-variant/10 pb-2"><span>Software</span> <span class="text-on-surface">C++, Python, JS</span></li>
+<li class="flex justify-between border-b border-outline-variant/10 pb-2"><span>Hardware</span> <span class="text-on-surface">ARM, PLC, ROS</span></li>
+<li class="flex justify-between border-b border-outline-variant/10 pb-2"><span>Design</span> <span class="text-on-surface">SolidWorks, NX</span></li>
+<li class="flex justify-between border-b border-outline-variant/10 pb-2"><span>AI/ML</span> <span class="text-on-surface">PyTorch, OpenCV</span></li>
+</ul>
+</div>
+<div class="md:col-span-3">
+<h4 class="font-label text-primary font-bold text-xs tracking-[0.2em] uppercase mb-6">Process_Workflow</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div>
+<span class="text-4xl font-headline font-bold text-surface-variant mb-4 block">01</span>
+<h5 class="font-headline text-lg font-bold uppercase mb-2">Sim_Analysis</h5>
+<p class="text-xs text-on-surface-variant leading-relaxed">Rigorous virtual validation using finite element analysis and multi-body dynamics simulation environments.</p>
+</div>
+<div>
+<span class="text-4xl font-headline font-bold text-surface-variant mb-4 block">02</span>
+<h5 class="font-headline text-lg font-bold uppercase mb-2">Proto_Type</h5>
+<p class="text-xs text-on-surface-variant leading-relaxed">Rapid fabrication cycles utilizing additive manufacturing and custom circuit integration for MVP testing.</p>
+</div>
+<div>
+<span class="text-4xl font-headline font-bold text-surface-variant mb-4 block">03</span>
+<h5 class="font-headline text-lg font-bold uppercase mb-2">System_Integration</h5>
+<p class="text-xs text-on-surface-variant leading-relaxed">Final deployment involving rigorous edge-case handling and software-hardware synchronization protocols.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-[#ffffff]/5 bg-[#0e0e0e]">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em]">
+<div class="text-[#72dcff] font-bold mb-4 md:mb-0">ARCHITECT_IDENTITY_V1.2</div>
+<div class="flex gap-8 mb-6 md:mb-0">
+<a class="text-[#adaaaa] hover:text-[#ffffff] hover:glow-sm transition-all" href="#">Terminal</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] hover:glow-sm transition-all" href="#">Repository</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] hover:glow-sm transition-all" href="#">Circuitry</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] hover:glow-sm transition-all" href="#">Signal</a>
+</div>
+<div class="text-[#00d2ff] opacity-80 hover:opacity-100 transition-opacity">
+                © 2024 AKASH MHAIS. ENCRYPTED TRANSMISSION.
+            </div>
+</div>
+</footer>
+</body></html>
