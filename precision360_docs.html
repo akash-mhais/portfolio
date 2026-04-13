@@ -107,7 +107,7 @@
                     </div>
                     <div class="flex justify-between items-center">
                         <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Validation</span>
-                        <span class="text-primary font-bold text-xs uppercase tracking-widest text-right">Maruti / Mahindra / Kuka</span>
+                        <span class="text-primary font-bold text-xs uppercase tracking-widest text-right">Maruti / Mahindra / TATA</span>
                     </div>
                 </div>
             </div>
@@ -115,9 +115,15 @@
             <div class="p-4 space-y-4">
                 <h4 class="font-headline text-[10px] uppercase tracking-[0.3em] text-white/60">Quick Shortcuts</h4>
                 <ul class="space-y-3 font-label text-xs uppercase tracking-widest text-on-surface-variant">
-                    <li class="hover:text-primary cursor-pointer transition-colors flex items-center gap-2"><span class="w-1 h-1 bg-primary pulse-dot"></span> [01] UI walkthrough</li>
-                    <li class="hover:text-primary cursor-pointer transition-colors flex items-center gap-2"><span class="w-1 h-1 bg-white/20"></span> [02] Validation rules</li>
-                    <li class="hover:text-primary cursor-pointer transition-colors flex items-center gap-2"><span class="w-1 h-1 bg-white/20"></span> [03] Autocorrect logic</li>
+                    <a href="#interface-walkthrough" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-primary pulse-dot"></span> [01] UI walkthrough
+                    </a>
+                    <a href="#validation-rules-detailed" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [02] 20+ Validation rules
+                    </a>
+                    <a href="#io-configuration-section" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [03] IO Configuration
+                    </a>
                 </ul>
             </div>
         </div>
@@ -160,12 +166,12 @@
                     </div>
 
                     <!-- IO Config -->
-                    <div class="reveal">
+                    <div class="reveal" id="io-configuration-section">
                         <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
                             <img class="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" src="PREcision360/io_config.png" alt="IO Configuration Interface">
                         </div>
                         <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// 04: IO Mapping // Configuration</h4>
-                        <p class="text-on-surface-variant text-sm">Visualize and modify IO assignments. This module ensures that digital signals are mapped correctly according to line standards (Maruti/Mahindra) before the code hits the hardware.</p>
+                        <p class="text-on-surface-variant text-sm text-white/90">Visualize and modify IO assignments. This module ensures that digital signals are mapped correctly according to line standards (Maruti/Mahindra/TATA) before the code hits the hardware.</p>
                     </div>
 
                     <!-- Kuka Studio -->
@@ -198,11 +204,11 @@
             </section>
 
             <!-- Technical Specification Section -->
-            <section id="validation-rules" class="reveal space-y-12">
+            <section id="validation-rules-detailed" class="reveal space-y-12">
                 <div class="circuit-line mb-12"></div>
                 <div>
                     <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white">Validation_Logic</h2>
-                    <p class="text-on-surface-variant leading-relaxed text-lg">The kernel implements over 20 proprietary validation rules derived from real-world manufacturing line standards.</p>
+                    <p class="text-on-surface-variant leading-relaxed text-lg text-white/80">The kernel implements over 20 proprietary validation rules derived from Maruti, Mahindra, and TATA manufacturing line standards. These rules ensure 100% collision-free and protocol-compliant code.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -232,10 +238,12 @@
                     </div>
                     <div class="glass-card p-6">
                         <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-3">04 // Code Quality</h5>
-                        <ul class="text-on-surface-variant text-xs space-y-2">
+                        <ul class="text-on-surface-variant text-xs space-y-2 text-white/80">
                             <li>• Comment requirement before CALLs</li>
                             <li>• Turntable/Trunnion rotation comments</li>
                             <li>• Cleanup of commented motion points</li>
+                            <li>• Consecutive blank line limit enforcement</li>
+                            <li>• User Tool/Frame num verification</li>
                         </ul>
                     </div>
                 </div>
