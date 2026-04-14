@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Electronics Learning Kit | Technical Documentation</title>
+    <meta name="description" content="Technical documentation for the Electronics Learning Kit — A modular RP2040-based educational platform built by Akash Mhais."/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                        "primary": "#84a2ff",
+                        "on-surface": "#ffffff",
+                        "on-surface-variant": "#d1d1d1",
+                        "surface-container-low": "#131313",
+                        "surface-container": "#1a1919",
+                        "background": "#0e0e0e",
+                        "surface": "#0e0e0e",
+                        "outline-variant": "#494847"
+                },
+                "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                }
+              },
+            },
+          }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glow-sm:hover { text-shadow: 0 0 8px rgba(132, 162, 255, 0.6); }
+        .circuit-line {
+            background: linear-gradient(90deg, transparent 0%, rgba(132, 162, 255, 0.4) 50%, transparent 100%);
+            height: 1px;
+            width: 100%;
+        }
+        body { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .glass-card {
+            background: rgba(26, 25, 25, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(132, 162, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { border-color: rgba(132, 162, 255, 0.3); background: rgba(26, 25, 25, 0.6); }
+        .pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+        @keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 4px;
+            background: #000;
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .tech-tag {
+            background: rgba(132, 162, 255, 0.1);
+            border: 1px solid rgba(132, 162, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 2px;
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #84a2ff;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-xl border-b border-white/5">
+    <div class="flex justify-between items-center px-8 h-16 max-w-7xl mx-auto w-full">
+        <a href="index.html" class="text-xl font-bold tracking-tighter text-primary uppercase font-headline">ARCHITECT_OS</a>
+        <nav class="hidden md:flex gap-8 items-center font-headline text-[10px] uppercase tracking-widest">
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="index.html">Systems</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="software.html">Software</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="research.html">Research</a>
+            <a class="text-primary" href="projects.html">Projects</a>
+        </nav>
+        <a href="projects.html" class="flex items-center gap-2 text-primary font-headline text-[10px] uppercase tracking-widest hover:glow-sm transition-all">
+            <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Projects
+        </a>
+    </div>
+</header>
+
+<main class="pt-32 pb-24 max-w-7xl mx-auto px-8">
+    <!-- Hero Section -->
+    <section class="mb-32 reveal">
+        <div class="max-w-4xl">
+            <span class="font-label text-primary text-xs uppercase tracking-[0.4em] mb-4 block">Final Project // Fab Academy 2024</span>
+            <h1 class="font-headline text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] mb-8 text-white uppercase">
+                Electronics_Learning_Kit
+            </h1>
+            <p class="text-on-surface-variant text-xl leading-relaxed max-w-2xl">
+                A modular engineering platform designed to lower the barrier for electronics education. Built on the RP2040 XIAO MCU with synchronized magnetic sensors and a multi-layered structural chassis.
+            </p>
+        </div>
+        
+        <!-- Primary Demonstration Video -->
+        <div class="mt-16 rounded-sm overflow-hidden border border-white/10 glass-card p-2">
+            <div class="video-container">
+                <video controls autoplay muted loop>
+                    <source src="ElectronicsLearningKit/hero_video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+
+        <div class="circuit-line mt-16"></div>
+    </section>
+
+    <!-- Overview Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-48">
+        <div class="lg:col-span-4 sticky top-24 h-fit space-y-8">
+            <div class="glass-card p-10 rounded-sm">
+                <h3 class="font-headline text-sm uppercase tracking-widest text-primary mb-6">Technical_Summary</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Main MCU</span>
+                        <span class="text-primary font-bold text-xs uppercase">XIAO RP2040</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Connectivity</span>
+                        <span class="text-primary font-bold text-xs uppercase">USB-C / I2C</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Modules</span>
+                        <span class="text-primary font-bold text-xs uppercase tracking-widest text-right">Snap-on Units</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 space-y-4">
+                <h4 class="font-headline text-[10px] uppercase tracking-[0.3em] text-white/60">Module Index</h4>
+                <ul class="space-y-3 font-label text-xs uppercase tracking-widest text-on-surface-variant">
+                    <li class="flex items-center gap-2">
+                        <span class="w-1 h-1 bg-primary pulse-dot"></span> RP2040 Base Station
+                    </li>
+                    <li class="flex items-center gap-2 text-on-surface/40">
+                        <span class="w-1 h-1 bg-white/20"></span> OLED Graphic Module
+                    </li>
+                    <li class="flex items-center gap-2 text-on-surface/40">
+                        <span class="w-1 h-1 bg-white/20"></span> Environmental Sensors
+                    </li>
+                    <li class="flex items-center gap-2 text-on-surface/40">
+                        <span class="w-1 h-1 bg-white/20"></span> Actuation Units
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8 space-y-32">
+            <!-- Section 01: Core Architecture -->
+            <section class="space-y-16">
+                <div>
+                   <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white uppercase">01_Hardware_Architecture</h2>
+                   <p class="text-on-surface-variant leading-relaxed text-lg text-white/80">
+                       The kit is centered around a custom-designed PCB hosting the XIAO RP2040. It features a standardized 4-pin interface for modular components, supporting I2C, UART, and PWM signals through a unified snap-on system.
+                   </p>
+                </div>
+
+                <div class="space-y-24">
+                    <div class="reveal">
+                        <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
+                            <img class="w-full h-auto opacity-90 transition-opacity" src="ElectronicsLearningKit/hero_image.png" alt="Electronics Learning Kit presentation board">
+                        </div>
+                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// Modular_Ecosystem</h4>
+                        <p class="text-on-surface-variant text-sm">Integration of the main chassis with 3D printed sensor enclosures. The design prioritizes visual transparency to allow students to see the underlying circuit traces and component layouts.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="glass-card p-8">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Fabrication_Methods</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed mb-6">
+                                The chassis is a hybrid construction of 3mm acrylic and 3D printed PLA. The PCB was fabricated using CNC milling for maximum precision and rapid iteration.
+                            </p>
+                            <div class="flex gap-2">
+                                <span class="tech-tag">CNC Milling</span>
+                                <span class="tech-tag">FDM 3D Printing</span>
+                                <span class="tech-tag">Laser Cutting</span>
+                            </div>
+                        </div>
+                        <div class="glass-card p-8">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Embedded_System</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed">
+                                Leveraging the dual-core RP2040 for low-latency sensor polling. Firmware is implemented in C++ with a custom driver layer for the snap-on OLED and ultrasonic modules.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 02: Design Process -->
+            <section class="space-y-16">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                   <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white uppercase">02_Industrial_Design</h2>
+                   <p class="text-on-surface-variant leading-relaxed text-lg text-white/80">
+                       Beyond functionality, the Electronics Learning Kit was designed with a focus on ergonomics and safety. All electrical contacts are recessed, and the modular units use keyed connectors to prevent reverse-polarity damage during student experiments.
+                   </p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
+                    <div class="glass-card p-4 text-center">
+                        <div class="text-primary font-bold text-lg mb-1">MDF/Acrylic</div>
+                        <div class="tech-tag">Chassis</div>
+                    </div>
+                    <div class="glass-card p-4 text-center">
+                        <div class="text-primary font-bold text-lg mb-1">Magnetic</div>
+                        <div class="tech-tag">Docking</div>
+                    </div>
+                    <div class="glass-card p-4 text-center">
+                        <div class="text-primary font-bold text-lg mb-1">XIAO</div>
+                        <div class="tech-tag">RP2040</div>
+                    </div>
+                    <div class="glass-card p-4 text-center">
+                        <div class="text-primary font-bold text-lg mb-1">OLED</div>
+                        <div class="tech-tag">Display</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-white/5 bg-background">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full max-w-7xl mx-auto font-headline text-[10px] uppercase tracking-[0.2em]">
+        <div class="text-primary font-bold">AKASH MHAIS // SYSTEMS ARCHITECT</div>
+        <div class="text-on-surface-variant">© 2024 ENCRYPTED PORTFOLIO TRANSMISSION</div>
+    </div>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
