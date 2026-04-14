@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Delta Robot | Technical Documentation</title>
+    <meta name="description" content="Technical documentation for High-Speed Delta Robot — Parallel kinematics automation suite built by Akash Mhais."/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                        "primary": "#ff4d4d",
+                        "on-surface": "#ffffff",
+                        "on-surface-variant": "#d1d1d1",
+                        "surface-container-low": "#131313",
+                        "surface-container": "#1a1919",
+                        "background": "#0e0e0e",
+                        "surface": "#0e0e0e",
+                        "outline-variant": "#494847"
+                },
+                "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                }
+              },
+            },
+          }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glow-sm:hover { text-shadow: 0 0 8px rgba(255, 77, 77, 0.6); }
+        .circuit-line {
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 77, 77, 0.4) 50%, transparent 100%);
+            height: 1px;
+            width: 100%;
+        }
+        body { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .glass-card {
+            background: rgba(26, 25, 25, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 77, 77, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { border-color: rgba(255, 77, 77, 0.3); background: rgba(26, 25, 25, 0.6); }
+        .pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+        @keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 4px;
+            background: #000;
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-xl border-b border-white/5">
+    <div class="flex justify-between items-center px-8 h-16 max-w-7xl mx-auto w-full">
+        <a href="index.html" class="text-xl font-bold tracking-tighter text-primary uppercase font-headline">ARCHITECT_OS</a>
+        <nav class="hidden md:flex gap-8 items-center font-headline text-[10px] uppercase tracking-widest">
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="index.html">Systems</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="software.html">Software</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="research.html">Research</a>
+            <a class="text-primary" href="projects.html">Projects</a>
+        </nav>
+        <a href="projects.html" class="flex items-center gap-2 text-primary font-headline text-[10px] uppercase tracking-widest hover:glow-sm transition-all">
+            <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Projects
+        </a>
+    </div>
+</header>
+
+<main class="pt-32 pb-24 max-w-7xl mx-auto px-8">
+    <!-- Hero Section -->
+    <section class="mb-32 reveal">
+        <div class="max-w-4xl">
+            <span class="font-label text-primary text-xs uppercase tracking-[0.4em] mb-4 block">System Documentation // Delta Robot</span>
+            <h1 class="font-headline text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] mb-8 text-white uppercase">
+                High_Speed_Delta
+            </h1>
+            <p class="text-on-surface-variant text-xl leading-relaxed max-w-2xl">
+                A parallel kinematic robot designed for high-acceleration pick-and-place tasks. Built at Fab Academy, featuring complex CAD modeling, laser-cut structural frames, and multi-axis GRBL control.
+            </p>
+        </div>
+        
+        <!-- Private Video Implementation -->
+        <div class="mt-16 rounded-sm overflow-hidden border border-white/10 glass-card p-2">
+            <div class="video-container">
+                <video controls autoplay muted loop>
+                    <source src="DeltaRobot/demo_video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+
+        <div class="circuit-line mt-16"></div>
+    </section>
+
+    <!-- Overview Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-48">
+        <div class="lg:col-span-4 sticky top-24 h-fit space-y-8">
+            <div class="glass-card p-10 rounded-sm">
+                <h3 class="font-headline text-sm uppercase tracking-widest text-primary mb-6">Mechanical_Specs</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Configuration</span>
+                        <span class="text-primary font-bold text-xs uppercase">Parallel Delta</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Fabrication</span>
+                        <span class="text-primary font-bold text-xs uppercase">Laser Cut / 3DP</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Control</span>
+                        <span class="text-primary font-bold text-xs uppercase tracking-widest text-right">GRBL / UGS</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 space-y-4">
+                <h4 class="font-headline text-[10px] uppercase tracking-[0.3em] text-white/60">Quick Shortcuts</h4>
+                <ul class="space-y-3 font-label text-xs uppercase tracking-widest text-on-surface-variant">
+                    <a href="#mechanical-design" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-primary pulse-dot"></span> [01] Mechanical Design
+                    </a>
+                    <a href="#electronics-control" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [02] Control Stack
+                    </a>
+                    <a href="#kinematics-theory" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [03] Kinematic Logic
+                    </a>
+                </ul>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8 space-y-32">
+            <!-- Documentation Section 01: Mechanical Design -->
+            <section id="mechanical-design" class="space-y-16">
+                <div>
+                   <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white uppercase">01_Mechanical_Design</h2>
+                   <p class="text-on-surface-variant leading-relaxed text-lg">The mechanical frame was designed in SolidWorks, utilizing a combination of laser-cut 6mm MDF and 3D-printed joints to achieve high structural rigidity without excessive mass.</p>
+                </div>
+
+                <div class="space-y-24">
+                    <div class="reveal">
+                        <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
+                            <img class="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" src="DeltaRobot/cad_model.png" alt="Delta Robot CAD Assembly">
+                        </div>
+                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// SolidWorks_Assembly_Logic</h4>
+                        <p class="text-on-surface-variant text-sm">Full kinematic assembly showing the 3 articulated arms, the triangular end-effector plate, and the support vertical faces. Each part was optimized for additive and subtractive manufacturing.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="glass-card p-8">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Fabrication_Process</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed mb-4">The structural faces were laser cut from 6mm MDF. Kerf adjustments were verified via test drills, and the 3 stepper mounts were precisely aligned to ensure zero-backlash.</p>
+                            <img class="w-full h-auto border border-white/5 rounded-xs" src="DeltaRobot/parts_layout.png" alt="Laser cut parts layout">
+                        </div>
+                        <div class="glass-card p-8">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Component_BOM</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed mb-4">Technical manual capture of the Bill of Materials. Includes 3x NEMA 17 motors, A4988 drivers, and custom 3D printed parallel links for the delta mechanism.</p>
+                            <img class="w-full h-auto border border-white/5 rounded-xs" src="DeltaRobot/bom_manual.jpg" alt="BOM Schematic">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 02: Control Architecture -->
+            <section id="electronics-control" class="space-y-16">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                   <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white uppercase">02_Control_Architecture</h2>
+                   <p class="text-on-surface-variant leading-relaxed text-lg">The robot is powered by an Arduino UNO running the high-performance GRBL firmware, providing real-time G-Code parsing and multi-axis synchronization.</p>
+                </div>
+
+                <div class="reveal">
+                    <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
+                        <img class="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" src="DeltaRobot/final_assembly.jpg" alt="Final robot assembly with electronics">
+                    </div>
+                    <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// Integrated_Control_Stack</h4>
+                    <p class="text-on-surface-variant text-sm">Features a CNC Shield V3 with A4988 drivers. The 12V 5A power supply ensures consistent torque across all three quadrants of the delta workspace.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="glass-card p-8">
+                        <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Firmware_Logic</h5>
+                        <p class="text-on-surface-variant text-xs leading-relaxed">Utilized GRBL for industrial-grade G-Code mapping. Custom AccelStepper scripts were used during the early prototyping phase to verify joint kinematics and acceleration curves.</p>
+                    </div>
+                    <div class="glass-card p-8">
+                        <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Interfacing</h5>
+                        <p class="text-on-surface-variant text-xs leading-relaxed">Universal G-Code Sender (UGS) provides the graphical front-end for manual jogging, homing (G28), and absolute positioning (G90) cycles.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 03: Kinematics -->
+            <section id="kinematics-theory" class="reveal space-y-12">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white uppercase">03_Kinematic_Theory</h2>
+                </div>
+
+                <div class="glass-card p-12 border-l-2 border-l-primary/40">
+                    <h4 class="font-headline text-xl font-bold text-primary mb-4 uppercase tracking-tighter">Parallel_Kinematics_Brief</h4>
+                    <p class="text-on-surface text-sm leading-relaxed">
+                        Unlike serial arms (Scara/6-DOF), the Delta Robot uses **parallel kinematics**. The base-mounted actuators move the triangular platform purely through **parallelism**, restricting the end-effector to pure translation (X, Y, Z) without rotation. This design significantly reduces the moving mass, allowing for extreme accelerations required in packaging and assembly.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-white/5 bg-background">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full max-w-7xl mx-auto font-headline text-[10px] uppercase tracking-[0.2em]">
+        <div class="text-primary font-bold">AKASH MHAIS // SYSTEMS ARCHITECT</div>
+        <div class="text-on-surface-variant">© 2024 ENCRYPTED PORTFOLIO TRANSMISSION</div>
+    </div>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
