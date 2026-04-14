@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Cartesian Palletizer | Technical Documentation</title>
+    <meta name="description" content="Technical documentation for Cartesian XYZ Pick and Place Robot — Linear motion automation suite built by Akash Mhais."/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                        "primary": "#00f5d4",
+                        "on-surface": "#ffffff",
+                        "on-surface-variant": "#d1d1d1",
+                        "surface-container-low": "#131313",
+                        "surface-container": "#1a1919",
+                        "background": "#0e0e0e",
+                        "surface": "#0e0e0e",
+                        "outline-variant": "#494847"
+                },
+                "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                }
+              },
+            },
+          }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glow-sm:hover { text-shadow: 0 0 8px rgba(0, 245, 212, 0.6); }
+        .circuit-line {
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 245, 212, 0.4) 50%, transparent 100%);
+            height: 1px;
+            width: 100%;
+        }
+        body { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .glass-card {
+            background: rgba(26, 25, 25, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 245, 212, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { border-color: rgba(0, 245, 212, 0.3); background: rgba(26, 25, 25, 0.6); }
+        .pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+        @keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 4px;
+            background: #000;
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .tech-tag {
+            background: rgba(0, 245, 212, 0.1);
+            border: 1px solid rgba(0, 245, 212, 0.2);
+            padding: 2px 8px;
+            border-radius: 2px;
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #00f5d4;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-xl border-b border-white/5">
+    <div class="flex justify-between items-center px-8 h-16 max-w-7xl mx-auto w-full">
+        <a href="index.html" class="text-xl font-bold tracking-tighter text-primary uppercase font-headline">ARCHITECT_OS</a>
+        <nav class="hidden md:flex gap-8 items-center font-headline text-[10px] uppercase tracking-widest">
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="index.html">Systems</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="software.html">Software</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="research.html">Research</a>
+            <a class="text-primary" href="projects.html">Projects</a>
+        </nav>
+        <a href="projects.html" class="flex items-center gap-2 text-primary font-headline text-[10px] uppercase tracking-widest hover:glow-sm transition-all">
+            <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Projects
+        </a>
+    </div>
+</header>
+
+<main class="pt-32 pb-24 max-w-7xl mx-auto px-8">
+    <!-- Hero Section -->
+    <section class="mb-32 reveal">
+        <div class="max-w-4xl">
+            <span class="font-label text-primary text-xs uppercase tracking-[0.4em] mb-4 block">System Documentation // Cartesian Palletizer</span>
+            <h1 class="font-headline text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] mb-8 text-white uppercase">
+                Cartesian_XYZ
+            </h1>
+            <p class="text-on-surface-variant text-xl leading-relaxed max-w-2xl">
+                A heavy-duty linear motion system designed for automated palletizing and material handling. Engineered with SolidWorks, featuring reinforced aluminum extrusion frames and multi-axis synchronized control.
+            </p>
+        </div>
+        
+        <!-- Primary Demonstration Video -->
+        <div class="mt-16 rounded-sm overflow-hidden border border-white/10 glass-card p-2">
+            <div class="video-container">
+                <video controls autoplay muted loop>
+                    <source src="CartesianRobot/hero_demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+
+        <div class="circuit-line mt-16"></div>
+    </section>
+
+    <!-- Overview Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-48">
+        <div class="lg:col-span-4 sticky top-24 h-fit space-y-8">
+            <div class="glass-card p-10 rounded-sm">
+                <h3 class="font-headline text-sm uppercase tracking-widest text-primary mb-6">Mechanical_Specs</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Architecture</span>
+                        <span class="text-primary font-bold text-xs uppercase">Orthogonal XYZ</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Frame</span>
+                        <span class="text-primary font-bold text-xs uppercase">Alunimium 2040</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Actuation</span>
+                        <span class="text-primary font-bold text-xs uppercase tracking-widest text-right">TB6600 Drivers</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 space-y-4">
+                <h4 class="font-headline text-[10px] uppercase tracking-[0.3em] text-white/60">System Links</h4>
+                <ul class="space-y-3 font-label text-xs uppercase tracking-widest text-on-surface-variant">
+                    <a href="#mechanical-assembly" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-primary pulse-dot"></span> [01] Mechanical Assembly
+                    </a>
+                    <a href="#electronics-control" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [02] Electronics & MCU
+                    </a>
+                    <a href="#motion-logic" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [03] Custom Motion Logic
+                    </a>
+                </ul>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8 space-y-32">
+            <!-- Section 01: Mechanical Design -->
+            <section id="mechanical-assembly" class="space-y-16">
+                <div>
+                   <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white uppercase">01_Mechanical_Design</h2>
+                   <p class="text-on-surface-variant leading-relaxed text-lg text-white/80">
+                       The robot utilizes a high-rigidity 2040/2020 aluminum extrusion frame. The X and Y axes are belt-driven using precision GT2 timing belts, while the Z-axis maintains vertical stability through a lead-screw mechanism.
+                   </p>
+                </div>
+
+                <div class="space-y-24">
+                    <div class="reveal">
+                        <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
+                            <img class="w-full h-auto opacity-90 transition-opacity" src="CartesianRobot/main_assembly.jpg" alt="Cartesian Assembly">
+                        </div>
+                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// Structural_Backbone</h4>
+                        <p class="text-on-surface-variant text-sm">Full orthogonal assembly showcasing the dual-stepper X-axis alignment and the cantilevered Y-axis. The design minimizes vibration during high-speed palletizing cycles.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="glass-card p-8">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Linear_Transmission</h5>
+                            <ul class="space-y-2 text-[10px] text-on-surface-variant font-label uppercase tracking-widest">
+                                <li class="flex justify-between border-b border-white/5 pb-2"><span>X/Y Axis</span><span class="text-white">GT2 Belt Driven</span></li>
+                                <li class="flex justify-between border-b border-white/5 pb-2"><span>Z Axis</span><span class="text-white">8mm Lead Screw</span></li>
+                                <li class="flex justify-between"><span>Gripper</span><span class="text-white">Servo Actuated</span></li>
+                            </ul>
+                            <img class="w-full h-32 object-cover mt-6 border border-white/5 rounded-xs" src="CartesianRobot/detailed_view.jpg" alt="Linear rails detail">
+                        </div>
+                        <div class="glass-card p-8">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">End_Effector</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed">
+                                Custom-designed mechanical gripper developed in SolidWorks. Features a high-torque servo for variable pressure control, allowing it to handle diverse object geometries with precision.
+                            </p>
+                            <img class="w-full h-32 object-cover mt-6 border border-white/5 rounded-xs" src="CartesianRobot/components.jpg" alt="Gripper assembly">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 02: Electronics -->
+            <section id="electronics-control" class="space-y-16">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                   <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white uppercase">02_Electronics_Control</h2>
+                   <p class="text-on-surface-variant leading-relaxed text-lg text-white/80">
+                       Driven by an Arduino Mega 2560 backplane, the system utilizes industrial-grade TB6600 stepper drivers to ensure reliable current delivery and thermal management during extended pick-and-place operation.
+                   </p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
+                    <div class="glass-card p-4 text-center">
+                        <div class="text-primary font-bold text-lg mb-1">ATmega</div>
+                        <div class="tech-tag">2560 Core</div>
+                    </div>
+                    <div class="glass-card p-4 text-center">
+                        <div class="text-primary font-bold text-lg mb-1">4.0A</div>
+                        <div class="tech-tag">TB6600</div>
+                    </div>
+                    <div class="glass-card p-4 text-center">
+                        <div class="text-primary font-bold text-lg mb-1">24V</div>
+                        <div class="tech-tag">Main PSU</div>
+                    </div>
+                    <div class="glass-card p-4 text-center">
+                        <div class="text-primary font-bold text-lg mb-1">Synchronized</div>
+                        <div class="tech-tag">Pulse Control</div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 border-l-2 border-primary/30">
+                    <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Wiring_Topology</h5>
+                    <p class="text-on-surface-variant text-sm leading-relaxed">
+                        The X-axis uses two synchronized stepper motors to prevent gantry racking. All motor signals (PUL/DIR/ENA) are routed through a central control panel with shielded cabling to minimize EMI interference during high-speed transitions.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 03: Motion logic -->
+            <section id="motion-logic" class="reveal space-y-12">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white uppercase">03_Motion_Firmware</h2>
+                </div>
+
+                <div class="bg-surface-container p-10 rounded-sm border border-white/5">
+                    <pre class="text-[11px] text-primary/80 overflow-x-auto font-mono">
+<span class="text-white/40">// Pulse Synchronization Logic</span>
+void performCycle() {
+  moveTo(X_SRC, Y_SRC);    <span class="text-on-surface-variant">// Locate Source</span>
+  actuateGripper(CLOSE);   <span class="text-on-surface-variant">// Engage Part</span>
+  lift(Z_SAFE_HEIGHT);     <span class="text-on-surface-variant">// Linear Lift</span>
+  moveTo(X_DST, Y_DST);    <span class="text-on-surface-variant">// Translation</span>
+  actuateGripper(OPEN);    <span class="text-on-surface-variant">// Release</span>
+  returnToHome();          <span class="text-on-surface-variant">// Zero Calibration</span>
+}</pre>
+                </div>
+                
+                <p class="text-on-surface-variant text-sm leading-relaxed">
+                    Custom C++ firmware implementation handles non-blocking stepper control. The motion engine uses a defined pulse-width delay to manage acceleration curves, ensuring smooth deceleration at target coordinates to prevent payload inertia drift.
+                </p>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-white/5 bg-background">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full max-w-7xl mx-auto font-headline text-[10px] uppercase tracking-[0.2em]">
+        <div class="text-primary font-bold">AKASH MHAIS // SYSTEMS ARCHITECT</div>
+        <div class="text-on-surface-variant">© 2024 ENCRYPTED PORTFOLIO TRANSMISSION</div>
+    </div>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
