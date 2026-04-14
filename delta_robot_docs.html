@@ -101,11 +101,11 @@
             </p>
         </div>
         
-        <!-- Private Video Implementation -->
+        <!-- Primary Demonstration Video -->
         <div class="mt-16 rounded-sm overflow-hidden border border-white/10 glass-card p-2">
             <div class="video-container">
                 <video controls autoplay muted loop>
-                    <source src="DeltaRobot/demo_video.mp4" type="video/mp4">
+                    <source src="DeltaRobot/Delta Robot.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -162,10 +162,33 @@
                 <div class="space-y-24">
                     <div class="reveal">
                         <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
-                            <img class="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" src="DeltaRobot/cad_model.png" alt="Delta Robot CAD Assembly">
+                            <div class="sketchfab-embed-wrapper aspect-video"> 
+                                <iframe class="w-full h-full" title="Delta Robot Assembly" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/8ef6b09f16b6484c847b680876df84a7/embed"> </iframe> 
+                            </div>
                         </div>
-                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// SolidWorks_Assembly_Logic</h4>
-                        <p class="text-on-surface-variant text-sm">Full kinematic assembly showing the 3 articulated arms, the triangular end-effector plate, and the support vertical faces. Each part was optimized for additive and subtractive manufacturing.</p>
+                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// Interactive_3D_Digital_Twin</h4>
+                        <p class="text-on-surface-variant text-sm text-white/80">Real-time interactive 3D model of the delta assembly. Users can inspect joint constraints, motor mounts, and parallel link geometry directly in the browser.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 reveal">
+                        <div class="group relative overflow-hidden rounded-sm border border-white/5 bg-surface-container">
+                            <img src="DeltaRobot/CAD/1.png" class="w-full h-32 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="CAD Render 01">
+                        </div>
+                        <div class="group relative overflow-hidden rounded-sm border border-white/5 bg-surface-container">
+                            <img src="DeltaRobot/CAD/5.png" class="w-full h-32 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="CAD Render 05">
+                        </div>
+                        <div class="group relative overflow-hidden rounded-sm border border-white/5 bg-surface-container">
+                            <img src="DeltaRobot/CAD/10.png" class="w-full h-32 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="CAD Render 10">
+                        </div>
+                        <div class="group relative overflow-hidden rounded-sm border border-white/5 bg-surface-container">
+                            <img src="DeltaRobot/CAD/15.png" class="w-full h-32 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="CAD Render 15">
+                        </div>
+                        <div class="group relative overflow-hidden rounded-sm border border-white/5 bg-surface-container">
+                            <img src="DeltaRobot/CAD/20.png" class="w-full h-32 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="CAD Render 20">
+                        </div>
+                        <div class="group relative overflow-hidden rounded-sm border border-white/5 bg-surface-container">
+                            <img src="DeltaRobot/CAD/23.png" class="w-full h-32 object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="Full Assembly Render">
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
