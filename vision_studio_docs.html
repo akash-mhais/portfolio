@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Vision Studio Pro | Technical Documentation</title>
+    <meta name="description" content="Technical documentation for Vision Studio Pro — Professional Machine Vision and Industrial Communication Suite."/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                        "primary": "#3b82f6",
+                        "on-surface": "#ffffff",
+                        "on-surface-variant": "#d1d1d1",
+                        "surface-container-low": "#131313",
+                        "surface-container": "#1a1919",
+                        "background": "#0e0e0e",
+                        "surface": "#0e0e0e",
+                        "outline-variant": "#494847"
+                },
+                "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                }
+              },
+            },
+          }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glow-sm:hover { text-shadow: 0 0 8px rgba(59, 130, 246, 0.6); }
+        .circuit-line {
+            background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.4) 50%, transparent 100%);
+            height: 1px;
+            width: 100%;
+        }
+        body { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .glass-card {
+            background: rgba(26, 25, 25, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { border-color: rgba(59, 130, 246, 0.3); background: rgba(26, 25, 25, 0.6); }
+        .pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+        @keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 4px;
+            background: #000;
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-xl border-b border-white/5">
+    <div class="flex justify-between items-center px-8 h-16 max-w-7xl mx-auto w-full">
+        <a href="index.html" class="text-xl font-bold tracking-tighter text-primary uppercase font-headline">ARCHITECT_OS</a>
+        <nav class="hidden md:flex gap-8 items-center font-headline text-[10px] uppercase tracking-widest">
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="index.html">Systems</a>
+            <a class="text-primary" href="software.html">Software</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="research.html">Research</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="projects.html">Projects</a>
+        </nav>
+        <a href="software.html" class="flex items-center gap-2 text-primary font-headline text-[10px] uppercase tracking-widest hover:glow-sm transition-all">
+            <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Software
+        </a>
+    </div>
+</header>
+
+<main class="pt-32 pb-24 max-w-7xl mx-auto px-8">
+    <!-- Hero Section -->
+    <section class="mb-32 reveal">
+        <div class="max-w-4xl">
+            <span class="font-label text-primary text-xs uppercase tracking-[0.4em] mb-4 block">System Documentation // Module 02</span>
+            <h1 class="font-headline text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] mb-8 text-white">
+                Vision_Studio_Pro
+            </h1>
+            <p class="text-on-surface-variant text-xl leading-relaxed max-w-2xl">
+                A mission-critical Machine Vision suite integrating low-latency neural processing with industrial PLC communication for high-speed manufacturing lines.
+            </p>
+        </div>
+        
+        <!-- Video Showcase -->
+        <div class="mt-16 rounded-sm overflow-hidden border border-white/10 glass-card p-2">
+            <div class="video-container">
+                <video controls autoplay muted loop>
+                    <source src="VisionStudio/demo_video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+
+        <div class="circuit-line mt-16"></div>
+    </section>
+
+    <!-- Overview Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-48">
+        <div class="lg:col-span-4 sticky top-24 h-fit space-y-8">
+            <div class="glass-card p-10 rounded-sm">
+                <h3 class="font-headline text-sm uppercase tracking-widest text-primary mb-6">System_Core_Specs</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Engine</span>
+                        <span class="text-primary font-bold text-xs uppercase">OpenCV / Neural Core</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Interface</span>
+                        <span class="text-primary font-bold text-xs uppercase">Qt / PySide6 / WebView</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Protocols</span>
+                        <span class="text-primary font-bold text-xs uppercase tracking-widest text-right">Rockwell / Modbus</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 space-y-4">
+                <h4 class="font-headline text-[10px] uppercase tracking-[0.3em] text-white/60">Quick Shortcuts</h4>
+                <ul class="space-y-3 font-label text-xs uppercase tracking-widest text-on-surface-variant">
+                    <a href="#vision-inspector" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-primary pulse-dot"></span> [01] Vision Inspector
+                    </a>
+                    <a href="#industrial-communicator" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [02] Industrial Communicator
+                    </a>
+                    <a href="#technical-stack" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [03] Architecture
+                    </a>
+                </ul>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8 space-y-32">
+            <!-- Documentation Section 01: Vision Inspector -->
+            <section id="vision-inspector" class="space-y-16">
+                <div>
+                   <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white">Module_01: Vision_Inspector</h2>
+                   <p class="text-on-surface-variant leading-relaxed text-lg">The training and configuration engine. Designed to allow non-experts to define complex ROI (Region of Interest) states using a library of pre-trained component templates.</p>
+                </div>
+
+                <div class="space-y-24">
+                    <div class="reveal">
+                        <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
+                            <img class="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" src="VisionStudio/launcher_home.png" alt="Launcher Interface">
+                        </div>
+                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// 01: System Launcher</h4>
+                        <p class="text-on-surface-variant text-sm">The entry point for Vision Studio Pro. Allows for seamless switching between different production projects and secondary tools like the Communicator or Diagnostic tools.</p>
+                    </div>
+
+                    <div class="reveal">
+                        <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
+                            <img class="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" src="VisionStudio/inspector_main.png" alt="Inspector Workspace">
+                        </div>
+                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// 02: Main Workspace</h4>
+                        <p class="text-on-surface-variant text-sm">Real-time template defining workspace. Engineers can drag-and-drop ROI boxes, set sensitivity thresholds, and verify detection accuracy against various lighting conditions.</p>
+                    </div>
+
+                    <div class="reveal">
+                        <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
+                            <img class="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" src="VisionStudio/training_workspace.jpg" alt="Training Workspace">
+                        </div>
+                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// 03: Precision Training</h4>
+                        <p class="text-on-surface-variant text-sm text-white/90">Detailed inspection configuration. This view shows the live feedback loop while adjusting parameters for specific component shapes and orientations.</p>
+                    </div>
+
+                    <div class="reveal">
+                        <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
+                            <img class="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" src="VisionStudio/states_library.png" alt="Component States Library">
+                        </div>
+                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// 04: Component_States</h4>
+                        <p class="text-on-surface-variant text-sm">A centralized library for multi-state classification. Allows defining what constitutes a "PASS" vs. a "FAIL" (e.g., missing screw vs. loose assembly) across different product variations.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 02: Industrial Communicator -->
+            <section id="industrial-communicator" class="space-y-16">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                   <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white">Module_02: Industrial_Communicator</h2>
+                   <p class="text-on-surface-variant leading-relaxed text-lg">The bridge between Vision results and Industrial Hardware. Communicator handles high-frequency handshakes with Rockwell and Modbus PLCs to trigger inspection cycles.</p>
+                </div>
+
+                <div class="space-y-24">
+                    <div class="reveal">
+                        <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
+                            <img class="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" src="VisionStudio/communicator_live.png" alt="Communicator Live Monitor">
+                        </div>
+                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// 01: Live_Monitor // PLC_Sync</h4>
+                        <p class="text-on-surface-variant text-sm">Real-time status monitor showing the handshake loop between the Vision Engine and the factory floor PLC. Displays current bit states and inspection trigger feedback.</p>
+                    </div>
+
+                    <div class="reveal">
+                        <div class="bg-surface-container-low border border-white/5 rounded-sm overflow-hidden mb-6">
+                            <img class="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" src="VisionStudio/communicator_mapping.png" alt="Program Mapping Interface">
+                        </div>
+                        <h4 class="font-headline text-lg font-bold text-primary mb-2 uppercase tracking-wide">// 02: Program_Mapping_Logic</h4>
+                        <p class="text-on-surface-variant text-sm">Dynamic mapping of PLC program IDs to specific Vision templates. Allows the factory logic to tell the camera exactly which component it is looking at in any given cycle.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="glass-card p-8">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">PLC_Integration</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed mb-4">Low-latency driver supporting Rockwell (EtherNet/IP) and Modbus TCP. Automated tag discovery and real-time polling ensure zero-delay synchronization with robot cell cycles.</p>
+                            <img class="w-full h-auto border border-white/5 rounded-xs" src="VisionStudio/communicator_io.png" alt="I/O Bit Visualization">
+                        </div>
+                        <div class="glass-card p-8">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">I/O Diagnostics</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed mb-4">Built-in simulation mode allows engineers to test handshake logic without live hardware. Full bit-level visualization of In/Out signals from the computer to the factory floor.</p>
+                            <img class="w-full h-auto border border-white/5 rounded-xs" src="VisionStudio/communicator_diag.png" alt="Handshake Diagnostics">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technical Specification Section -->
+            <section id="technical-stack" class="reveal space-y-12">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-6 tracking-tight text-white">Technical_Architecture</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="glass-card p-6 border-l-2 border-l-primary/40">
+                        <h5 class="text-white font-headline text-xs uppercase tracking-widest mb-3 font-bold">Frontend / UX</h5>
+                        <p class="text-on-surface-variant text-[10px] leading-relaxed">Clean, modern UI built with **Tailwind CSS** and **PySide6**. Interactive workspace wrapped in **PyWebView** for native experience.</p>
+                    </div>
+                    <div class="glass-card p-6 border-l-2 border-l-primary/40">
+                        <h5 class="text-white font-headline text-xs uppercase tracking-widest mb-3 font-bold">Handshake Engine</h5>
+                        <p class="text-on-surface-variant text-[10px] leading-relaxed">Asynchronous PLC driver using **Pylogix** and **Pymodbus**. Real-time bit polling at < 100ms intervals.</p>
+                    </div>
+                    <div class="glass-card p-6 border-l-2 border-l-primary/40">
+                        <h5 class="text-white font-headline text-xs uppercase tracking-widest mb-3 font-bold">Vision Kernel</h5>
+                        <p class="text-on-surface-variant text-[10px] leading-relaxed">Integrated **OpenCV** processing for template matching and ROI analysis with automated result serialization in JSON/CSV.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-white/5 bg-background">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full max-w-7xl mx-auto font-headline text-[10px] uppercase tracking-[0.2em]">
+        <div class="text-primary font-bold">AKASH MHAIS // SYSTEMS ARCHITECT</div>
+        <div class="text-on-surface-variant">© 2024 ENCRYPTED PORTFOLIO TRANSMISSION</div>
+    </div>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
