@@ -14,13 +14,13 @@ def trim_video():
     with VideoFileClip(input_file) as clip:
         # Check duration
         print(f"Original Duration: {clip.duration:.2f}s")
-        if clip.duration <= 3:
-            print("Error: Video is shorter than 3 seconds.")
+        if clip.duration <= 4:
+            print("Error: Video is shorter than 4 seconds.")
             return
 
-        # Trim from 3s to end
-        print("Trimming first 3 seconds...")
-        final_clip = clip.subclipped(3, clip.duration)
+        # Trim from 4s to end
+        print("Trimming first 4 seconds...")
+        final_clip = clip.subclipped(4, clip.duration)
         
         # Write output - using 'libx264' for broad compatibility
         print(f"Saving to {output_file}...")
