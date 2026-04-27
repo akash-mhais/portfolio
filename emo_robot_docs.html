@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>EMO Robot | Technical Documentation</title>
+    <meta name="description" content="Technical documentation for EMO Robot — A Raspberry Pi-powered personal companion robot featuring emotion recognition, servo articulation, and expressive LCD animations. Built by Akash Mhais."/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#00d2ff",
+                        "primary-dim": "#00b8e6",
+                        "on-surface": "#ffffff",
+                        "on-surface-variant": "#d1d1d1",
+                        "surface-container-low": "#131313",
+                        "surface-container": "#1a1919",
+                        "surface-container-high": "#201f1f",
+                        "surface-container-highest": "#262626",
+                        "background": "#0e0e0e",
+                        "surface": "#0e0e0e",
+                        "outline-variant": "#494847",
+                        "accent-warm": "#ff6b9d",
+                        "accent-green": "#00f5d4",
+                        "accent-purple": "#b794f6",
+                        "accent-orange": "#ffa94d"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"],
+                        "mono": ["JetBrains Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glow-sm:hover { text-shadow: 0 0 8px rgba(0, 210, 255, 0.6); }
+        .circuit-line {
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 210, 255, 0.4) 50%, transparent 100%);
+            height: 1px;
+            width: 100%;
+        }
+        body { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .glass-card {
+            background: rgba(26, 25, 25, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 210, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { border-color: rgba(0, 210, 255, 0.3); background: rgba(26, 25, 25, 0.6); }
+        .pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+        @keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .code-block {
+            background: #0d1117;
+            border: 1px solid rgba(0, 210, 255, 0.15);
+            border-radius: 4px;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #00d2ff33 transparent;
+        }
+        .code-block::-webkit-scrollbar { height: 4px; }
+        .code-block::-webkit-scrollbar-track { background: transparent; }
+        .code-block::-webkit-scrollbar-thumb { background: #00d2ff33; border-radius: 4px; }
+        .emotion-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .emotion-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 210, 255, 0.1);
+        }
+        .emotion-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: var(--emotion-color);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .emotion-card:hover::before { opacity: 1; }
+        .servo-diagram { position: relative; }
+        .spec-grid-item {
+            border-left: 2px solid rgba(0, 210, 255, 0.2);
+            padding-left: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .spec-grid-item:hover { border-left-color: #00d2ff; }
+        .pin-table th {
+            background: rgba(0, 210, 255, 0.1);
+            font-family: 'Space Grotesk';
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        .pin-table td { font-family: 'JetBrains Mono'; font-size: 12px; }
+        .pin-table tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .pin-table tr:hover { background: rgba(0, 210, 255, 0.03); }
+        .floating-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+        }
+        @media (max-width: 1280px) { .floating-nav { display: none; } }
+        .hero-gradient {
+            background: radial-gradient(ellipse at 30% 0%, rgba(0, 210, 255, 0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 100%, rgba(0, 245, 212, 0.05) 0%, transparent 60%);
+        }
+        .infographic-frame {
+            border: 1px solid rgba(0, 210, 255, 0.15);
+            border-radius: 4px;
+            overflow: hidden;
+            background: #0a0a0a;
+            transition: border-color 0.3s ease;
+        }
+        .infographic-frame:hover { border-color: rgba(0, 210, 255, 0.4); }
+        .tag-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 2px;
+            font-family: 'Space Grotesk';
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #adaaaa;
+            transition: all 0.2s ease;
+        }
+        .tag-chip:hover { border-color: #00d2ff; color: #00d2ff; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+
+<!-- Floating Section Nav -->
+<nav class="floating-nav">
+    <div class="flex flex-col gap-3">
+        <a href="#overview" class="w-2 h-2 bg-primary/60 hover:bg-primary rounded-full transition-colors" title="Overview"></a>
+        <a href="#architecture" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="Architecture"></a>
+        <a href="#mechanical" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="Mechanical"></a>
+        <a href="#circuits" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="Circuits"></a>
+        <a href="#emotions" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="Emotions"></a>
+        <a href="#software" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="Software"></a>
+        <a href="#bom" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="BOM"></a>
+    </div>
+</nav>
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-xl border-b border-white/5" id="top-nav">
+    <div class="flex justify-between items-center px-8 h-16 max-w-7xl mx-auto w-full">
+        <a href="index.html" class="text-xl font-bold tracking-tighter text-primary uppercase font-headline">ARCHITECT_OS</a>
+        <nav class="hidden md:flex gap-8 items-center font-headline text-[10px] uppercase tracking-widest">
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="index.html">Systems</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="software.html">Software</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="research.html">Research</a>
+            <a class="text-primary" href="projects.html">Projects</a>
+        </nav>
+        <a href="projects.html" class="flex items-center gap-2 text-primary font-headline text-[10px] uppercase tracking-widest hover:glow-sm transition-all">
+            <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Projects
+        </a>
+    </div>
+</header>
+
+<main class="pt-24 pb-24 max-w-7xl mx-auto px-6 md:px-8">
+
+    <!-- HERO SECTION -->
+    <section id="overview" class="mb-32 reveal hero-gradient pt-12 pb-8 -mx-6 md:-mx-8 px-6 md:px-8 rounded-sm">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="inline-flex items-center gap-2 mb-6">
+                    <span class="w-12 h-[1px] bg-primary"></span>
+                    <span class="font-label text-primary text-xs uppercase tracking-[0.4em]">System Documentation // EMO Robot</span>
+                </div>
+                <h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] mb-8 text-white uppercase">
+                    EMO<br/><span class="text-primary">Robot</span>
+                </h1>
+                <p class="text-on-surface-variant text-lg leading-relaxed max-w-lg mb-8">
+                    Your Personal Companion Robot — a Raspberry Pi-powered emotive robot featuring real-time facial expressions, touch-responsive behaviors, servo articulation, and audio feedback. Designed for human-robot interaction research and social robotics exploration.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-green rounded-full"></span>Raspberry Pi</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-primary rounded-full"></span>Python</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-purple rounded-full"></span>SolidWorks</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-warm rounded-full"></span>3D Printing</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-orange rounded-full"></span>PCA9685</span>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="spec-grid-item">
+                        <div class="font-headline text-2xl font-bold text-primary">3</div>
+                        <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">servo axes</div>
+                    </div>
+                    <div class="spec-grid-item">
+                        <div class="font-headline text-2xl font-bold text-primary">13</div>
+                        <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Emotions</div>
+                    </div>
+                    <div class="spec-grid-item">
+                        <div class="font-headline text-2xl font-bold text-primary">15</div>
+                        <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">3D Parts</div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="col-span-2 overflow-hidden rounded-sm border border-white/10 bg-surface-container">
+                    <img src="Emo-main/docs-assets/emo_render_2.png" alt="EMO Robot 3D render - front 3/4 view" class="w-full h-64 md:h-80 object-cover hover:scale-105 transition-transform duration-700"/>
+                </div>
+                <div class="overflow-hidden rounded-sm border border-white/10 bg-surface-container">
+                    <img src="Emo-main/docs-assets/emo_render_1.png" alt="EMO Robot 3D render - side view" class="w-full h-40 object-cover hover:scale-105 transition-transform duration-700"/>
+                </div>
+                <div class="overflow-hidden rounded-sm border border-white/10 bg-surface-container">
+                    <img src="Emo-main/docs-assets/emo_render_4.png" alt="EMO Robot 3D render - exploded view" class="w-full h-40 object-cover hover:scale-105 transition-transform duration-700"/>
+                </div>
+            </div>
+        </div>
+        <div class="circuit-line mt-16"></div>
+    </section>
+
+    <!-- CONTENT GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-48">
+
+        <!-- SIDEBAR -->
+        <div class="lg:col-span-3 space-y-8 lg:sticky lg:top-24 lg:h-fit">
+            <div class="glass-card p-8 rounded-sm">
+                <h3 class="font-headline text-sm uppercase tracking-widest text-primary mb-6">System_Specs</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Platform</span>
+                        <span class="text-primary font-bold text-xs uppercase">RPi 3B+</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Display</span>
+                        <span class="text-primary font-bold text-xs uppercase">2" SPI LCD</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Servos</span>
+                        <span class="text-primary font-bold text-xs uppercase">3x SG90</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Sensors</span>
+                        <span class="text-primary font-bold text-xs uppercase">Touch + Vib</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Audio</span>
+                        <span class="text-primary font-bold text-xs uppercase">PAM8403</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Interface</span>
+                        <span class="text-primary font-bold text-xs uppercase">SPI / I2C</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Language</span>
+                        <span class="text-primary font-bold text-xs uppercase">Python</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 space-y-4">
+                <h4 class="font-headline text-[10px] uppercase tracking-[0.3em] text-white/60">Quick Index</h4>
+                <ul class="space-y-3 font-label text-xs uppercase tracking-widest text-on-surface-variant">
+                    <a href="#architecture" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-primary pulse-dot"></span> [01] System Architecture
+                    </a>
+                    <a href="#mechanical" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [02] Mechanical Design
+                    </a>
+                    <a href="#circuits" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [03] Circuit Design
+                    </a>
+                    <a href="#emotions" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [04] Emotion Engine
+                    </a>
+                    <a href="#software" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [05] Software Stack
+                    </a>
+                    <a href="#bom" class="hover:text-primary transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [06] Bill of Materials
+                    </a>
+                </ul>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="lg:col-span-9 space-y-32">
+
+            <!-- SECTION 01: System Architecture -->
+            <section id="architecture" class="space-y-12 reveal">
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">01_System_Architecture</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        EMO Robot is built around a Raspberry Pi 3B+ acting as the central compute node. It orchestrates concurrent processes for display rendering, servo motor control, sensor polling, and audio playback using Python's multiprocessing module.
+                    </p>
+                </div>
+
+                <!-- System Architecture Infographic -->
+                <div class="infographic-frame reveal">
+                    <img src="Emo-main/docs-assets/system_architecture.png" alt="EMO Robot System Architecture Infographic — showing Raspberry Pi connections to LCD, servos, sensors, and speaker" class="w-full h-auto"/>
+                </div>
+
+                <!-- Architecture Breakdown -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="material-symbols-outlined text-primary">developer_board</span>
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest">Processing Core</h5>
+                        </div>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Raspberry Pi 3B+ runs the main Python application, leveraging multiprocessing to achieve real-time parallelism between the display pipeline, motor control, and sensor interrupt handlers.</p>
+                        <div class="code-block p-3">
+                            <pre class="text-xs font-mono text-accent-green"><code># Concurrent Process Spawning
+p1 = multiprocessing.Process(target=check_sensor)
+p2 = multiprocessing.Process(target=show, args=('happy',4))
+p3 = multiprocessing.Process(target=sound, args=('happy',))
+p4 = multiprocessing.Process(target=happy)</code></pre>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="material-symbols-outlined text-accent-orange">hub</span>
+                            <h5 class="text-accent-orange font-headline text-xs uppercase tracking-widest">Communication Bus</h5>
+                        </div>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">The system utilizes three distinct communication protocols to interface with peripherals:</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-white/3 rounded-sm">
+                                <span class="w-3 h-3 bg-primary rounded-sm flex-shrink-0"></span>
+                                <div><span class="font-mono text-xs text-primary">SPI</span> <span class="text-on-surface-variant text-xs">— LCD Display (40MHz clock)</span></div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/3 rounded-sm">
+                                <span class="w-3 h-3 bg-accent-orange rounded-sm flex-shrink-0"></span>
+                                <div><span class="font-mono text-xs text-accent-orange">I2C</span> <span class="text-on-surface-variant text-xs">— PCA9685 Servo Driver</span></div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/3 rounded-sm">
+                                <span class="w-3 h-3 bg-accent-green rounded-sm flex-shrink-0"></span>
+                                <div><span class="font-mono text-xs text-accent-green">GPIO</span> <span class="text-on-surface-variant text-xs">— Touch (BCM17) & Vibration (BCM22)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multiprocessing Diagram -->
+                <div class="glass-card p-8 border-l-2 border-l-primary/40 reveal">
+                    <h4 class="font-headline text-lg font-bold text-primary mb-4 uppercase tracking-tight">// Concurrency_Model</h4>
+                    <p class="text-on-surface-variant text-sm leading-relaxed mb-6">The application uses Python's multiprocessing with a shared Queue and Event system for inter-process communication. The sensor process runs continuously and pushes detected emotions into the queue, while the main loop renders the appropriate animation, plays sound, and executes the matching servo routine in parallel.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="text-center p-4 bg-white/3 rounded-sm">
+                            <span class="material-symbols-outlined text-primary text-2xl block mb-2">sensors</span>
+                            <span class="font-mono text-[10px] text-primary uppercase block">P1: Sensor</span>
+                            <span class="text-on-surface-variant text-[10px]">Always Running</span>
+                        </div>
+                        <div class="text-center p-4 bg-white/3 rounded-sm">
+                            <span class="material-symbols-outlined text-accent-warm text-2xl block mb-2">display_settings</span>
+                            <span class="font-mono text-[10px] text-accent-warm uppercase block">P2: Display</span>
+                            <span class="text-on-surface-variant text-[10px]">Frame Renderer</span>
+                        </div>
+                        <div class="text-center p-4 bg-white/3 rounded-sm">
+                            <span class="material-symbols-outlined text-accent-purple text-2xl block mb-2">volume_up</span>
+                            <span class="font-mono text-[10px] text-accent-purple uppercase block">P3: Audio</span>
+                            <span class="text-on-surface-variant text-[10px]">WAV Playback</span>
+                        </div>
+                        <div class="text-center p-4 bg-white/3 rounded-sm">
+                            <span class="material-symbols-outlined text-accent-green text-2xl block mb-2">precision_manufacturing</span>
+                            <span class="font-mono text-[10px] text-accent-green uppercase block">P4: Motor</span>
+                            <span class="text-on-surface-variant text-[10px]">Servo Control</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 02: Mechanical Design -->
+            <section id="mechanical" class="space-y-12 reveal">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">02_Mechanical_Design</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        The robot's enclosure was fully designed in SolidWorks and manufactured using FDM 3D printing. The design features a spherical body, articulated arms, and a helmet-style head housing the display and speaker grille.
+                    </p>
+                </div>
+
+                <!-- Mechanical Assembly Infographic -->
+                <div class="infographic-frame reveal">
+                    <img src="Emo-main/docs-assets/mechanical_assembly.png" alt="EMO Robot Mechanical Assembly Infographic — exploded view of all 3D printed parts" class="w-full h-auto"/>
+                </div>
+
+                <!-- 3D Renders -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 reveal">
+                    <div class="group overflow-hidden rounded-sm border border-white/10 bg-surface-container">
+                        <img src="Emo-main/docs-assets/emo_render_1.png" alt="EMO Robot side view render" class="w-full h-52 object-cover opacity-80 group-hover:opacity-100 transition-all duration-500"/>
+                        <div class="p-4">
+                            <span class="font-label text-[10px] text-primary uppercase tracking-widest">CAD Render // Side View</span>
+                        </div>
+                    </div>
+                    <div class="group overflow-hidden rounded-sm border border-white/10 bg-surface-container">
+                        <img src="Emo-main/docs-assets/emo_render_2.png" alt="EMO Robot front 3/4 view render" class="w-full h-52 object-cover opacity-80 group-hover:opacity-100 transition-all duration-500"/>
+                        <div class="p-4">
+                            <span class="font-label text-[10px] text-primary uppercase tracking-widest">CAD Render // Front 3/4</span>
+                        </div>
+                    </div>
+                    <div class="group overflow-hidden rounded-sm border border-white/10 bg-surface-container">
+                        <img src="Emo-main/docs-assets/emo_render_4.png" alt="EMO Robot exploded view render" class="w-full h-52 object-cover opacity-80 group-hover:opacity-100 transition-all duration-500"/>
+                        <div class="p-4">
+                            <span class="font-label text-[10px] text-primary uppercase tracking-widest">CAD Render // Exploded</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parts Breakdown -->
+                <div class="glass-card p-8 reveal">
+                    <h4 class="font-headline text-lg font-bold text-primary mb-6 uppercase tracking-tight">// STL Parts Manifest (15 Parts)</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <h5 class="font-label text-[10px] text-accent-warm uppercase tracking-widest mb-3">Head Assembly</h5>
+                            <ul class="space-y-2 text-on-surface-variant text-sm">
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-warm rounded-full"></span>Head Top Shell</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-warm rounded-full"></span>Head Bottom Shell</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-warm rounded-full"></span>Front Ornament Ring</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-label text-[10px] text-accent-green uppercase tracking-widest mb-3">Body & Arms</h5>
+                            <ul class="space-y-2 text-on-surface-variant text-sm">
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-green rounded-full"></span>Front Body</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-green rounded-full"></span>Back Body</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-green rounded-full"></span>Hand Upper (×2)</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-green rounded-full"></span>Hand Lower (×2)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-label text-[10px] text-accent-purple uppercase tracking-widest mb-3">Base & Structure</h5>
+                            <ul class="space-y-2 text-on-surface-variant text-sm">
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-purple rounded-full"></span>Base Top Plate</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-purple rounded-full"></span>Base Bottom Plate</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-purple rounded-full"></span>Servo DS1 Mount</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-purple rounded-full"></span>Servo DS2 Mount</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-purple rounded-full"></span>Supporter Inside / Mid / Outside</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servo Mapping -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                    <div class="glass-card p-8">
+                        <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Servo Articulation Map</h5>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-6">Three SG90 servos driven via PCA9685 I2C expander. Each servo maps to a unique axis of motion on the robot body.</p>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 p-3 bg-white/3 rounded-sm">
+                                <span class="w-8 h-8 bg-accent-warm/20 rounded-sm flex items-center justify-center text-accent-warm font-mono text-xs font-bold">R</span>
+                                <div>
+                                    <div class="font-mono text-xs text-white">servoR — Channel 5</div>
+                                    <div class="text-on-surface-variant text-[10px]">Right Arm • Reference at 0°</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 p-3 bg-white/3 rounded-sm">
+                                <span class="w-8 h-8 bg-primary/20 rounded-sm flex items-center justify-center text-primary font-mono text-xs font-bold">L</span>
+                                <div>
+                                    <div class="font-mono text-xs text-white">servoL — Channel 11</div>
+                                    <div class="text-on-surface-variant text-[10px]">Left Arm • Reference at 180°</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 p-3 bg-white/3 rounded-sm">
+                                <span class="w-8 h-8 bg-accent-green/20 rounded-sm flex items-center justify-center text-accent-green font-mono text-xs font-bold">B</span>
+                                <div>
+                                    <div class="font-mono text-xs text-white">servoB — Channel 13</div>
+                                    <div class="text-on-surface-variant text-[10px]">Base Rotation • Reference at 90°</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8">
+                        <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Motion Profiles</h5>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-6">Each emotion maps to a specific combination of servo movements. The arms move symmetrically (mirror-linked), while the base provides rotational expression.</p>
+                        <div class="code-block p-3">
+                            <pre class="text-xs font-mono text-accent-green"><code># Happy — Energetic wave pattern
+def happy():
+    servoMed()  # Center all servos
+    for n in range(5):
+        for i in range(0, 120):
+            if i <= 30:
+                servoR.angle = 90 + i  # Up
+                servoL.angle = 90 - i  # Up
+                servoB.angle = 90 - i  # Rotate
+            if (i > 30 and i <= 90):
+                servoR.angle = 150 - i # Down
+                servoL.angle = i + 30  # Down
+                servoB.angle = i + 30  # Rotate back
+            time.sleep(0.004)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 03: Circuit Design -->
+            <section id="circuits" class="space-y-12 reveal">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">03_Circuit_Design</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        Four independent circuit subsystems connect to the Raspberry Pi, each handling a distinct peripheral: LCD display, servo motor control, audio output, and sensor input.
+                    </p>
+                </div>
+
+                <!-- Circuit Diagrams Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card overflow-hidden reveal">
+                        <div class="bg-white/95 p-2">
+                            <img src="Emo-main/docs-assets/Display With Raspberry Pi.jpg" alt="LCD Display wiring diagram with Raspberry Pi — SPI interface" class="w-full h-auto"/>
+                        </div>
+                        <div class="p-6">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-2">01 // Display Module</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed mb-3">Waveshare 2.4" ILI9341 LCD connected via SPI. RGB888→RGB565 color conversion in software for frame buffer writes.</p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full pin-table text-left">
+                                    <thead><tr><th class="p-2">Signal</th><th class="p-2">RPi Pin</th><th class="p-2">BCM</th></tr></thead>
+                                    <tbody>
+                                        <tr><td class="p-2 text-accent-green">DIN (MOSI)</td><td class="p-2">Pin 19</td><td class="p-2">GPIO 10</td></tr>
+                                        <tr><td class="p-2 text-accent-orange">CLK (SCLK)</td><td class="p-2">Pin 23</td><td class="p-2">GPIO 11</td></tr>
+                                        <tr><td class="p-2 text-primary">CS (CE0)</td><td class="p-2">Pin 24</td><td class="p-2">GPIO 8</td></tr>
+                                        <tr><td class="p-2 text-accent-purple">DC</td><td class="p-2">Pin 22</td><td class="p-2">GPIO 25</td></tr>
+                                        <tr><td class="p-2 text-accent-warm">RST</td><td class="p-2">Pin 13</td><td class="p-2">GPIO 27</td></tr>
+                                        <tr><td class="p-2 text-white/60">BL</td><td class="p-2">Pin 12</td><td class="p-2">GPIO 18</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card overflow-hidden reveal">
+                        <div class="bg-white/95 p-2">
+                            <img src="Emo-main/docs-assets/Servo Driver With Raspberry Pi.jpg" alt="PCA9685 servo driver wiring diagram with Raspberry Pi — I2C interface" class="w-full h-auto"/>
+                        </div>
+                        <div class="p-6">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-2">02 // Servo Driver</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed mb-3">Adafruit PCA9685 16-channel PWM driver using I2C. External 5V supply prevents RPi brownout during simultaneous servo actuation.</p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full pin-table text-left">
+                                    <thead><tr><th class="p-2">Signal</th><th class="p-2">RPi Pin</th><th class="p-2">BCM</th></tr></thead>
+                                    <tbody>
+                                        <tr><td class="p-2 text-primary">SDA</td><td class="p-2">Pin 3</td><td class="p-2">GPIO 2</td></tr>
+                                        <tr><td class="p-2 text-accent-orange">SCL</td><td class="p-2">Pin 5</td><td class="p-2">GPIO 3</td></tr>
+                                        <tr><td class="p-2 text-accent-warm">V+ (Ext)</td><td class="p-2">—</td><td class="p-2">5V Supply</td></tr>
+                                        <tr><td class="p-2 text-white/60">GND</td><td class="p-2">Pin 6</td><td class="p-2">Common</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card overflow-hidden reveal">
+                        <div class="bg-white/95 p-2">
+                            <img src="Emo-main/docs-assets/Speaker With PAM8403 Amplifier.jpg" alt="Speaker with PAM8403 amplifier wiring diagram" class="w-full h-auto"/>
+                        </div>
+                        <div class="p-6">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-2">03 // Audio Output</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed mb-3">PAM8403 Class D amplifier connected to RPi's 3.5mm audio jack. Drives a small speaker for emotion-specific WAV playback via <code class="text-primary font-mono">aplay</code>.</p>
+                            <div class="code-block p-3">
+                                <pre class="text-xs font-mono text-accent-green"><code># Audio playback via system command
+def sound(emotion):
+    for i in range(1):
+        os.system("aplay /home/pi/Desktop/"
+                  "EmoBot/sound/" + emotion + ".wav")</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card overflow-hidden reveal">
+                        <div class="bg-white/95 p-2">
+                            <img src="Emo-main/docs-assets/Vibration And Touch Sensors With Raspberry Pi.jpg" alt="Vibration and touch sensor wiring with Raspberry Pi — GPIO interface" class="w-full h-auto"/>
+                        </div>
+                        <div class="p-6">
+                            <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-2">04 // Sensor Input</h5>
+                            <p class="text-on-surface-variant text-xs leading-relaxed mb-3">TTP223 capacitive touch sensor on GPIO 17 and SW-420 vibration sensor on GPIO 22. Polling at 50ms intervals in a dedicated process.</p>
+                            <div class="code-block p-3">
+                                <pre class="text-xs font-mono text-accent-green"><code># Sensor polling loop
+touch_pin = 17   # TTP223
+vibration_pin = 22  # SW-420
+
+def check_sensor():
+    while True:
+        if GPIO.input(touch_pin) == GPIO.HIGH:
+            q.put('happy')
+        if GPIO.input(vibration_pin) == 1:
+            q.put(emotion[randint(0,2)])
+        time.sleep(0.05)</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 04: Emotion Engine -->
+            <section id="emotions" class="space-y-12 reveal">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">04_Emotion_Engine</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        EMO features 13 distinct emotion animation sequences, each consisting of pre-rendered PNG frame sequences displayed on the 2" LCD at high speed. The emotion engine maps sensor inputs to behavioral responses.
+                    </p>
+                </div>
+
+                <!-- Emotion State Machine Infographic -->
+                <div class="infographic-frame reveal">
+                    <img src="Emo-main/docs-assets/emotion_state_machine.png" alt="EMO Robot Emotion State Machine — showing state transitions between emotions based on sensor inputs" class="w-full h-auto"/>
+                </div>
+
+                <!-- Frame Count Table -->
+                <div class="glass-card p-8 reveal">
+                    <h4 class="font-headline text-lg font-bold text-primary mb-6 uppercase tracking-tight">// Animation Sequence Registry</h4>
+                    <p class="text-on-surface-variant text-sm leading-relaxed mb-6">Each emotion is a folder of pre-rendered PNG frames that are sequentially displayed on the LCD. The frame count determines animation duration and smoothness.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full pin-table text-left">
+                            <thead>
+                                <tr>
+                                    <th class="p-3">Emotion</th>
+                                    <th class="p-3">Frames</th>
+                                    <th class="p-3">Trigger</th>
+                                    <th class="p-3">Servo Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="p-3 text-accent-green">😊 Happy</td><td class="p-3">60</td><td class="p-3 text-on-surface-variant">Touch Sensor</td><td class="p-3 text-on-surface-variant">Arms wave energetically</td></tr>
+                                <tr><td class="p-3 text-accent-warm">😡 Angry</td><td class="p-3">20</td><td class="p-3 text-on-surface-variant">Vibration (random)</td><td class="p-3 text-on-surface-variant">Rapid base oscillation</td></tr>
+                                <tr><td class="p-3 text-primary">😢 Sad</td><td class="p-3">47</td><td class="p-3 text-on-surface-variant">Vibration (random)</td><td class="p-3 text-on-surface-variant">Arms droop, slow sway</td></tr>
+                                <tr><td class="p-3 text-accent-orange">🤩 Excited</td><td class="p-3">24</td><td class="p-3 text-on-surface-variant">Vibration (random)</td><td class="p-3 text-on-surface-variant">Fast base rotation</td></tr>
+                                <tr><td class="p-3 text-accent-purple">😐 Neutral</td><td class="p-3">61</td><td class="p-3 text-on-surface-variant">Default (idle)</td><td class="p-3 text-on-surface-variant">Gentle base rotation</td></tr>
+                                <tr><td class="p-3 text-white/60">😴 Blink</td><td class="p-3">39</td><td class="p-3 text-on-surface-variant">Idle cycle</td><td class="p-3 text-on-surface-variant">Arms neutral</td></tr>
+                                <tr><td class="p-3 text-white/60">😌 Blink2</td><td class="p-3">20</td><td class="p-3 text-on-surface-variant">Idle cycle</td><td class="p-3 text-on-surface-variant">Arms neutral</td></tr>
+                                <tr><td class="p-3 text-white/60">😃 Happy2</td><td class="p-3">20</td><td class="p-3 text-on-surface-variant">Variant</td><td class="p-3 text-on-surface-variant">Arm wave alt</td></tr>
+                                <tr><td class="p-3 text-white/60">🥳 Happy3</td><td class="p-3">26</td><td class="p-3 text-on-surface-variant">Variant</td><td class="p-3 text-on-surface-variant">Arm wave alt</td></tr>
+                                <tr><td class="p-3 text-white/60">😵 Dizzy</td><td class="p-3">67</td><td class="p-3 text-on-surface-variant">Variant</td><td class="p-3 text-on-surface-variant">Random wobble</td></tr>
+                                <tr><td class="p-3 text-white/60">😴 Sleep</td><td class="p-3">—</td><td class="p-3 text-on-surface-variant">Extended idle</td><td class="p-3 text-on-surface-variant">Arms resting</td></tr>
+                                <tr><td class="p-3 text-primary">🚀 Bootup</td><td class="p-3">124</td><td class="p-3 text-on-surface-variant">Power on</td><td class="p-3 text-on-surface-variant">Full calibration sweep</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Emotion Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
+                    <div class="emotion-card glass-card p-6 text-center" style="--emotion-color: #00f5d4">
+                        <div class="text-4xl mb-3">😊</div>
+                        <h5 class="font-headline text-sm font-bold uppercase text-accent-green">Happy</h5>
+                        <span class="text-[10px] text-on-surface-variant block mt-1">60 frames</span>
+                        <span class="text-[9px] text-primary mt-2 block font-mono">TOUCH → QUEUE</span>
+                    </div>
+                    <div class="emotion-card glass-card p-6 text-center" style="--emotion-color: #ff6b9d">
+                        <div class="text-4xl mb-3">😡</div>
+                        <h5 class="font-headline text-sm font-bold uppercase text-accent-warm">Angry</h5>
+                        <span class="text-[10px] text-on-surface-variant block mt-1">20 frames</span>
+                        <span class="text-[9px] text-primary mt-2 block font-mono">VIB → RANDOM</span>
+                    </div>
+                    <div class="emotion-card glass-card p-6 text-center" style="--emotion-color: #00d2ff">
+                        <div class="text-4xl mb-3">😢</div>
+                        <h5 class="font-headline text-sm font-bold uppercase text-primary">Sad</h5>
+                        <span class="text-[10px] text-on-surface-variant block mt-1">47 frames</span>
+                        <span class="text-[9px] text-primary mt-2 block font-mono">VIB → RANDOM</span>
+                    </div>
+                    <div class="emotion-card glass-card p-6 text-center" style="--emotion-color: #ffa94d">
+                        <div class="text-4xl mb-3">🤩</div>
+                        <h5 class="font-headline text-sm font-bold uppercase text-accent-orange">Excited</h5>
+                        <span class="text-[10px] text-on-surface-variant block mt-1">24 frames</span>
+                        <span class="text-[9px] text-primary mt-2 block font-mono">VIB → RANDOM</span>
+                    </div>
+                </div>
+
+                <!-- Display Pipeline -->
+                <div class="glass-card p-8 border-l-2 border-l-accent-warm/40 reveal">
+                    <h4 class="font-headline text-lg font-bold text-accent-warm mb-4 uppercase tracking-tight">// Display Rendering Pipeline</h4>
+                    <p class="text-on-surface-variant text-sm leading-relaxed mb-6">The LCD driver uses Waveshare's ST7789V controller library. Images are loaded via PIL, converted from RGB888 to RGB565 format, and pushed to the display at 40MHz SPI clock speed for smooth animation playback.</p>
+                    <div class="code-block p-4">
+                        <pre class="text-xs font-mono text-accent-green"><code># Frame rendering pipeline
+def show(emotion, count):
+    for i in range(count):
+        try:
+            disp = LCD_2inch.LCD_2inch()  # 240×320 @ 16-bit
+            disp.Init()
+            for i in range(frame_count[emotion]):
+                image = Image.open(
+                    '/home/pi/Desktop/EmoBot/emotions/'
+                    + emotion + '/frame' + str(i) + '.png'
+                )
+                disp.ShowImage(image)  # RGB888 → RGB565 → SPI
+        except IOError as e:
+            logging.info(e)</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 05: Software Stack -->
+            <section id="software" class="space-y-12 reveal">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">05_Software_Stack</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        The complete software is written in Python and runs on Raspbian OS. The architecture leverages multiprocessing for true parallelism, with a shared queue for event-driven emotion transitions.
+                    </p>
+                </div>
+
+                <!-- Software Architecture -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                    <div class="glass-card p-8">
+                        <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">Dependencies</h5>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-primary rounded-full"></span>
+                                <span class="font-mono text-xs text-white">RPi.GPIO</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">GPIO Control</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-accent-orange rounded-full"></span>
+                                <span class="font-mono text-xs text-white">adafruit-servokit</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">PCA9685 I2C</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-accent-green rounded-full"></span>
+                                <span class="font-mono text-xs text-white">spidev</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">SPI Interface</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-accent-warm rounded-full"></span>
+                                <span class="font-mono text-xs text-white">Pillow (PIL)</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">Image Processing</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-accent-purple rounded-full"></span>
+                                <span class="font-mono text-xs text-white">busio</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">I2C Bus</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-white/40 rounded-full"></span>
+                                <span class="font-mono text-xs text-white">multiprocessing</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">Parallel Exec</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-8">
+                        <h5 class="text-primary font-headline text-xs uppercase tracking-widest mb-4">File Structure</h5>
+                        <div class="code-block p-4">
+                            <pre class="text-xs font-mono text-on-surface-variant"><code><span class="text-primary">EmoBot/</span>
+├── <span class="text-accent-green">final.py</span>          <span class="text-white/40"># Main entry point</span>
+├── <span class="text-primary">lib/</span>
+│   ├── <span class="text-accent-orange">LCD_2inch.py</span>   <span class="text-white/40"># Display driver</span>
+│   ├── <span class="text-accent-orange">lcdconfig.py</span>   <span class="text-white/40"># SPI + GPIO config</span>
+│   └── <span class="text-white/40">LCD_*.py</span>        <span class="text-white/40"># Other LCD sizes</span>
+├── <span class="text-accent-warm">emotions/</span>
+│   ├── <span class="text-accent-green">happy/</span>         <span class="text-white/40"># 60 PNG frames</span>
+│   ├── <span class="text-accent-warm">angry/</span>         <span class="text-white/40"># 20 PNG frames</span>
+│   ├── <span class="text-primary">sad/</span>           <span class="text-white/40"># 47 PNG frames</span>
+│   ├── <span class="text-accent-orange">excited/</span>       <span class="text-white/40"># 24 PNG frames</span>
+│   ├── <span class="text-accent-purple">neutral/</span>       <span class="text-white/40"># 61 PNG frames</span>
+│   ├── <span class="text-white/60">blink/</span>         <span class="text-white/40"># 39 PNG frames</span>
+│   ├── <span class="text-white/60">blink2/</span>        <span class="text-white/40"># 20 PNG frames</span>
+│   ├── <span class="text-white/60">dizzy/</span>         <span class="text-white/40"># 67 PNG frames</span>
+│   ├── <span class="text-white/60">bootup3/</span>       <span class="text-white/40"># 124 PNG frames</span>
+│   └── <span class="text-white/40">...</span>
+└── <span class="text-accent-purple">sound/</span>
+    ├── <span class="text-white/60">happy.wav</span>
+    ├── <span class="text-white/60">angry.wav</span>
+    └── <span class="text-white/40">...</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Loop -->
+                <div class="glass-card p-8 reveal">
+                    <h4 class="font-headline text-lg font-bold text-primary mb-4 uppercase tracking-tight">// Main Event Loop</h4>
+                    <p class="text-on-surface-variant text-sm leading-relaxed mb-6">The main loop continuously checks the multiprocessing event flag. When triggered by the sensor process, it dequeues the emotion, terminates the idle animation, and spawns three parallel processes for display, audio, and motor control.</p>
+                    <div class="code-block p-4">
+                        <pre class="text-xs font-mono text-accent-green leading-relaxed"><code>if __name__ == '__main__':
+    p1 = multiprocessing.Process(target=check_sensor, name='p1')
+    p1.start()
+    bootup()                              <span class="text-white/40"># Startup sequence</span>
+
+    while True:
+        if event.is_set():                <span class="text-white/40"># Sensor triggered?</span>
+            p5.terminate()                <span class="text-white/40"># Kill idle animation</span>
+            event.clear()
+            emotion = q.get()             <span class="text-white/40"># Dequeue emotion</span>
+
+            p2 = Process(target=show,  args=(emotion, 4))
+            p3 = Process(target=sound, args=(emotion,))
+            p4 = Process(target=<span class="text-accent-orange">emotion_servo_fn</span>)
+
+            p2.start(); p3.start(); p4.start()
+            p2.join();  p3.join();  p4.join()
+
+        else:                             <span class="text-white/40"># No event → Idle</span>
+            p5 = Process(target=show,
+                         args=('neutral', 4), name='p5')
+            p6 = Process(target=baserotate,
+                         args=(90, 60, 0.02), name='p6')
+            p5.start(); p6.start()
+            p6.join();  p5.join()</code></pre>
+                    </div>
+                </div>
+
+                <!-- LCD Driver Highlight -->
+                <div class="glass-card p-8 border-l-2 border-l-accent-purple/40 reveal">
+                    <h4 class="font-headline text-lg font-bold text-accent-purple mb-4 uppercase tracking-tight">// LCD Driver — Waveshare ST7789V</h4>
+                    <p class="text-on-surface-variant text-sm leading-relaxed mb-6">The custom display driver handles initialization of the ST7789V controller, manages SPI communication at 40MHz, and performs real-time RGB888→RGB565 color space conversion using NumPy for performant frame buffer writes.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 bg-white/3 rounded-sm text-center">
+                            <span class="font-headline text-2xl font-bold text-accent-purple">240</span>
+                            <span class="text-[10px] text-on-surface-variant block">× 320 Pixels</span>
+                        </div>
+                        <div class="p-4 bg-white/3 rounded-sm text-center">
+                            <span class="font-headline text-2xl font-bold text-accent-purple">16</span>
+                            <span class="text-[10px] text-on-surface-variant block">Bit Color Depth</span>
+                        </div>
+                        <div class="p-4 bg-white/3 rounded-sm text-center">
+                            <span class="font-headline text-2xl font-bold text-accent-purple">40</span>
+                            <span class="text-[10px] text-on-surface-variant block">MHz SPI Clock</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 06: Bill of Materials -->
+            <section id="bom" class="space-y-12 reveal">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">06_Bill_of_Materials</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        Complete component list for reproducing the EMO Robot build. All electronic components are widely available from standard suppliers.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 reveal">
+                    <div class="overflow-x-auto">
+                        <table class="w-full pin-table text-left">
+                            <thead>
+                                <tr>
+                                    <th class="p-3">#</th>
+                                    <th class="p-3">Component</th>
+                                    <th class="p-3">Specification</th>
+                                    <th class="p-3">Qty</th>
+                                    <th class="p-3">Interface</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-3 text-primary">01</td>
+                                    <td class="p-3 text-white">Raspberry Pi 3 Model B+</td>
+                                    <td class="p-3 text-on-surface-variant">1.4GHz Quad Core, 1GB RAM</td>
+                                    <td class="p-3">1</td>
+                                    <td class="p-3 text-on-surface-variant">Main Controller</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 text-primary">02</td>
+                                    <td class="p-3 text-white">Waveshare 2" LCD Module</td>
+                                    <td class="p-3 text-on-surface-variant">ILI9341, 240×320, SPI</td>
+                                    <td class="p-3">1</td>
+                                    <td class="p-3 text-on-surface-variant">SPI (40MHz)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 text-primary">03</td>
+                                    <td class="p-3 text-white">PCA9685 Servo Driver</td>
+                                    <td class="p-3 text-on-surface-variant">16-ch PWM, Adafruit</td>
+                                    <td class="p-3">1</td>
+                                    <td class="p-3 text-on-surface-variant">I2C</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 text-primary">04</td>
+                                    <td class="p-3 text-white">SG90 Micro Servo</td>
+                                    <td class="p-3 text-on-surface-variant">180°, 1.8kg·cm torque</td>
+                                    <td class="p-3">3</td>
+                                    <td class="p-3 text-on-surface-variant">PWM (via PCA9685)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 text-primary">05</td>
+                                    <td class="p-3 text-white">TTP223 Touch Sensor</td>
+                                    <td class="p-3 text-on-surface-variant">Capacitive, digital out</td>
+                                    <td class="p-3">1</td>
+                                    <td class="p-3 text-on-surface-variant">GPIO 17</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 text-primary">06</td>
+                                    <td class="p-3 text-white">SW-420 Vibration Sensor</td>
+                                    <td class="p-3 text-on-surface-variant">Non-directional, digital</td>
+                                    <td class="p-3">1</td>
+                                    <td class="p-3 text-on-surface-variant">GPIO 22</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 text-primary">07</td>
+                                    <td class="p-3 text-white">PAM8403 Amplifier</td>
+                                    <td class="p-3 text-on-surface-variant">3W Class D Stereo</td>
+                                    <td class="p-3">1</td>
+                                    <td class="p-3 text-on-surface-variant">3.5mm Audio</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 text-primary">08</td>
+                                    <td class="p-3 text-white">Speaker</td>
+                                    <td class="p-3 text-on-surface-variant">8Ω, 2W, 28mm</td>
+                                    <td class="p-3">1</td>
+                                    <td class="p-3 text-on-surface-variant">PAM8403 Output</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 text-primary">09</td>
+                                    <td class="p-3 text-white">5V Power Supply</td>
+                                    <td class="p-3 text-on-surface-variant">2.5A (RPi) + 5V (Servo)</td>
+                                    <td class="p-3">2</td>
+                                    <td class="p-3 text-on-surface-variant">DC Barrel / USB</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 text-primary">10</td>
+                                    <td class="p-3 text-white">3D Printed Shell (PLA)</td>
+                                    <td class="p-3 text-on-surface-variant">15 parts, white + blue</td>
+                                    <td class="p-3">1 set</td>
+                                    <td class="p-3 text-on-surface-variant">FDM / SLA</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Power Budget -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                    <div class="glass-card p-8 border-l-2 border-l-accent-orange/40">
+                        <h4 class="font-headline text-lg font-bold text-accent-orange mb-4 uppercase tracking-tight">// Power Budget</h4>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Separate power domains prevent servo inrush current from brownout-resetting the Raspberry Pi. The PCA9685 V+ rail has its own dedicated external 5V supply.</p>
+                        <div class="space-y-3">
+                            <div class="flex justify-between p-2 bg-white/3 rounded-sm">
+                                <span class="text-xs text-on-surface-variant">Raspberry Pi 3B+</span>
+                                <span class="text-xs text-accent-orange font-mono">~1.2A @ 5V</span>
+                            </div>
+                            <div class="flex justify-between p-2 bg-white/3 rounded-sm">
+                                <span class="text-xs text-on-surface-variant">3× SG90 (peak)</span>
+                                <span class="text-xs text-accent-orange font-mono">~2.1A @ 5V</span>
+                            </div>
+                            <div class="flex justify-between p-2 bg-white/3 rounded-sm">
+                                <span class="text-xs text-on-surface-variant">LCD + Sensors</span>
+                                <span class="text-xs text-accent-orange font-mono">~0.15A @ 3.3V</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8 border-l-2 border-l-accent-green/40">
+                        <h4 class="font-headline text-lg font-bold text-accent-green mb-4 uppercase tracking-tight">// Design Philosophy</h4>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">EMO Robot was designed with a core philosophy of <strong class="text-white">emotive minimalism</strong> — achieving rich emotional expression through the simplest possible hardware. Just two sensors and three servos create a surprisingly engaging companion that responds naturally to human interaction.</p>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mt-4">The 3D-printed shell uses a dual-color scheme (white body, blue accents) to evoke a friendly, approachable persona — critical for social robotics acceptance studies.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-white/5 bg-background">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full max-w-7xl mx-auto font-headline text-[10px] uppercase tracking-[0.2em]">
+        <div class="text-primary font-bold">AKASH MHAIS // SYSTEMS ARCHITECT</div>
+        <div class="text-on-surface-variant">© 2024 ENCRYPTED PORTFOLIO TRANSMISSION</div>
+    </div>
+</footer>
+
+<script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Sticky header opacity
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('top-nav');
+        nav.style.background = window.scrollY > 50 ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.4)';
+    });
+
+    // Floating nav active state
+    const sections = document.querySelectorAll('section[id]');
+    const navDots = document.querySelectorAll('.floating-nav a');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 200;
+            if (scrollY >= sectionTop) current = section.getAttribute('id');
+        });
+        navDots.forEach(dot => {
+            const href = dot.getAttribute('href').substring(1);
+            if (href === current) {
+                dot.classList.remove('bg-white/20');
+                dot.classList.add('bg-primary/60');
+            } else {
+                dot.classList.remove('bg-primary/60');
+                dot.classList.add('bg-white/20');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

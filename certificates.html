@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ARCHITECT_OS | Certifications</title>
+<meta name="description" content="Professional certifications and achievements of Akash Mhais — Fab Academy Diploma, NPTEL IoT Elite, SolidWorks Mastery, AAKRUTI Global, and Tata Imagination Challenge."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#72dcff",
+                    "surface": "#0e0e0e",
+                    "surface-container": "#1a1919",
+                    "inverse-primary": "#00687f",
+                    "primary-dim": "#00c3ed",
+                    "surface-variant": "#262626",
+                    "on-primary-fixed": "#002c38",
+                    "on-primary-container": "#004253",
+                    "outline": "#777575",
+                    "on-tertiary-container": "#001649",
+                    "secondary": "#c8d8f3",
+                    "on-tertiary": "#002266",
+                    "tertiary-fixed-dim": "#809fff",
+                    "surface-tint": "#72dcff",
+                    "error": "#ff716c",
+                    "surface-container-high": "#201f1f",
+                    "tertiary": "#84a2ff",
+                    "on-primary": "#004c5e",
+                    "on-secondary-fixed-variant": "#46556b",
+                    "inverse-surface": "#fcf8f8",
+                    "surface-container-highest": "#262626",
+                    "primary-fixed-dim": "#00c3ed",
+                    "primary-fixed": "#00d2ff",
+                    "secondary-fixed": "#c8d8f3",
+                    "surface-bright": "#2c2c2c",
+                    "secondary-container": "#38485d",
+                    "inverse-on-surface": "#565554",
+                    "on-secondary": "#3c4c61",
+                    "on-background": "#ffffff",
+                    "tertiary-fixed": "#94aeff",
+                    "outline-variant": "#494847",
+                    "on-error": "#490006",
+                    "background": "#0e0e0e",
+                    "tertiary-container": "#7294fa",
+                    "on-secondary-fixed": "#29394e",
+                    "on-secondary-container": "#c1d1eb",
+                    "surface-container-low": "#131313",
+                    "on-surface-variant": "#adaaaa",
+                    "on-tertiary-fixed": "#001444",
+                    "on-error-container": "#ffa8a3",
+                    "secondary-dim": "#bacae4",
+                    "on-primary-fixed-variant": "#004c5e",
+                    "tertiary-dim": "#7899ff",
+                    "surface-dim": "#0e0e0e",
+                    "primary-container": "#00d2ff",
+                    "secondary-fixed-dim": "#bacae4",
+                    "error-container": "#9f0519",
+                    "on-tertiary-fixed-variant": "#00318c",
+                    "on-surface": "#ffffff",
+                    "surface-container-lowest": "#000000",
+                    "error-dim": "#d7383b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Space Grotesk"]
+            }
+          },
+        },
+      }
+</script>
+<style>
+    .glass-card {
+        background: rgba(38, 38, 38, 0.4);
+        backdrop-filter: blur(12px);
+        border-top: 2px solid #72dcff33;
+        transition: all 0.5s ease;
+    }
+    .glass-card:hover {
+        background: rgba(38, 38, 38, 0.6);
+        border-top: 2px solid #00d2ff;
+    }
+    .glow-sm {
+        text-shadow: 0 0 10px rgba(114, 220, 255, 0.5);
+    }
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    }
+    body { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .mobile-menu {
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .glow-btn:hover { box-shadow: 0 0 20px rgba(0, 210, 255, 0.3); }
+    .reveal-stagger { transition-delay: var(--delay, 0ms); }
+
+    /* Certificate card effects */
+    .cert-card {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .cert-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(114, 220, 255, 0.03), transparent);
+        transition: left 0.8s ease;
+        z-index: 0;
+    }
+    .cert-card:hover::before { left: 100%; }
+    .cert-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 60px rgba(0, 210, 255, 0.1), 0 0 1px rgba(114, 220, 255, 0.3);
+    }
+
+    .cert-img-wrapper {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(114, 220, 255, 0.1);
+        background: #0a0a0a;
+    }
+    .cert-img-wrapper img {
+        transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), filter 0.4s ease;
+    }
+    .cert-card:hover .cert-img-wrapper img {
+        transform: scale(1.03);
+    }
+
+    /* Lightbox */
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(20px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+    }
+    .lightbox.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .lightbox img {
+        max-width: 90vw;
+        max-height: 85vh;
+        object-fit: contain;
+        border: 1px solid rgba(114, 220, 255, 0.2);
+        box-shadow: 0 0 80px rgba(0, 210, 255, 0.08);
+        transform: scale(0.9);
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .lightbox.active img {
+        transform: scale(1);
+    }
+
+    /* Category badge */
+    .cat-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        font-size: 9px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        border: 1px solid;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+    .cat-diploma { color: #ffd700; border-color: rgba(255, 215, 0, 0.3); background: rgba(255, 215, 0, 0.05); }
+    .cat-course { color: #72dcff; border-color: rgba(114, 220, 255, 0.3); background: rgba(114, 220, 255, 0.05); }
+    .cat-competition { color: #84a2ff; border-color: rgba(132, 162, 255, 0.3); background: rgba(132, 162, 255, 0.05); }
+    .cat-cad { color: #00ffa3; border-color: rgba(0, 255, 163, 0.3); background: rgba(0, 255, 163, 0.05); }
+
+    /* Stats counter animation */
+    @keyframes countUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .stat-item { animation: countUp 0.6s ease forwards; }
+
+    /* Timeline dot */
+    .timeline-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #72dcff;
+        box-shadow: 0 0 12px rgba(114, 220, 255, 0.5);
+        position: relative;
+    }
+    .timeline-dot::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid rgba(114, 220, 255, 0.3);
+        animation: pulse-ring 2s ease infinite;
+    }
+    @keyframes pulse-ring {
+        0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+    }
+
+    /* Floating grid lines */
+    .grid-bg {
+        background-image:
+            linear-gradient(rgba(114, 220, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(114, 220, 255, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+    }
+
+    /* View button glow */
+    .view-btn {
+        position: relative;
+        overflow: hidden;
+    }
+    .view-btn::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(114, 220, 255, 0.15), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .view-btn:hover::after { opacity: 1; }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30 grid-bg">
+
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/60 dark:bg-[#0e0e0e]/60 backdrop-blur-xl shadow-[0_0_20px_rgba(0,210,255,0.05)]" id="main-nav">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-7xl mx-auto font-['Space_Grotesk'] tracking-tight">
+<a href="index.html" class="text-xl font-bold tracking-tighter text-[#00d2ff] uppercase hover:glow-sm transition-all">ARCHITECT_OS</a>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="index.html">Systems</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="software.html">Software</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="research.html">Research</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="projects.html">Projects</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="index.html#contact">Logs</a>
+</div>
+<a href="index.html#contact" class="hidden md:block bg-primary-container text-on-primary-container px-5 py-1.5 rounded-sm font-label font-bold text-sm uppercase tracking-wider scale-95 active:scale-90 transition-transform glow-btn">
+    Connect
+</a>
+<button class="md:hidden text-primary" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<!-- Mobile Menu -->
+<div class="fixed inset-y-0 right-0 w-64 bg-surface-container z-[60] p-8 mobile-menu" id="mobile-menu">
+<button class="absolute top-4 right-4 text-primary" onclick="document.getElementById('mobile-menu').classList.remove('open')">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="flex flex-col gap-6 mt-12 font-['Space_Grotesk']">
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="index.html">Systems</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="software.html">Software</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="research.html">Research</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="projects.html">Projects</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="index.html#contact">Logs</a>
+</div>
+</div>
+
+<!-- Hero Section -->
+<section class="pt-28 pb-16 px-8 max-w-7xl mx-auto">
+    <div class="reveal">
+        <!-- Breadcrumb -->
+        <div class="flex items-center gap-2 mb-8 font-label text-[11px] text-on-surface-variant uppercase tracking-[0.2em]">
+            <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+            <span class="text-outline">/</span>
+            <span class="text-primary">Certifications</span>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
+                <span class="font-label text-[10px] text-primary tracking-[0.3em] uppercase block mb-2">
+                    <span class="inline-block w-8 h-[1px] bg-primary mr-3 align-middle"></span>
+                    Verified Credentials
+                </span>
+                <h1 class="font-headline text-5xl md:text-6xl font-bold uppercase tracking-tight leading-none">
+                    Cert<span class="text-primary">ifications</span>
+                </h1>
+                <p class="text-on-surface-variant mt-4 max-w-xl text-sm leading-relaxed">
+                    Professional certifications, diplomas, and competition achievements validating expertise across digital fabrication, CAD engineering, IoT systems, and product design.
+                </p>
+            </div>
+
+            <!-- Stats Panel -->
+            <div class="flex gap-6 md:gap-8">
+                <div class="stat-item text-center" style="animation-delay: 0.2s">
+                    <div class="font-headline text-3xl font-bold text-primary">07</div>
+                    <div class="font-label text-[9px] text-on-surface-variant uppercase tracking-widest mt-1">Total</div>
+                </div>
+                <div class="w-[1px] bg-outline-variant/40"></div>
+                <div class="stat-item text-center" style="animation-delay: 0.4s">
+                    <div class="font-headline text-3xl font-bold text-primary">04</div>
+                    <div class="font-label text-[9px] text-on-surface-variant uppercase tracking-widest mt-1">Orgs</div>
+                </div>
+                <div class="w-[1px] bg-outline-variant/40"></div>
+                <div class="stat-item text-center" style="animation-delay: 0.6s">
+                    <div class="font-headline text-3xl font-bold text-primary">88%</div>
+                    <div class="font-label text-[9px] text-on-surface-variant uppercase tracking-widest mt-1">Top Score</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="mt-10 h-[1px] bg-gradient-to-r from-primary/40 via-outline-variant/20 to-transparent reveal" style="transition-delay: 100ms"></div>
+</section>
+
+<!-- ==================== FEATURED: FAB ACADEMY DIPLOMA ==================== -->
+<section class="px-8 max-w-7xl mx-auto mb-16">
+    <div class="cert-card glass-card p-0 reveal" style="--delay: 100ms">
+        <div class="grid md:grid-cols-2 gap-0">
+            <!-- Certificate Image -->
+            <div class="cert-img-wrapper cursor-pointer" onclick="openLightbox('Certificates/FAB Academy Certificate/FA Diploma 2024_Page_1.jpg')">
+                <img src="Certificates/FAB Academy Certificate/FA Diploma 2024_Page_1.jpg" alt="Fab Academy Diploma 2024 — Principles and Applications of Digital Fabrication" class="w-full h-full object-cover">
+            </div>
+            <!-- Details -->
+            <div class="p-8 md:p-10 flex flex-col justify-center">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="cat-badge cat-diploma">
+                        <span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                        Diploma
+                    </span>
+                    <span class="font-label text-[9px] text-on-surface-variant tracking-widest uppercase">August 2024</span>
+                </div>
+                <h2 class="font-headline text-3xl md:text-4xl font-bold uppercase tracking-tight mb-2">
+                    Fab Academy
+                </h2>
+                <h3 class="font-headline text-lg text-primary font-medium mb-4">Diploma — Digital Fabrication</h3>
+                <p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                    Completed the internationally recognized Fab Academy program — <span class="text-primary">Principles and Applications of Digital Fabrication</span>. This intensive 6-month course covers 3D printing, laser cutting, CNC machining, embedded programming, electronics design, and networking, culminating in a capstone final project.
+                </p>
+
+                <div class="space-y-3 mb-6">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">school</span>
+                        <span class="text-sm"><span class="text-on-surface-variant">Issuer:</span> Fab Academy / MIT CBA</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">location_on</span>
+                        <span class="text-sm"><span class="text-on-surface-variant">Lab:</span> Fab Lab Sanjivani, Kopargaon</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">badge</span>
+                        <span class="text-sm"><span class="text-on-surface-variant">Network:</span> 50+ Global Fab Labs</span>
+                    </div>
+                </div>
+
+                <!-- Skills Tags -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">3D Printing</span>
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">Laser Cutting</span>
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">CNC Milling</span>
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">PCB Design</span>
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">Embedded C</span>
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">Molding & Casting</span>
+                </div>
+
+                <button onclick="openLightbox('Certificates/FAB Academy Certificate/FA Diploma 2024_Page_1.jpg')" class="view-btn self-start flex items-center gap-2 px-5 py-2 border border-primary/30 text-primary font-label text-[10px] uppercase tracking-widest hover:border-primary transition-all">
+                    <span class="material-symbols-outlined text-sm">visibility</span>
+                    View Certificate
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SECTION: NPTEL IoT ==================== -->
+<section class="px-8 max-w-7xl mx-auto mb-6">
+    <div class="flex items-center gap-4 mb-8 reveal">
+        <div class="timeline-dot"></div>
+        <h2 class="font-headline text-2xl font-bold uppercase tracking-tight">Online Certifications</h2>
+        <div class="flex-1 h-[1px] bg-outline-variant/20"></div>
+        <span class="font-label text-[9px] text-on-surface-variant uppercase tracking-widest">NPTEL / IIT</span>
+    </div>
+</section>
+
+<section class="px-8 max-w-7xl mx-auto mb-16">
+    <div class="cert-card glass-card p-0 reveal" style="--delay: 150ms">
+        <div class="grid md:grid-cols-5 gap-0">
+            <!-- Certificate Image -->
+            <div class="md:col-span-3 cert-img-wrapper cursor-pointer" onclick="openLightbox('Certificates/Introduction to Internet of Things_page-0001.jpg')">
+                <img src="Certificates/Introduction to Internet of Things_page-0001.jpg" alt="NPTEL Elite Certificate — Introduction to Internet of Things, IIT Kharagpur, Score 88%" class="w-full h-full object-cover">
+            </div>
+            <!-- Details -->
+            <div class="md:col-span-2 p-8 flex flex-col justify-center">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="cat-badge cat-course">
+                        <span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        Course
+                    </span>
+                    <span class="cat-badge" style="color: #ff4d4d; border-color: rgba(255,77,77,0.3); background: rgba(255,77,77,0.05);">
+                        Top 5%
+                    </span>
+                </div>
+                <h2 class="font-headline text-2xl font-bold uppercase tracking-tight mb-1">
+                    Introduction to IoT
+                </h2>
+                <h3 class="font-headline text-base text-primary font-medium mb-4">NPTEL — Elite Certificate</h3>
+
+                <p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                    12-week comprehensive course on Internet of Things by <span class="text-primary">IIT Kharagpur</span>, covering sensor technologies, communication protocols, edge computing, and IoT architectures.
+                </p>
+
+                <!-- Score Breakdown -->
+                <div class="bg-surface-container-low p-4 border border-outline-variant/20 mb-6">
+                    <div class="font-label text-[9px] text-primary uppercase tracking-widest mb-3">Score Breakdown</div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div class="font-headline text-2xl font-bold text-primary">88%</div>
+                            <div class="text-[9px] text-on-surface-variant uppercase tracking-wider mt-1">Overall</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-headline text-2xl font-bold">25/25</div>
+                            <div class="text-[9px] text-on-surface-variant uppercase tracking-wider mt-1">Assignments</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-headline text-2xl font-bold">63/75</div>
+                            <div class="text-[9px] text-on-surface-variant uppercase tracking-wider mt-1">Proctored</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-2 mb-6 text-sm">
+                    <div class="flex justify-between text-on-surface-variant">
+                        <span>Issuer</span>
+                        <span class="text-on-surface">IIT Kharagpur / Swayam</span>
+                    </div>
+                    <div class="h-[1px] bg-outline-variant/10"></div>
+                    <div class="flex justify-between text-on-surface-variant">
+                        <span>Duration</span>
+                        <span class="text-on-surface">Jul — Oct 2024</span>
+                    </div>
+                    <div class="h-[1px] bg-outline-variant/10"></div>
+                    <div class="flex justify-between text-on-surface-variant">
+                        <span>Candidates</span>
+                        <span class="text-on-surface">33,131 certified</span>
+                    </div>
+                </div>
+
+                <button onclick="openLightbox('Certificates/Introduction to Internet of Things_page-0001.jpg')" class="view-btn self-start flex items-center gap-2 px-5 py-2 border border-primary/30 text-primary font-label text-[10px] uppercase tracking-widest hover:border-primary transition-all">
+                    <span class="material-symbols-outlined text-sm">visibility</span>
+                    View Certificate
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SECTION: SOLIDWORKS MASTERY ==================== -->
+<section class="px-8 max-w-7xl mx-auto mb-6">
+    <div class="flex items-center gap-4 mb-8 reveal">
+        <div class="timeline-dot"></div>
+        <h2 class="font-headline text-2xl font-bold uppercase tracking-tight">CAD Mastery Track</h2>
+        <div class="flex-1 h-[1px] bg-outline-variant/20"></div>
+        <span class="font-label text-[9px] text-on-surface-variant uppercase tracking-widest">Infosys Springboard</span>
+    </div>
+</section>
+
+<section class="px-8 max-w-7xl mx-auto mb-16">
+    <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- SolidWorks Beginners -->
+        <div class="cert-card glass-card p-0 reveal reveal-stagger" style="--delay: 100ms">
+            <div class="cert-img-wrapper h-52 cursor-pointer" onclick="openLightbox('Certificates/solidworks_beginners.png')">
+                <img src="Certificates/solidworks_beginners.png" alt="Infosys Springboard — SolidWorks Beginners Course Completion" class="w-full h-full object-contain p-2 bg-white/95">
+            </div>
+            <div class="p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="cat-badge cat-cad">
+                        <span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">view_in_ar</span>
+                        CAD
+                    </span>
+                    <span class="font-label text-[9px] text-on-surface-variant tracking-widest uppercase">Level 1</span>
+                </div>
+                <h3 class="font-headline text-lg font-bold uppercase tracking-tight mb-1">SolidWorks</h3>
+                <h4 class="text-sm text-primary font-medium mb-3">Beginners</h4>
+                <p class="text-on-surface-variant text-xs leading-relaxed mb-4">Part modeling fundamentals, sketching constraints, feature operations, and basic assembly techniques.</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-[9px] text-on-surface-variant font-label uppercase tracking-wider">Nov 2023</span>
+                    <button onclick="openLightbox('Certificates/solidworks_beginners.png')" class="text-primary text-[10px] font-label uppercase tracking-widest flex items-center gap-1 hover:glow-sm transition-all">
+                        View <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SolidWorks Intermediate -->
+        <div class="cert-card glass-card p-0 reveal reveal-stagger" style="--delay: 200ms">
+            <div class="cert-img-wrapper h-52 cursor-pointer" onclick="openLightbox('Certificates/solidworks_intermediate.png')">
+                <img src="Certificates/solidworks_intermediate.png" alt="Infosys Springboard — SolidWorks Intermediate Course Completion" class="w-full h-full object-contain p-2 bg-white/95">
+            </div>
+            <div class="p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="cat-badge cat-cad">
+                        <span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">view_in_ar</span>
+                        CAD
+                    </span>
+                    <span class="font-label text-[9px] text-on-surface-variant tracking-widest uppercase">Level 2</span>
+                </div>
+                <h3 class="font-headline text-lg font-bold uppercase tracking-tight mb-1">SolidWorks</h3>
+                <h4 class="text-sm text-primary font-medium mb-3">Intermediate</h4>
+                <p class="text-on-surface-variant text-xs leading-relaxed mb-4">Surface modeling, advanced assemblies, sheet metal, weldments, and BOM/drawing generation workflows.</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-[9px] text-on-surface-variant font-label uppercase tracking-wider">Dec 2023</span>
+                    <button onclick="openLightbox('Certificates/solidworks_intermediate.png')" class="text-primary text-[10px] font-label uppercase tracking-widest flex items-center gap-1 hover:glow-sm transition-all">
+                        View <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SolidWorks Advanced -->
+        <div class="cert-card glass-card p-0 reveal reveal-stagger" style="--delay: 300ms">
+            <div class="cert-img-wrapper h-52 cursor-pointer" onclick="openLightbox('Certificates/solidworks_advanced.png')">
+                <img src="Certificates/solidworks_advanced.png" alt="Infosys Springboard — SolidWorks Advanced Course Completion" class="w-full h-full object-contain p-2 bg-white/95">
+            </div>
+            <div class="p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="cat-badge cat-cad">
+                        <span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">view_in_ar</span>
+                        CAD
+                    </span>
+                    <span class="font-label text-[9px] text-primary tracking-widest uppercase">Level 3</span>
+                </div>
+                <h3 class="font-headline text-lg font-bold uppercase tracking-tight mb-1">SolidWorks</h3>
+                <h4 class="text-sm text-primary font-medium mb-3">Advanced</h4>
+                <p class="text-on-surface-variant text-xs leading-relaxed mb-4">FEA simulation, motion studies, rendering/PhotoView 360, complex surfaces, and topology optimization.</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-[9px] text-on-surface-variant font-label uppercase tracking-wider">Dec 2023</span>
+                    <button onclick="openLightbox('Certificates/solidworks_advanced.png')" class="text-primary text-[10px] font-label uppercase tracking-widest flex items-center gap-1 hover:glow-sm transition-all">
+                        View <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress bar visualization -->
+    <div class="mt-8 glass-card p-6 reveal" style="--delay: 400ms">
+        <div class="font-label text-[9px] text-primary uppercase tracking-widest mb-4">SolidWorks Proficiency Track</div>
+        <div class="flex items-center gap-4">
+            <div class="flex-1">
+                <div class="flex justify-between mb-2">
+                    <span class="text-[10px] font-label text-on-surface-variant uppercase tracking-wider">Beginners</span>
+                    <span class="text-[10px] font-label text-on-surface-variant uppercase tracking-wider">Intermediate</span>
+                    <span class="text-[10px] font-label text-on-surface-variant uppercase tracking-wider">Advanced</span>
+                </div>
+                <div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-primary/40 via-primary to-[#00ffa3] rounded-full" style="width: 100%"></div>
+                </div>
+            </div>
+            <span class="font-headline text-lg font-bold text-[#00ffa3]">✓</span>
+        </div>
+        <div class="mt-3 text-xs text-on-surface-variant">
+            All three levels completed via <span class="text-primary">Infosys Springboard</span> — Nov to Dec 2023
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SECTION: COMPETITIONS ==================== -->
+<section class="px-8 max-w-7xl mx-auto mb-6">
+    <div class="flex items-center gap-4 mb-8 reveal">
+        <div class="timeline-dot"></div>
+        <h2 class="font-headline text-2xl font-bold uppercase tracking-tight">Competitions & Challenges</h2>
+        <div class="flex-1 h-[1px] bg-outline-variant/20"></div>
+        <span class="font-label text-[9px] text-on-surface-variant uppercase tracking-widest">Industry</span>
+    </div>
+</section>
+
+<section class="px-8 max-w-7xl mx-auto mb-16">
+    <div class="grid md:grid-cols-2 gap-6">
+
+        <!-- AAKRUTI Global 2024 -->
+        <div class="cert-card glass-card p-0 reveal reveal-stagger" style="--delay: 100ms">
+            <div class="cert-img-wrapper h-64 cursor-pointer" onclick="openLightbox('Certificates/aakruti_global_2024.png')">
+                <img src="Certificates/aakruti_global_2024.png" alt="AAKRUTI Global 2024 — Dassault Systèmes SolidWorks Certificate of Excellence" class="w-full h-full object-contain p-2 bg-white/95">
+            </div>
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="cat-badge cat-competition">
+                        <span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+                        Competition
+                    </span>
+                    <span class="font-label text-[9px] text-on-surface-variant tracking-widest uppercase">2024</span>
+                </div>
+                <h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-1">AAKRUTI Global 2024</h3>
+                <h4 class="text-sm text-primary font-medium mb-3">Certificate of Excellence</h4>
+                <p class="text-on-surface-variant text-xs leading-relaxed mb-4">
+                    Participated in the <span class="text-primary">Dassault Systèmes SOLIDWORKS</span> worldwide product design contest. Themes included Sustainable Products, Green Energy, Sustainable Habitat, and Sustainable Mobility.
+                </p>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">SolidWorks</span>
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">3DExperience</span>
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">Product Design</span>
+                </div>
+                <button onclick="openLightbox('Certificates/aakruti_global_2024.png')" class="view-btn flex items-center gap-2 px-5 py-2 border border-primary/30 text-primary font-label text-[10px] uppercase tracking-widest hover:border-primary transition-all">
+                    <span class="material-symbols-outlined text-sm">visibility</span>
+                    View Certificate
+                </button>
+            </div>
+        </div>
+
+        <!-- Tata Imagination Challenge -->
+        <div class="cert-card glass-card p-0 reveal reveal-stagger" style="--delay: 200ms">
+            <div class="cert-img-wrapper h-64 cursor-pointer" onclick="openLightbox('Certificates/tata_imagination_challenge.png')">
+                <img src="Certificates/tata_imagination_challenge.png" alt="Tata Imagination Challenge 2023 — Certificate of Participation" class="w-full h-full object-contain p-2 bg-white/95">
+            </div>
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="cat-badge cat-competition">
+                        <span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+                        Competition
+                    </span>
+                    <span class="font-label text-[9px] text-on-surface-variant tracking-widest uppercase">2023</span>
+                </div>
+                <h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-1">Tata Imagination Challenge</h3>
+                <h4 class="text-sm text-primary font-medium mb-3">Certificate of Participation</h4>
+                <p class="text-on-surface-variant text-xs leading-relaxed mb-4">
+                    Participated in Round 1 — Tata Brand Assessment of the <span class="text-primary">Tata Imagination Challenge 2023</span>, organized via Unstop. Represented Sanjivani College of Engineering (SCE), Kopargaon.
+                </p>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">Brand Strategy</span>
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">Innovation</span>
+                    <span class="text-[9px] font-label uppercase tracking-wider px-2 py-1 border border-outline-variant/30 text-on-surface-variant">Tata Group</span>
+                </div>
+                <button onclick="openLightbox('Certificates/tata_imagination_challenge.png')" class="view-btn flex items-center gap-2 px-5 py-2 border border-primary/30 text-primary font-label text-[10px] uppercase tracking-widest hover:border-primary transition-all">
+                    <span class="material-symbols-outlined text-sm">visibility</span>
+                    View Certificate
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SUMMARY TIMELINE ==================== -->
+<section class="px-8 max-w-7xl mx-auto mb-20">
+    <div class="glass-card p-8 reveal" style="--delay: 100ms">
+        <div class="font-label text-[9px] text-primary uppercase tracking-[0.3em] mb-6">
+            <span class="inline-block w-8 h-[1px] bg-primary mr-3 align-middle"></span>
+            Credential Timeline
+        </div>
+        <div class="grid md:grid-cols-7 gap-4 text-center">
+            <div class="flex flex-col items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-[#00ffa3] shadow-[0_0_10px_rgba(0,255,163,0.4)]"></div>
+                <div class="w-[1px] h-6 bg-outline-variant/30 hidden md:block"></div>
+                <div class="font-label text-[9px] text-on-surface-variant uppercase tracking-wider">Nov '23</div>
+                <div class="font-headline text-xs font-bold">SW Beginners</div>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-[#00ffa3] shadow-[0_0_10px_rgba(0,255,163,0.4)]"></div>
+                <div class="w-[1px] h-6 bg-outline-variant/30 hidden md:block"></div>
+                <div class="font-label text-[9px] text-on-surface-variant uppercase tracking-wider">Dec '23</div>
+                <div class="font-headline text-xs font-bold">SW Intermediate</div>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-[#00ffa3] shadow-[0_0_10px_rgba(0,255,163,0.4)]"></div>
+                <div class="w-[1px] h-6 bg-outline-variant/30 hidden md:block"></div>
+                <div class="font-label text-[9px] text-on-surface-variant uppercase tracking-wider">Dec '23</div>
+                <div class="font-headline text-xs font-bold">SW Advanced</div>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-tertiary shadow-[0_0_10px_rgba(132,162,255,0.4)]"></div>
+                <div class="w-[1px] h-6 bg-outline-variant/30 hidden md:block"></div>
+                <div class="font-label text-[9px] text-on-surface-variant uppercase tracking-wider">2023</div>
+                <div class="font-headline text-xs font-bold">Tata Challenge</div>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-tertiary shadow-[0_0_10px_rgba(132,162,255,0.4)]"></div>
+                <div class="w-[1px] h-6 bg-outline-variant/30 hidden md:block"></div>
+                <div class="font-label text-[9px] text-on-surface-variant uppercase tracking-wider">2024</div>
+                <div class="font-headline text-xs font-bold">AAKRUTI Global</div>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-primary shadow-[0_0_10px_rgba(114,220,255,0.5)]"></div>
+                <div class="w-[1px] h-6 bg-outline-variant/30 hidden md:block"></div>
+                <div class="font-label text-[9px] text-on-surface-variant uppercase tracking-wider">Aug '24</div>
+                <div class="font-headline text-xs font-bold">Fab Academy</div>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-primary shadow-[0_0_10px_rgba(114,220,255,0.5)]"></div>
+                <div class="w-[1px] h-6 bg-outline-variant/30 hidden md:block"></div>
+                <div class="font-label text-[9px] text-on-surface-variant uppercase tracking-wider">Oct '24</div>
+                <div class="font-headline text-xs font-bold">NPTEL IoT</div>
+            </div>
+        </div>
+        <!-- Connecting line -->
+        <div class="hidden md:block mt-[-88px] mx-auto px-6">
+            <div class="h-[1px] bg-gradient-to-r from-[#00ffa3]/40 via-tertiary/40 to-primary/40"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="border-t border-outline-variant/20 py-8 px-8 text-center">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">ARCHITECT_OS // Certifications Module</span>
+        <div class="flex items-center gap-6">
+            <a href="projects.html" class="text-primary font-label text-[10px] uppercase tracking-widest hover:glow-sm transition-all flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Projects
+            </a>
+            <a href="index.html" class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest hover:text-primary transition-colors flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">home</span>
+                Home
+            </a>
+        </div>
+    </div>
+</footer>
+
+<!-- ==================== LIGHTBOX OVERLAY ==================== -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="absolute top-6 right-8 text-white/60 hover:text-white transition-colors z-10" onclick="closeLightbox()">
+        <span class="material-symbols-outlined text-3xl">close</span>
+    </button>
+    <img id="lightbox-img" src="" alt="Certificate full view"/>
+</div>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script>
+    // Lightbox
+    function openLightbox(src) {
+        const lb = document.getElementById('lightbox');
+        const img = document.getElementById('lightbox-img');
+        img.src = src;
+        lb.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        const lb = document.getElementById('lightbox');
+        lb.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLightbox();
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

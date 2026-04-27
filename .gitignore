@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# EMO Robot source code & animation frames (only docs-assets/ images are needed)
+Emo-main/Code/
+Emo-main/3D Design/
+Emo-main/Circuit/
+Emo-main/README.md
+
+# Certificate PDFs (only PNG renders are used on the site)
+Certificates/*.pdf
+Certificates/FAB Academy Certificate/
+
+# Patent PDF source (only the PNG render is used)
+Patent/*.pdf
+
+# Misc
+ElectronicsLearningKit/
+*.log

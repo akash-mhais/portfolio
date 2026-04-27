@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shape Optimization of Gripper Arm | Technical Documentation</title>
+<meta name="description" content="FEA-driven shape optimization of a mechanical gripper arm using Fusion 360 — reducing mass to 40% while maintaining structural integrity with a safety factor ≥ 2.0."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "surface-container-high": "#201f1f",
+                    "tertiary-fixed": "#94aeff",
+                    "surface-container": "#1a1919",
+                    "secondary-fixed": "#c8d8f3",
+                    "primary-fixed-dim": "#00c3ed",
+                    "primary": "#72dcff",
+                    "primary-fixed": "#00d2ff",
+                    "surface-dim": "#0e0e0e",
+                    "secondary-container": "#38485d",
+                    "tertiary": "#84a2ff",
+                    "surface-variant": "#262626",
+                    "secondary-dim": "#bacae4",
+                    "on-background": "#ffffff",
+                    "on-primary": "#004c5e",
+                    "error-container": "#9f0519",
+                    "background": "#0e0e0e",
+                    "surface-tint": "#72dcff",
+                    "primary-container": "#00d2ff",
+                    "outline-variant": "#494847",
+                    "surface-container-low": "#131313",
+                    "surface-container-lowest": "#000000",
+                    "on-surface": "#ffffff",
+                    "surface-container-highest": "#262626",
+                    "tertiary-fixed-dim": "#809fff",
+                    "surface": "#0e0e0e",
+                    "tertiary-container": "#7294fa",
+                    "outline": "#777575",
+                    "inverse-primary": "#00687f",
+                    "secondary": "#c8d8f3",
+                    "primary-dim": "#00c3ed",
+                    "on-surface-variant": "#adaaaa",
+                    "on-primary-container": "#004253",
+                    "error": "#ff716c",
+                    "surface-bright": "#2c2c2c"
+                },
+                borderRadius: {
+                    DEFAULT: "0.125rem",
+                    lg: "0.25rem",
+                    xl: "0.5rem",
+                    full: "0.75rem"
+                },
+                fontFamily: {
+                    headline: ["Space Grotesk"],
+                    body: ["Inter"],
+                    label: ["Space Grotesk"]
+                }
+            }
+        }
+    }
+</script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glow-sm { text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
+    .bg-grid-subtle {
+        background-image: radial-gradient(circle at 2px 2px, rgba(114, 220, 255, 0.05) 1px, transparent 0);
+        background-size: 40px 40px;
+    }
+    body { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .mobile-menu {
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .glow-btn:hover { box-shadow: 0 0 20px rgba(0, 210, 255, 0.3); }
+    .step-card {
+        counter-increment: step-counter;
+    }
+    .step-card::before {
+        content: counter(step-counter, decimal-leading-zero);
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        background: rgba(0, 210, 255, 0.1);
+        border: 1px solid rgba(0, 210, 255, 0.2);
+        color: #00d2ff;
+        font-family: 'Space Grotesk';
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        padding: 4px 12px;
+        text-transform: uppercase;
+    }
+    .process-steps {
+        counter-reset: step-counter;
+    }
+    .img-zoom { cursor: pointer; transition: transform 0.5s, filter 0.5s; }
+    .img-zoom:hover { transform: scale(1.03); filter: brightness(1.1); }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/60 dark:bg-[#0e0e0e]/60 backdrop-blur-xl shadow-[0_0_20px_rgba(0,210,255,0.05)]" id="main-nav">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-7xl mx-auto">
+<a href="index.html" class="text-xl font-bold tracking-tighter text-[#00d2ff] uppercase font-['Space_Grotesk'] hover:glow-sm transition-all">
+    ARCHITECT_OS
+</a>
+<div class="hidden md:flex items-center space-x-8 font-['Space_Grotesk'] tracking-tight">
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="index.html">Systems</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="software.html">Software</a>
+<a class="text-[#00d2ff] border-b-2 border-[#00d2ff] pb-1" href="research.html">Research</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="projects.html">Projects</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="index.html#contact">Logs</a>
+</div>
+<a href="index.html#contact" class="hidden md:block bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] px-6 py-1.5 text-sm font-['Space_Grotesk'] uppercase tracking-widest hover:bg-[#00d2ff]/20 active:scale-95 transition-all duration-300">
+    Connect
+</a>
+<button class="md:hidden text-primary" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<!-- Mobile Menu -->
+<div class="fixed inset-y-0 right-0 w-64 bg-surface-container z-[60] p-8 mobile-menu" id="mobile-menu">
+<button class="absolute top-4 right-4 text-primary" onclick="document.getElementById('mobile-menu').classList.remove('open')">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="flex flex-col gap-6 mt-12 font-['Space_Grotesk']">
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="index.html">Systems</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="software.html">Software</a>
+<a class="text-[#00d2ff]" href="research.html">Research</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="projects.html">Projects</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="index.html#contact">Logs</a>
+</div>
+</div>
+
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto bg-grid-subtle min-h-screen">
+
+<!-- Hero Section -->
+<section class="mb-20 reveal">
+<div class="flex flex-col md:flex-row items-end gap-6 mb-6">
+<span class="text-primary font-label text-xs uppercase tracking-[0.4em] mb-4 md:mb-6">Research // FEA_Study_01</span>
+<div class="h-[1px] flex-grow bg-outline-variant/30 mb-5 hidden md:block"></div>
+</div>
+<h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] text-on-surface mb-6">
+    Shape <span class="text-primary">Optimization</span>
+</h1>
+<p class="text-primary font-headline text-xl md:text-2xl font-medium mb-4">of Gripper Arm</p>
+<p class="max-w-3xl text-on-surface-variant text-lg font-light leading-relaxed mb-10">
+    A generative approach to reducing mass in end-effectors without compromising structural integrity. Using FEA-driven shape optimization in Autodesk Fusion 360 to identify and eliminate non-critical stress zones, targeting a 60% weight reduction while maintaining a safety factor ≥ 2.0.
+</p>
+
+<!-- Key Metrics -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-low p-6 border-t-2 border-primary">
+    <p class="text-primary font-headline text-3xl font-bold">40%</p>
+    <p class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest mt-1">Target Mass</p>
+</div>
+<div class="bg-surface-container-low p-6 border-t-2 border-primary">
+    <p class="text-primary font-headline text-3xl font-bold">500N</p>
+    <p class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest mt-1">Applied Load</p>
+</div>
+<div class="bg-surface-container-low p-6 border-t-2 border-primary">
+    <p class="text-primary font-headline text-3xl font-bold">≥ 2.0</p>
+    <p class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest mt-1">Safety Factor</p>
+</div>
+<div class="bg-surface-container-low p-6 border-t-2 border-tertiary">
+    <p class="text-tertiary font-headline text-3xl font-bold">FEA</p>
+    <p class="text-on-surface-variant font-label text-[10px] uppercase tracking-widest mt-1">Fusion 360</p>
+</div>
+</div>
+</section>
+
+<!-- Process Overview -->
+<section class="mb-20 reveal">
+<div class="flex items-center gap-4 mb-8">
+<span class="material-symbols-outlined text-primary">info</span>
+<h2 class="font-headline text-2xl uppercase tracking-widest font-bold">Process_Overview</h2>
+</div>
+<div class="bg-surface-container-low p-8 md:p-10 border-l-2 border-primary">
+<p class="text-on-surface-variant leading-relaxed mb-6">
+    <span class="text-on-surface font-medium">Shape optimization</span> is the process of removing unwanted material from a component by performing stress analysis. It is part of the field of <span class="text-primary">optimal control theory</span>. By analyzing the load paths within a structure, material can be selectively removed from zones where stress is minimal — resulting in lighter, more efficient components without sacrificing strength.
+</p>
+<p class="text-on-surface-variant leading-relaxed">
+    This study was conducted in <span class="text-on-surface font-medium">Autodesk Fusion 360's Simulation workspace</span>, utilizing its built-in shape optimization and static stress analysis solvers.
+</p>
+</div>
+</section>
+
+<!-- Phase 1: CAD Model -->
+<section class="mb-20 reveal">
+<div class="flex items-center gap-4 mb-10">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">view_in_ar</span>
+<h2 class="font-headline text-2xl uppercase tracking-widest font-bold">Phase_01 — CAD Model</h2>
+<div class="h-[1px] flex-grow bg-outline-variant/20 mx-6 hidden md:block"></div>
+<span class="text-on-surface-variant font-label text-xs uppercase hidden md:block">Design Workspace</span>
+</div>
+<div class="grid md:grid-cols-2 gap-8">
+<div class="bg-surface-container p-0 overflow-hidden border border-outline-variant/20">
+    <img src="ShapeOptimization/SO1.png" alt="Original gripper arm model — isometric and top view in Fusion 360 Design workspace" class="w-full h-auto img-zoom" onclick="openLB(this.src)">
+</div>
+<div class="flex flex-col justify-center">
+    <h3 class="font-headline text-xl font-bold mb-4">Original Gripper Arm Geometry</h3>
+    <p class="text-on-surface-variant leading-relaxed mb-6">
+        The initial model was created in the <span class="text-on-surface font-medium">Design Tab</span> of Fusion 360. The gripper arm features two bolt holes for mounting (varying diameters), and a flat gripping surface at the distal end. This is the baseline geometry before any material has been removed.
+    </p>
+    <div class="flex flex-wrap gap-3">
+        <span class="bg-primary/5 text-primary px-3 py-1 text-[10px] font-label uppercase border border-primary/10">Fusion 360</span>
+        <span class="bg-primary/5 text-primary px-3 py-1 text-[10px] font-label uppercase border border-primary/10">Parametric CAD</span>
+        <span class="bg-primary/5 text-primary px-3 py-1 text-[10px] font-label uppercase border border-primary/10">Solid Body</span>
+    </div>
+</div>
+</div>
+</section>
+
+<!-- Phase 2: Simulation Setup -->
+<section class="mb-20 reveal">
+<div class="flex items-center gap-4 mb-10">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">settings</span>
+<h2 class="font-headline text-2xl uppercase tracking-widest font-bold">Phase_02 — Simulation Setup</h2>
+<div class="h-[1px] flex-grow bg-outline-variant/20 mx-6 hidden md:block"></div>
+<span class="text-on-surface-variant font-label text-xs uppercase hidden md:block">Constraints & Loads</span>
+</div>
+
+<div class="process-steps space-y-8">
+<!-- Step: New Study -->
+<div class="step-card relative bg-surface-container border border-outline-variant/20 overflow-hidden">
+<div class="grid md:grid-cols-2 gap-0">
+    <div class="bg-surface-container-high overflow-hidden">
+        <img src="ShapeOptimization/SO2.png" alt="Shape Optimization study creation in Fusion 360 Simulation workspace" class="w-full h-full object-contain img-zoom" onclick="openLB(this.src)">
+    </div>
+    <div class="p-8 flex flex-col justify-center">
+        <h4 class="font-headline text-lg font-bold mb-3">Create Shape Optimization Study</h4>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+            Switched to the <span class="text-primary">Shape Optimization</span> tab, clicked <span class="text-on-surface font-medium">New Studies</span>, and selected the Shape Optimization option to begin the analysis workflow.
+        </p>
+        <div class="bg-surface-container-lowest p-3 border border-outline-variant/10">
+            <code class="text-primary text-xs font-mono">Simulation → Setup → New Study → Shape Optimization</code>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Step: Constraints -->
+<div class="step-card relative bg-surface-container border border-outline-variant/20 overflow-hidden">
+<div class="grid md:grid-cols-2 gap-0">
+    <div class="bg-surface-container-high overflow-hidden">
+        <img src="ShapeOptimization/SO3.png" alt="Pin constraints applied to bolt hole surfaces in radial and axial directions" class="w-full h-full object-contain img-zoom" onclick="openLB(this.src)">
+    </div>
+    <div class="p-8 flex flex-col justify-center">
+        <h4 class="font-headline text-lg font-bold mb-3">Define Structural Constraints</h4>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+            Applied <span class="text-primary">Pin constraints</span> to the inside surfaces of both bolt holes — constraining motion in both <span class="text-on-surface font-medium">radial</span> and <span class="text-on-surface font-medium">axial</span> directions to simulate the real-world mounting condition.
+        </p>
+        <div class="bg-surface-container-lowest p-3 border border-outline-variant/10">
+            <code class="text-primary text-xs font-mono">Setup → Constraints → Structural Constraints → Pin</code>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Step: Load Application -->
+<div class="step-card relative bg-surface-container border border-outline-variant/20 overflow-hidden">
+<div class="grid md:grid-cols-2 gap-0">
+    <div class="bg-surface-container-high overflow-hidden">
+        <img src="ShapeOptimization/SO4.png" alt="500N force applied normal to the gripping surface" class="w-full h-full object-contain img-zoom" onclick="openLB(this.src)">
+    </div>
+    <div class="p-8 flex flex-col justify-center">
+        <h4 class="font-headline text-lg font-bold mb-3">Apply Structural Loads</h4>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+            Applied a <span class="text-primary">500 N</span> force in the <span class="text-on-surface font-medium">normal direction</span> of the gripping surface. This simulates the maximum clamping force the gripper arm must withstand during operation.
+        </p>
+        <div class="bg-surface-container-lowest p-3 border border-outline-variant/10">
+            <code class="text-primary text-xs font-mono">Setup → Loads → Structural Loads → 500N Normal</code>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Step: Preserve Region -->
+<div class="step-card relative bg-surface-container border border-outline-variant/20 overflow-hidden">
+<div class="grid md:grid-cols-2 gap-0">
+    <div class="bg-surface-container-high overflow-hidden flex items-center justify-center p-4">
+        <img src="ShapeOptimization/SO5.png" alt="Preserved region around bolt holes — 8mm and 5.5mm keepout zones" class="max-h-64 object-contain img-zoom" onclick="openLB(this.src)">
+    </div>
+    <div class="p-8 flex flex-col justify-center">
+        <h4 class="font-headline text-lg font-bold mb-3">Define Preserve Regions</h4>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+            To ensure proper material strength around fastener holes, preserved an <span class="text-primary">8 mm</span> distance around the large hole and a <span class="text-primary">5.5 mm</span> distance around the small one. This prevents the optimizer from removing critical material near high-stress attachment points.
+        </p>
+        <div class="bg-surface-container-lowest p-3 border border-outline-variant/10">
+            <code class="text-primary text-xs font-mono">Setup → Shape Optimization → Preserve Region</code>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Step: Symmetry Plane -->
+<div class="step-card relative bg-surface-container border border-outline-variant/20 overflow-hidden">
+<div class="grid md:grid-cols-2 gap-0">
+    <div class="bg-surface-container-high overflow-hidden flex items-center justify-center p-4">
+        <img src="ShapeOptimization/SO6.png" alt="Symmetry plane defined through the thickness of the gripper arm" class="max-h-64 object-contain img-zoom" onclick="openLB(this.src)">
+    </div>
+    <div class="p-8 flex flex-col justify-center">
+        <h4 class="font-headline text-lg font-bold mb-3">Create Symmetry Plane</h4>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+            A <span class="text-primary">symmetry plane</span> was created through the thickness of the arm. This ensures the optimization produces a symmetrical result — critical for balanced load distribution and manufacturability.
+        </p>
+        <div class="bg-surface-container-lowest p-3 border border-outline-variant/10">
+            <code class="text-primary text-xs font-mono">Setup → Shape Optimization → Symmetry Plane</code>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Step: Criteria & Solve -->
+<div class="step-card relative bg-surface-container border border-outline-variant/20 overflow-hidden">
+<div class="grid md:grid-cols-2 gap-0">
+    <div class="bg-surface-container-high overflow-hidden flex items-center justify-center p-4">
+        <img src="ShapeOptimization/SO7.png" alt="Mesh settings and solve configuration for shape optimization study" class="max-h-64 object-contain img-zoom" onclick="openLB(this.src)">
+    </div>
+    <div class="p-8 flex flex-col justify-center">
+        <h4 class="font-headline text-lg font-bold mb-3">Set Optimization Criteria & Solve</h4>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+            The shape optimization <span class="text-primary">target mass was set to 40%</span> of the original. Mesh size was refined for accuracy. The solver then computed the optimal material distribution based on load paths, constraints, and the target mass reduction.
+        </p>
+        <div class="bg-surface-container-lowest p-3 border border-outline-variant/10">
+            <code class="text-primary text-xs font-mono">Setup → Shape Optimization Criteria → Target: 40% → Solve</code>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Phase 3: Results & Reconstruction -->
+<section class="mb-20 reveal">
+<div class="flex items-center gap-4 mb-10">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<h2 class="font-headline text-2xl uppercase tracking-widest font-bold">Phase_03 — Results & Reconstruction</h2>
+<div class="h-[1px] flex-grow bg-outline-variant/20 mx-6 hidden md:block"></div>
+<span class="text-on-surface-variant font-label text-xs uppercase hidden md:block">Post-Processing</span>
+</div>
+
+<!-- Load Path Criticality -->
+<div class="mb-10">
+<h3 class="font-headline text-xl font-bold mb-6 flex items-center gap-3">
+    <span class="w-8 h-8 bg-primary/10 border border-primary/20 flex items-center justify-center text-primary text-sm font-bold">A</span>
+    Load Path Criticality Results
+</h3>
+<div class="bg-surface-container border border-outline-variant/20 overflow-hidden">
+    <img src="ShapeOptimization/SO8.png" alt="Load path criticality heat map — red zones indicate high-stress paths, green zones show removable material" class="w-full h-auto img-zoom" onclick="openLB(this.src)">
+</div>
+<div class="grid md:grid-cols-3 gap-4 mt-4">
+    <div class="bg-surface-container-low p-4 border-l-2 border-red-500">
+        <p class="text-red-400 font-label text-xs uppercase tracking-widest mb-1">Red Zones</p>
+        <p class="text-on-surface-variant text-sm">High-criticality load paths — material must be preserved for structural integrity.</p>
+    </div>
+    <div class="bg-surface-container-low p-4 border-l-2 border-green-500">
+        <p class="text-green-400 font-label text-xs uppercase tracking-widest mb-1">Green Zones</p>
+        <p class="text-on-surface-variant text-sm">Low-criticality regions — material can be safely removed with minimal impact.</p>
+    </div>
+    <div class="bg-surface-container-low p-4 border-l-2 border-yellow-500">
+        <p class="text-yellow-400 font-label text-xs uppercase tracking-widest mb-1">Mesh Overlay</p>
+        <p class="text-on-surface-variant text-sm">Optimized mesh topology showing the organic truss-like structure generated by the solver.</p>
+    </div>
+</div>
+</div>
+
+<!-- Spline Export -->
+<div class="mb-10">
+<h3 class="font-headline text-xl font-bold mb-6 flex items-center gap-3">
+    <span class="w-8 h-8 bg-primary/10 border border-primary/20 flex items-center justify-center text-primary text-sm font-bold">B</span>
+    Mesh Export & Spline Tracing
+</h3>
+<div class="grid md:grid-cols-2 gap-6">
+    <div class="bg-surface-container border border-outline-variant/20 overflow-hidden">
+        <img src="ShapeOptimization/SO9.png" alt="Spline and line tracing on exported mesh — defining cut boundaries in low-stress zones" class="w-full h-auto img-zoom" onclick="openLB(this.src)">
+    </div>
+    <div class="flex flex-col justify-center">
+        <p class="text-on-surface-variant leading-relaxed mb-4">
+            The optimized mesh was <span class="text-on-surface font-medium">exported back to the Design workspace</span>. Using the load path criticality results as a guide, <span class="text-primary">splines and lines</span> were carefully drawn on areas with lower stress to define the final material removal boundaries.
+        </p>
+        <p class="text-on-surface-variant leading-relaxed">
+            This step bridges the gap between the purely mathematical optimization output and a manufacturable solid model that can be produced via CNC machining or 3D printing.
+        </p>
+    </div>
+</div>
+</div>
+
+<!-- Extrude Cut -->
+<div class="mb-10">
+<h3 class="font-headline text-xl font-bold mb-6 flex items-center gap-3">
+    <span class="w-8 h-8 bg-primary/10 border border-primary/20 flex items-center justify-center text-primary text-sm font-bold">C</span>
+    Extrude Cut — Final Geometry
+</h3>
+<div class="grid md:grid-cols-2 gap-6">
+    <div class="bg-surface-container border border-outline-variant/20 overflow-hidden">
+        <img src="ShapeOptimization/SO10.png" alt="Extrude cut applied to the solid model — material removed based on optimization topology" class="w-full h-auto img-zoom" onclick="openLB(this.src)">
+    </div>
+    <div class="flex flex-col justify-center">
+        <p class="text-on-surface-variant leading-relaxed mb-4">
+            The design was finalized by performing an <span class="text-primary">extrude cut</span> through the traced profiles, producing the lightweight version of the gripper arm. The cut paths follow the organic topology generated by the shape optimization solver.
+        </p>
+        <p class="text-on-surface-variant leading-relaxed">
+            The result is a component with significantly reduced mass while retaining all critical load-bearing paths — <span class="text-on-surface font-medium">achieving the target of ~40% original mass</span>.
+        </p>
+    </div>
+</div>
+</div>
+</section>
+
+<!-- Phase 4: Validation -->
+<section class="mb-20 reveal">
+<div class="flex items-center gap-4 mb-10">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+<h2 class="font-headline text-2xl uppercase tracking-widest font-bold">Phase_04 — Static Stress Validation</h2>
+<div class="h-[1px] flex-grow bg-outline-variant/20 mx-6 hidden md:block"></div>
+<span class="text-on-surface-variant font-label text-xs uppercase hidden md:block">Factor of Safety</span>
+</div>
+
+<div class="bg-surface-container border border-outline-variant/20 overflow-hidden mb-6">
+    <img src="ShapeOptimization/SO11.png" alt="Safety factor distribution — Min: 1.463, Max: 15. Color map shows stress concentration zones" class="w-full h-auto img-zoom" onclick="openLB(this.src)">
+</div>
+
+<div class="grid md:grid-cols-2 gap-6 mb-8">
+<div class="bg-surface-container-low p-8 border-t-2 border-green-500">
+    <div class="flex items-center gap-3 mb-4">
+        <span class="material-symbols-outlined text-green-400" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+        <h4 class="font-headline text-lg font-bold">Safety Factor Results</h4>
+    </div>
+    <div class="space-y-3">
+        <div class="flex justify-between py-2 border-b border-outline-variant/10">
+            <span class="text-on-surface-variant text-sm">Maximum FoS</span>
+            <span class="text-green-400 font-label text-sm font-bold">15.0</span>
+        </div>
+        <div class="flex justify-between py-2 border-b border-outline-variant/10">
+            <span class="text-on-surface-variant text-sm">Minimum FoS</span>
+            <span class="text-yellow-400 font-label text-sm font-bold">1.463</span>
+        </div>
+        <div class="flex justify-between py-2 border-b border-outline-variant/10">
+            <span class="text-on-surface-variant text-sm">Target FoS</span>
+            <span class="text-primary font-label text-sm">≥ 2.0</span>
+        </div>
+        <div class="flex justify-between py-2">
+            <span class="text-on-surface-variant text-sm">Study Type</span>
+            <span class="text-on-surface font-label text-sm">Static Stress</span>
+        </div>
+    </div>
+</div>
+<div class="bg-surface-container-low p-8 border-t-2 border-primary">
+    <div class="flex items-center gap-3 mb-4">
+        <span class="material-symbols-outlined text-primary">description</span>
+        <h4 class="font-headline text-lg font-bold">Validation Process</h4>
+    </div>
+    <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+        The shape optimization study was <span class="text-on-surface font-medium">cloned</span> and the study type was switched to <span class="text-primary">Static Stress</span>. This allows the optimized geometry to be validated under the same loading conditions to confirm structural adequacy.
+    </p>
+    <div class="bg-surface-container-lowest p-3 border border-outline-variant/10 mb-4">
+        <code class="text-primary text-xs font-mono">Manage → Clone Study → Static Stress → Solve</code>
+    </div>
+    <p class="text-on-surface-variant text-sm leading-relaxed">
+        The <span class="text-on-surface font-medium">Min/Max inspection</span> was used to verify the factor of safety across the entire model.
+    </p>
+    <div class="bg-surface-container-lowest p-3 border border-outline-variant/10 mt-3">
+        <code class="text-primary text-xs font-mono">Results → Inspect → Show Min/Max</code>
+    </div>
+</div>
+</div>
+
+<!-- Conclusion -->
+<div class="bg-primary/5 border border-primary/20 p-8 md:p-10">
+<div class="flex items-start gap-4">
+    <span class="material-symbols-outlined text-primary text-3xl mt-1" style="font-variation-settings: 'FILL' 1;">science</span>
+    <div>
+        <h4 class="font-headline text-xl font-bold mb-4">Conclusion</h4>
+        <p class="text-on-surface-variant leading-relaxed">
+            The static stress study was performed with the objective of reducing the part's weight to approximately <span class="text-primary font-medium">40% of the original</span> and maximizing stiffness. A stress analysis verified that stress and displacement in the modified part shape are acceptable. The generated shape achieves a safety factor within acceptable engineering margins — indicating that the part can <span class="text-on-surface font-medium">withstand the applied 500N load</span> and is <span class="text-primary font-medium">suitable for manufacturing</span>.
+        </p>
+    </div>
+</div>
+</div>
+</section>
+
+<!-- Workflow Summary -->
+<section class="mb-20 reveal">
+<div class="flex items-center gap-4 mb-10">
+<span class="material-symbols-outlined text-primary">route</span>
+<h2 class="font-headline text-2xl uppercase tracking-widest font-bold">Workflow_Summary</h2>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-surface-container p-6 text-center border border-outline-variant/20 hover:border-primary/30 transition-all">
+        <span class="material-symbols-outlined text-primary text-3xl mb-3">draw</span>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface mb-1">Step 1</p>
+        <p class="text-on-surface-variant text-sm">CAD Model Creation</p>
+    </div>
+    <div class="bg-surface-container p-6 text-center border border-outline-variant/20 hover:border-primary/30 transition-all">
+        <span class="material-symbols-outlined text-primary text-3xl mb-3">tune</span>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface mb-1">Step 2</p>
+        <p class="text-on-surface-variant text-sm">Constraints, Loads & Criteria</p>
+    </div>
+    <div class="bg-surface-container p-6 text-center border border-outline-variant/20 hover:border-primary/30 transition-all">
+        <span class="material-symbols-outlined text-primary text-3xl mb-3">auto_fix</span>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface mb-1">Step 3</p>
+        <p class="text-on-surface-variant text-sm">Optimize & Reconstruct</p>
+    </div>
+    <div class="bg-surface-container p-6 text-center border border-outline-variant/20 hover:border-primary/30 transition-all">
+        <span class="material-symbols-outlined text-primary text-3xl mb-3">verified</span>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface mb-1">Step 4</p>
+        <p class="text-on-surface-variant text-sm">Static Stress Validation</p>
+    </div>
+</div>
+</section>
+
+<!-- Back to Research -->
+<section class="reveal">
+<div class="flex flex-col md:flex-row items-center justify-between p-8 bg-surface-container border border-outline-variant/20">
+<div class="flex items-center gap-4 mb-4 md:mb-0">
+    <span class="material-symbols-outlined text-primary">arrow_back</span>
+    <span class="font-label text-sm uppercase tracking-widest text-on-surface-variant">Return to Research Archives</span>
+</div>
+<a href="research.html" class="bg-primary-container text-on-primary-container px-8 py-3 font-headline font-bold uppercase tracking-widest text-sm hover:brightness-110 transition-all glow-btn">
+    Research_Hub
+</a>
+</div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-[#ffffff]/5 bg-[#0e0e0e] font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em]">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full">
+<div class="text-[#72dcff] font-bold mb-4 md:mb-0">
+    ARCHITECT_OS // SHAPE_OPTIMIZATION
+</div>
+<div class="flex space-x-8 mb-4 md:mb-0">
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all" href="index.html">Systems</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all" href="software.html">Software</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all" href="research.html">Research</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-all" href="projects.html">Projects</a>
+</div>
+<div class="text-[#adaaaa]">
+    © 2024 AKASH MHAIS. ENCRYPTED TRANSMISSION.
+</div>
+</div>
+</footer>
+
+<!-- Background Decorative Elements -->
+<div class="fixed top-1/4 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+<div class="fixed bottom-1/4 -right-20 w-96 h-96 bg-tertiary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+
+<!-- Lightbox Overlay -->
+<div class="fixed inset-0 z-[100] bg-black/92 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" id="lb-overlay" onclick="closeLB()">
+    <button class="absolute top-6 right-8 text-white/60 hover:text-white transition-colors z-10" onclick="closeLB()">
+        <span class="material-symbols-outlined text-3xl">close</span>
+    </button>
+    <img id="lb-img" src="" alt="Full view" class="max-w-[92vw] max-h-[88vh] object-contain border border-primary/10 shadow-[0_0_80px_rgba(0,210,255,0.08)]">
+</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+window.addEventListener('scroll', () => {
+    const nav = document.getElementById('main-nav');
+    nav.style.background = window.scrollY > 50 ? 'rgba(14, 14, 14, 0.9)' : 'rgba(14, 14, 14, 0.6)';
+});
+
+// Lightbox
+function openLB(src) {
+    const lb = document.getElementById('lb-overlay');
+    document.getElementById('lb-img').src = src;
+    lb.style.opacity = '1';
+    lb.style.pointerEvents = 'auto';
+    document.body.style.overflow = 'hidden';
+}
+function closeLB() {
+    const lb = document.getElementById('lb-overlay');
+    lb.style.opacity = '0';
+    lb.style.pointerEvents = 'none';
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLB(); });
+</script>
+</body>
+</html>
