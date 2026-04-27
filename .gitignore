@@ -22,7 +22,7 @@ Emo-main/README.md
 
 # Certificate PDFs (only PNG renders are used on the site)
 Certificates/*.pdf
-Certificates/FAB Academy Certificate/
+Certificates/FAB Academy Certificate/*.pdf
 
 # Patent PDF source (only the PNG render is used)
 Patent/*.pdf

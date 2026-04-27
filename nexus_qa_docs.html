@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Nexus Knowledge QA | Technical Documentation</title>
+    <meta name="description" content="Technical documentation for Nexus Knowledge QA — A local RAG-based document QA system using LangChain, ChromaDB, Groq/Gemini LLMs, and a glassmorphic chat UI. Built by Akash Mhais."/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#00d2ff",
+                        "primary-dim": "#00b8e6",
+                        "on-surface": "#ffffff",
+                        "on-surface-variant": "#d1d1d1",
+                        "surface-container-low": "#131313",
+                        "surface-container": "#1a1919",
+                        "surface-container-high": "#201f1f",
+                        "surface-container-highest": "#262626",
+                        "background": "#0e0e0e",
+                        "surface": "#0e0e0e",
+                        "outline-variant": "#494847",
+                        "accent-warm": "#ff6b9d",
+                        "accent-green": "#00f5d4",
+                        "accent-purple": "#b794f6",
+                        "accent-orange": "#ffa94d",
+                        "accent-blue": "#3b82f6"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"],
+                        "mono": ["JetBrains Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glow-sm:hover { text-shadow: 0 0 8px rgba(0, 210, 255, 0.6); }
+        .circuit-line {
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 210, 255, 0.4) 50%, transparent 100%);
+            height: 1px;
+            width: 100%;
+        }
+        body { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .glass-card {
+            background: rgba(26, 25, 25, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 210, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { border-color: rgba(0, 210, 255, 0.3); background: rgba(26, 25, 25, 0.6); }
+        .pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+        @keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .code-block {
+            background: #0d1117;
+            border: 1px solid rgba(0, 210, 255, 0.15);
+            border-radius: 4px;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #00d2ff33 transparent;
+        }
+        .code-block::-webkit-scrollbar { height: 4px; }
+        .code-block::-webkit-scrollbar-track { background: transparent; }
+        .code-block::-webkit-scrollbar-thumb { background: #00d2ff33; border-radius: 4px; }
+        .spec-grid-item {
+            border-left: 2px solid rgba(0, 210, 255, 0.2);
+            padding-left: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .spec-grid-item:hover { border-left-color: #00d2ff; }
+        .infographic-frame {
+            border: 1px solid rgba(0, 210, 255, 0.15);
+            border-radius: 4px;
+            overflow: hidden;
+            background: #0a0a0a;
+            transition: border-color 0.3s ease;
+        }
+        .infographic-frame:hover { border-color: rgba(0, 210, 255, 0.4); }
+        .tag-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 2px;
+            font-family: 'Space Grotesk';
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #adaaaa;
+            transition: all 0.2s ease;
+        }
+        .tag-chip:hover { border-color: #00d2ff; color: #00d2ff; }
+        .floating-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+        }
+        @media (max-width: 1280px) { .floating-nav { display: none; } }
+        .hero-gradient {
+            background: radial-gradient(ellipse at 30% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 60%);
+        }
+        .pin-table th {
+            background: rgba(0, 210, 255, 0.1);
+            font-family: 'Space Grotesk';
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        .pin-table td { font-family: 'JetBrains Mono'; font-size: 12px; }
+        .pin-table tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .pin-table tr:hover { background: rgba(0, 210, 255, 0.03); }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+
+<!-- Floating Section Nav -->
+<nav class="floating-nav">
+    <div class="flex flex-col gap-3">
+        <a href="#overview" class="w-2 h-2 bg-primary/60 hover:bg-primary rounded-full transition-colors" title="Overview"></a>
+        <a href="#architecture" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="Architecture"></a>
+        <a href="#rag-pipeline" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="RAG Pipeline"></a>
+        <a href="#frontend" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="Frontend"></a>
+        <a href="#api" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="API"></a>
+        <a href="#stack" class="w-2 h-2 bg-white/20 hover:bg-primary rounded-full transition-colors" title="Stack"></a>
+    </div>
+</nav>
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-xl border-b border-white/5" id="top-nav">
+    <div class="flex justify-between items-center px-8 h-16 max-w-7xl mx-auto w-full">
+        <a href="index.html" class="text-xl font-bold tracking-tighter text-primary uppercase font-headline">ARCHITECT_OS</a>
+        <nav class="hidden md:flex gap-8 items-center font-headline text-[10px] uppercase tracking-widest">
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="index.html">Systems</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="software.html">Software</a>
+            <a class="text-on-surface-variant hover:text-white transition-colors" href="research.html">Research</a>
+            <a class="text-primary" href="projects.html">Projects</a>
+        </nav>
+        <a href="projects.html" class="flex items-center gap-2 text-primary font-headline text-[10px] uppercase tracking-widest hover:glow-sm transition-all">
+            <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Projects
+        </a>
+    </div>
+</header>
+
+<main class="pt-24 pb-24 max-w-7xl mx-auto px-6 md:px-8">
+
+    <!-- HERO SECTION -->
+    <section id="overview" class="mb-32 reveal hero-gradient pt-12 pb-8 -mx-6 md:-mx-8 px-6 md:px-8 rounded-sm">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="inline-flex items-center gap-2 mb-6">
+                    <span class="w-12 h-[1px] bg-accent-blue"></span>
+                    <span class="font-label text-accent-blue text-xs uppercase tracking-[0.4em]">System Documentation // Nexus QA</span>
+                </div>
+                <h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] mb-8 text-white uppercase">
+                    Nexus<br/><span class="text-accent-blue">Knowledge QA</span>
+                </h1>
+                <p class="text-on-surface-variant text-lg leading-relaxed max-w-lg mb-8">
+                    A local Retrieval-Augmented Generation (RAG) system that lets you upload documents (PDF, DOCX, CSV, XLSX, TXT) and ask natural-language questions. Powered by LangChain, ChromaDB for vector storage, and dual-LLM fallback (Groq Llama 3 → Gemini 2.5 Flash).
+                </p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-blue rounded-full"></span>FastAPI</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-green rounded-full"></span>LangChain</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-purple rounded-full"></span>ChromaDB</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-warm rounded-full"></span>Groq / Gemini</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-primary rounded-full"></span>HuggingFace</span>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="spec-grid-item">
+                        <div class="font-headline text-2xl font-bold text-accent-blue">5</div>
+                        <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">File Formats</div>
+                    </div>
+                    <div class="spec-grid-item">
+                        <div class="font-headline text-2xl font-bold text-accent-blue">2</div>
+                        <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">LLM Fallback</div>
+                    </div>
+                    <div class="spec-grid-item">
+                        <div class="font-headline text-2xl font-bold text-accent-blue">6</div>
+                        <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">API Endpoints</div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-3">
+                <div class="overflow-hidden rounded-sm border border-white/10 bg-surface-container">
+                    <img src="NexusQA/ui_main.png" alt="Nexus Knowledge QA — main UI showing chat interface with sidebar knowledge base and document assistant" class="w-full h-auto hover:scale-105 transition-transform duration-700"/>
+                </div>
+            </div>
+        </div>
+        <div class="circuit-line mt-16"></div>
+    </section>
+
+    <!-- CONTENT GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-48">
+
+        <!-- SIDEBAR -->
+        <div class="lg:col-span-3 space-y-8 lg:sticky lg:top-24 lg:h-fit">
+            <div class="glass-card p-8 rounded-sm">
+                <h3 class="font-headline text-sm uppercase tracking-widest text-accent-blue mb-6">System_Specs</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Backend</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">FastAPI</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Vector DB</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">ChromaDB</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Embeddings</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">MiniLM-L6</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Primary LLM</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">Llama 3.1</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Fallback</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">Gemini 2.5</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Frontend</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">Vanilla JS</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Rendering</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">Mermaid + MD</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 space-y-4">
+                <h4 class="font-headline text-[10px] uppercase tracking-[0.3em] text-white/60">Quick Index</h4>
+                <ul class="space-y-3 font-label text-xs uppercase tracking-widest text-on-surface-variant">
+                    <a href="#architecture" class="hover:text-accent-blue transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-accent-blue pulse-dot"></span> [01] System Architecture
+                    </a>
+                    <a href="#rag-pipeline" class="hover:text-accent-blue transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [02] RAG Pipeline
+                    </a>
+                    <a href="#frontend" class="hover:text-accent-blue transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [03] Frontend UI
+                    </a>
+                    <a href="#api" class="hover:text-accent-blue transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [04] API Reference
+                    </a>
+                    <a href="#stack" class="hover:text-accent-blue transition-colors flex items-center gap-2">
+                        <span class="w-1 h-1 bg-white/40"></span> [05] Full Stack
+                    </a>
+                </ul>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="lg:col-span-9 space-y-32">
+
+            <!-- SECTION 01: System Architecture -->
+            <section id="architecture" class="space-y-12 reveal">
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">01_System_Architecture</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        Nexus QA is a full-stack RAG application with a Python FastAPI backend and a glassmorphic HTML/CSS/JS frontend. Documents are uploaded, chunked, embedded, and stored in a local ChromaDB vector database. Queries retrieve semantically relevant chunks and feed them into an LLM for grounded, context-aware answers.
+                    </p>
+                </div>
+
+                <!-- Architecture Breakdown -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="material-symbols-outlined text-accent-blue">storage</span>
+                            <h5 class="text-accent-blue font-headline text-xs uppercase tracking-widest">Document Ingestion</h5>
+                        </div>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">When a user uploads a file, the backend auto-detects the format and loads content using the appropriate LangChain loader. The text is then split into overlapping chunks for optimal retrieval.</p>
+                        <div class="code-block p-3">
+                            <pre class="text-xs font-mono text-accent-green"><code># File type routing
+if fname.endswith(".pdf"):
+    loader = PyPDFLoader(file_path)
+elif fname.endswith(".docx"):
+    doc = docx.Document(file_path)
+elif fname.endswith(".csv"):
+    df = pd.read_csv(file_path)
+
+# Chunking with overlap for context
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000, chunk_overlap=200
+)</code></pre>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="material-symbols-outlined text-accent-purple">hub</span>
+                            <h5 class="text-accent-purple font-headline text-xs uppercase tracking-widest">Vector Embedding</h5>
+                        </div>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">Text chunks are converted to dense 384-dimensional vectors using the open-source Sentence Transformers model (all-MiniLM-L6-v2) running locally — no API calls required for embedding.</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-white/3 rounded-sm">
+                                <span class="w-3 h-3 bg-accent-purple rounded-sm flex-shrink-0"></span>
+                                <div><span class="font-mono text-xs text-accent-purple">HuggingFace</span> <span class="text-on-surface-variant text-xs">— all-MiniLM-L6-v2 (local)</span></div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/3 rounded-sm">
+                                <span class="w-3 h-3 bg-accent-green rounded-sm flex-shrink-0"></span>
+                                <div><span class="font-mono text-xs text-accent-green">ChromaDB</span> <span class="text-on-surface-variant text-xs">— Persistent local vector store</span></div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/3 rounded-sm">
+                                <span class="w-3 h-3 bg-accent-blue rounded-sm flex-shrink-0"></span>
+                                <div><span class="font-mono text-xs text-accent-blue">384-dim</span> <span class="text-on-surface-variant text-xs">— Dense vector representations</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Flow Diagram -->
+                <div class="glass-card p-8 border-l-2 border-l-accent-blue/40 reveal">
+                    <h4 class="font-headline text-lg font-bold text-accent-blue mb-4 uppercase tracking-tight">// Data Flow</h4>
+                    <p class="text-on-surface-variant text-sm leading-relaxed mb-6">End-to-end data flow from document upload to AI-generated answer:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+                        <div class="text-center p-4 bg-white/3 rounded-sm">
+                            <span class="material-symbols-outlined text-accent-blue text-2xl block mb-2">upload_file</span>
+                            <span class="font-mono text-[10px] text-accent-blue uppercase block">Upload</span>
+                            <span class="text-on-surface-variant text-[10px]">PDF/DOCX/CSV</span>
+                        </div>
+                        <div class="text-center p-4 bg-white/3 rounded-sm">
+                            <span class="material-symbols-outlined text-accent-warm text-2xl block mb-2">content_cut</span>
+                            <span class="font-mono text-[10px] text-accent-warm uppercase block">Chunk</span>
+                            <span class="text-on-surface-variant text-[10px]">1000 chars</span>
+                        </div>
+                        <div class="text-center p-4 bg-white/3 rounded-sm">
+                            <span class="material-symbols-outlined text-accent-purple text-2xl block mb-2">data_array</span>
+                            <span class="font-mono text-[10px] text-accent-purple uppercase block">Embed</span>
+                            <span class="text-on-surface-variant text-[10px]">MiniLM-L6</span>
+                        </div>
+                        <div class="text-center p-4 bg-white/3 rounded-sm">
+                            <span class="material-symbols-outlined text-accent-green text-2xl block mb-2">database</span>
+                            <span class="font-mono text-[10px] text-accent-green uppercase block">Store</span>
+                            <span class="text-on-surface-variant text-[10px]">ChromaDB</span>
+                        </div>
+                        <div class="text-center p-4 bg-white/3 rounded-sm">
+                            <span class="material-symbols-outlined text-accent-orange text-2xl block mb-2">search</span>
+                            <span class="font-mono text-[10px] text-accent-orange uppercase block">Retrieve</span>
+                            <span class="text-on-surface-variant text-[10px]">Top-4 chunks</span>
+                        </div>
+                        <div class="text-center p-4 bg-white/3 rounded-sm">
+                            <span class="material-symbols-outlined text-primary text-2xl block mb-2">smart_toy</span>
+                            <span class="font-mono text-[10px] text-primary uppercase block">Generate</span>
+                            <span class="text-on-surface-variant text-[10px]">Llama / Gemini</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 02: RAG Pipeline -->
+            <section id="rag-pipeline" class="space-y-12 reveal">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">02_RAG_Pipeline</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        The core of Nexus QA is the Retrieval-Augmented Generation pipeline. When a user asks a question, the system performs a semantic similarity search against the stored vectors, retrieves the top-4 most relevant document chunks, builds a context-grounded prompt, and sends it to the LLM for a comprehensive answer.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-8">
+                        <h5 class="text-accent-orange font-headline text-xs uppercase tracking-widest mb-4">Dual LLM Strategy</h5>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-6">The system uses a primary → fallback architecture for maximum reliability. If Groq's Llama 3.1 fails (rate limit, downtime), it automatically switches to Google's Gemini 2.5 Flash.</p>
+                        <div class="code-block p-3">
+                            <pre class="text-xs font-mono text-accent-green"><code># Primary: Groq (Llama 3.1-8B)
+try:
+    client = get_groq_client()
+    response = client.chat.completions.create(
+        model='llama-3.1-8b-instant',
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.7,
+    )
+except Exception as groq_error:
+    # Fallback: Gemini 2.5 Flash
+    gemini_client = get_gemini_client()
+    response = gemini_client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=prompt,
+    )</code></pre>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8">
+                        <h5 class="text-accent-green font-headline text-xs uppercase tracking-widest mb-4">Context-Grounded Prompting</h5>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-6">The system constructs a detailed prompt incorporating chat history for multi-turn conversations and document context with source citations. The LLM is strictly instructed to answer only from document context.</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-white/3 rounded-sm">
+                                <span class="w-8 h-8 bg-accent-green/20 rounded-sm flex items-center justify-center text-accent-green font-mono text-xs font-bold">1</span>
+                                <div>
+                                    <div class="font-mono text-xs text-white">Chat History Tracking</div>
+                                    <div class="text-on-surface-variant text-[10px]">Full user/assistant conversation maintained</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/3 rounded-sm">
+                                <span class="w-8 h-8 bg-accent-blue/20 rounded-sm flex items-center justify-center text-accent-blue font-mono text-xs font-bold">2</span>
+                                <div>
+                                    <div class="font-mono text-xs text-white">Similarity Search (k=4)</div>
+                                    <div class="text-on-surface-variant text-[10px]">Top-4 most relevant chunks with scores</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/3 rounded-sm">
+                                <span class="w-8 h-8 bg-accent-warm/20 rounded-sm flex items-center justify-center text-accent-warm font-mono text-xs font-bold">3</span>
+                                <div>
+                                    <div class="font-mono text-xs text-white">Source Attribution</div>
+                                    <div class="text-on-surface-variant text-[10px]">Filename + page number tracking</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/3 rounded-sm">
+                                <span class="w-8 h-8 bg-accent-purple/20 rounded-sm flex items-center justify-center text-accent-purple font-mono text-xs font-bold">4</span>
+                                <div>
+                                    <div class="font-mono text-xs text-white">Smart Formatting</div>
+                                    <div class="text-on-surface-variant text-[10px]">Mermaid diagrams + Markdown tables</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supported Formats -->
+                <div class="glass-card p-8 reveal">
+                    <h4 class="font-headline text-lg font-bold text-accent-blue mb-6 uppercase tracking-tight">// Supported Document Formats</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full pin-table text-left">
+                            <thead>
+                                <tr>
+                                    <th class="p-3">Format</th>
+                                    <th class="p-3">Loader</th>
+                                    <th class="p-3">Processing Method</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="p-3 text-accent-warm">📄 PDF</td><td class="p-3 font-mono text-xs">PyPDFLoader</td><td class="p-3 text-on-surface-variant">Page-by-page extraction with metadata</td></tr>
+                                <tr><td class="p-3 text-accent-blue">📝 TXT</td><td class="p-3 font-mono text-xs">TextLoader</td><td class="p-3 text-on-surface-variant">UTF-8 text ingestion</td></tr>
+                                <tr><td class="p-3 text-accent-purple">📋 DOCX</td><td class="p-3 font-mono text-xs">python-docx</td><td class="p-3 text-on-surface-variant">Paragraph-level text extraction</td></tr>
+                                <tr><td class="p-3 text-accent-green">📊 CSV</td><td class="p-3 font-mono text-xs">pandas</td><td class="p-3 text-on-surface-variant">DataFrame → Markdown table conversion</td></tr>
+                                <tr><td class="p-3 text-accent-orange">📈 XLSX</td><td class="p-3 font-mono text-xs">pandas + openpyxl</td><td class="p-3 text-on-surface-variant">Excel → Markdown table conversion</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 03: Frontend UI -->
+            <section id="frontend" class="space-y-12 reveal">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">03_Frontend_UI</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        The frontend is a premium glassmorphic chat interface built with vanilla HTML, CSS, and JavaScript — no framework required. It features real-time typing animations, drag-and-drop file upload, Mermaid diagram rendering, markdown parsing, in-chat search, and PDF export.
+                    </p>
+                </div>
+
+                <!-- UI Feature Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 reveal">
+                    <div class="glass-card p-6 text-center" style="border-top: 2px solid #3b82f6;">
+                        <span class="material-symbols-outlined text-accent-blue text-3xl block mb-3">chat</span>
+                        <h5 class="font-headline text-sm font-bold uppercase text-white mb-1">Chat Interface</h5>
+                        <span class="text-[10px] text-on-surface-variant">Full chat with typing animation</span>
+                    </div>
+                    <div class="glass-card p-6 text-center" style="border-top: 2px solid #00f5d4;">
+                        <span class="material-symbols-outlined text-accent-green text-3xl block mb-3">upload_file</span>
+                        <h5 class="font-headline text-sm font-bold uppercase text-white mb-1">Drag & Drop</h5>
+                        <span class="text-[10px] text-on-surface-variant">Drag files into knowledge base</span>
+                    </div>
+                    <div class="glass-card p-6 text-center" style="border-top: 2px solid #b794f6;">
+                        <span class="material-symbols-outlined text-accent-purple text-3xl block mb-3">account_tree</span>
+                        <h5 class="font-headline text-sm font-bold uppercase text-white mb-1">Mermaid Diagrams</h5>
+                        <span class="text-[10px] text-on-surface-variant">AI-generated flowcharts</span>
+                    </div>
+                    <div class="glass-card p-6 text-center" style="border-top: 2px solid #ffa94d;">
+                        <span class="material-symbols-outlined text-accent-orange text-3xl block mb-3">search</span>
+                        <h5 class="font-headline text-sm font-bold uppercase text-white mb-1">Chat Search</h5>
+                        <span class="text-[10px] text-on-surface-variant">Search within chat history</span>
+                    </div>
+                    <div class="glass-card p-6 text-center" style="border-top: 2px solid #ff6b9d;">
+                        <span class="material-symbols-outlined text-accent-warm text-3xl block mb-3">picture_as_pdf</span>
+                        <h5 class="font-headline text-sm font-bold uppercase text-white mb-1">PDF Export</h5>
+                        <span class="text-[10px] text-on-surface-variant">Export conversations as PDF</span>
+                    </div>
+                    <div class="glass-card p-6 text-center" style="border-top: 2px solid #00d2ff;">
+                        <span class="material-symbols-outlined text-primary text-3xl block mb-3">summarize</span>
+                        <h5 class="font-headline text-sm font-bold uppercase text-white mb-1">Auto-Summarize</h5>
+                        <span class="text-[10px] text-on-surface-variant">One-click doc summaries</span>
+                    </div>
+                </div>
+
+                <!-- UI Screenshot -->
+                <div class="infographic-frame reveal">
+                    <img src="NexusQA/ui_wide.png" alt="Nexus Knowledge QA full-width interface showing sidebar knowledge base, document list, and AI chat panel with glassmorphic design" class="w-full h-auto"/>
+                </div>
+            </section>
+
+            <!-- SECTION 04: API Reference -->
+            <section id="api" class="space-y-12 reveal">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">04_API_Reference</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        The FastAPI backend exposes five RESTful endpoints for document management and querying.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 reveal">
+                    <h4 class="font-headline text-lg font-bold text-accent-blue mb-6 uppercase tracking-tight">// Endpoint Registry</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full pin-table text-left">
+                            <thead>
+                                <tr>
+                                    <th class="p-3">Method</th>
+                                    <th class="p-3">Endpoint</th>
+                                    <th class="p-3">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="p-3 font-mono text-accent-green text-xs">POST</td><td class="p-3 font-mono text-xs text-white">/upload</td><td class="p-3 text-on-surface-variant">Upload & process a document into ChromaDB</td></tr>
+                                <tr><td class="p-3 font-mono text-accent-blue text-xs">POST</td><td class="p-3 font-mono text-xs text-white">/query</td><td class="p-3 text-on-surface-variant">Query documents with chat history context</td></tr>
+                                <tr><td class="p-3 font-mono text-accent-purple text-xs">GET</td><td class="p-3 font-mono text-xs text-white">/documents</td><td class="p-3 text-on-surface-variant">List all uploaded documents</td></tr>
+                                <tr><td class="p-3 font-mono text-accent-warm text-xs">DELETE</td><td class="p-3 font-mono text-xs text-white">/documents/{filename}</td><td class="p-3 text-on-surface-variant">Delete document from disk & vector store</td></tr>
+                                <tr><td class="p-3 font-mono text-accent-orange text-xs">POST</td><td class="p-3 font-mono text-xs text-white">/summarize</td><td class="p-3 text-on-surface-variant">Generate AI summary of a document</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Query Request Example -->
+                <div class="glass-card p-8 border-l-2 border-l-accent-blue/40 reveal">
+                    <h4 class="font-headline text-lg font-bold text-accent-blue mb-4 uppercase tracking-tight">// Query Payload Example</h4>
+                    <div class="code-block p-3">
+                        <pre class="text-xs font-mono text-accent-green"><code>POST /query
+Content-Type: application/json
+
+{
+  "messages": [
+    { "role": "user", "content": "What is the DRCE process?" },
+    { "role": "assistant", "content": "The DRCE process..." },
+    { "role": "user", "content": "Elaborate on step 2" }
+  ]
+}
+
+// Response:
+{
+  "answer": "Step 2 involves...",
+  "sources": [
+    { "filename": "manual.pdf", "page": 3 },
+    { "filename": "manual.pdf", "page": 7 }
+  ]
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 05: Full Stack -->
+            <section id="stack" class="space-y-12 reveal">
+                <div class="circuit-line mb-12"></div>
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">05_Full_Stack</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        Complete technology stack and file structure of the Nexus Knowledge QA system.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                    <div class="glass-card p-8">
+                        <h5 class="text-accent-blue font-headline text-xs uppercase tracking-widest mb-4">Backend Dependencies</h5>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-accent-blue rounded-full"></span>
+                                <span class="font-mono text-xs text-white">FastAPI + Uvicorn</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">Web Server</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-accent-green rounded-full"></span>
+                                <span class="font-mono text-xs text-white">LangChain</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">RAG Framework</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-accent-purple rounded-full"></span>
+                                <span class="font-mono text-xs text-white">ChromaDB</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">Vector Store</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-accent-warm rounded-full"></span>
+                                <span class="font-mono text-xs text-white">HuggingFace Embeddings</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">Local Embed</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-accent-orange rounded-full"></span>
+                                <span class="font-mono text-xs text-white">Groq SDK</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">Llama 3.1</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-primary rounded-full"></span>
+                                <span class="font-mono text-xs text-white">Google GenAI</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">Gemini 2.5</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-2 bg-white/3 rounded-sm">
+                                <span class="w-2 h-2 bg-white/40 rounded-full"></span>
+                                <span class="font-mono text-xs text-white">pandas / python-docx</span>
+                                <span class="text-on-surface-variant text-[10px] ml-auto">Parsers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-8">
+                        <h5 class="text-accent-blue font-headline text-xs uppercase tracking-widest mb-4">File Structure</h5>
+                        <div class="code-block p-4">
+                            <pre class="text-xs font-mono text-on-surface-variant"><code><span class="text-accent-blue">local-rag-qa/</span>
+├── <span class="text-accent-green">backend/</span>
+│   ├── <span class="text-accent-orange">main.py</span>          <span class="text-white/40"># FastAPI app (316 lines)</span>
+│   ├── <span class="text-white/60">.env</span>              <span class="text-white/40"># API keys</span>
+│   ├── <span class="text-accent-purple">chroma_db/</span>       <span class="text-white/40"># Persistent vector store</span>
+│   │   └── <span class="text-white/60">*.sqlite3</span>    <span class="text-white/40"># SQLite + HNSW index</span>
+│   └── <span class="text-accent-warm">uploaded_docs/</span>   <span class="text-white/40"># Uploaded file storage</span>
+├── <span class="text-accent-blue">frontend/</span>
+│   ├── <span class="text-accent-green">index.html</span>       <span class="text-white/40"># Chat UI layout</span>
+│   ├── <span class="text-primary">style.css</span>        <span class="text-white/40"># Glassmorphic theme</span>
+│   └── <span class="text-accent-orange">script.js</span>       <span class="text-white/40"># Chat logic (489 lines)</span>
+└── <span class="text-white/60">venv/</span>               <span class="text-white/40"># Python virtual env</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Frontend Libraries -->
+                <div class="glass-card p-8 reveal">
+                    <h4 class="font-headline text-lg font-bold text-accent-blue mb-6 uppercase tracking-tight">// Frontend Libraries</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <h5 class="font-label text-[10px] text-accent-green uppercase tracking-widest mb-3">Markdown Rendering</h5>
+                            <ul class="space-y-2 text-on-surface-variant text-sm">
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-green rounded-full"></span>marked.js — Markdown → HTML</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-green rounded-full"></span>Tables, lists, code blocks</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-label text-[10px] text-accent-purple uppercase tracking-widest mb-3">Diagram Engine</h5>
+                            <ul class="space-y-2 text-on-surface-variant text-sm">
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-purple rounded-full"></span>Mermaid.js v9.4.3</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-purple rounded-full"></span>Dark theme, auto-render</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-label text-[10px] text-accent-warm uppercase tracking-widest mb-3">Export</h5>
+                            <ul class="space-y-2 text-on-surface-variant text-sm">
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-warm rounded-full"></span>html2pdf.js v0.10.1</li>
+                                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent-warm rounded-full"></span>A4 PDF generation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-white/5 bg-black/60">
+    <div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full font-['Space_Grotesk'] text-[10px] uppercase tracking-[0.2em]">
+        <div class="text-accent-blue font-bold mb-4 md:mb-0">ARCHITECT_IDENTITY_V1.2</div>
+        <div class="flex gap-8 mb-6 md:mb-0">
+            <a class="text-on-surface-variant hover:text-white transition-all" href="index.html">Systems</a>
+            <a class="text-on-surface-variant hover:text-white transition-all" href="software.html">Software</a>
+            <a class="text-on-surface-variant hover:text-white transition-all" href="research.html">Research</a>
+            <a class="text-on-surface-variant hover:text-white transition-all" href="projects.html">Projects</a>
+        </div>
+        <div class="text-accent-blue opacity-80 hover:opacity-100 transition-opacity">
+            © 2024 AKASH MHAIS. ENCRYPTED TRANSMISSION.
+        </div>
+    </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+}, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+window.addEventListener('scroll', () => {
+    const nav = document.getElementById('top-nav');
+    nav.style.background = window.scrollY > 50 ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.4)';
+});
+</script>
+</body>
+</html>
