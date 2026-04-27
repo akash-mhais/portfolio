@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ARCHITECT_OS | Push Sorting System Documents</title>
+    <meta name="description" content="Technical documentation for the Push Sorting System - Automated Logistics Conveyor Simulation."/>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                  "primary": "#72dcff",
+                  "surface": "#0e0e0e",
+                  "surface-container": "#1a1919",
+                  "surface-variant": "#262626",
+                  "on-surface-variant": "#adaaaa",
+                  "outline-variant": "#494847",
+                  "accent-blue": "#3b82f6",
+                  "accent-cyan": "#06b6d4"
+                },
+                "fontFamily": {
+                  "headline": ["Space Grotesk", "sans-serif"],
+                  "body": ["Inter", "sans-serif"],
+                  "label": ["Space Grotesk", "sans-serif"]
+                }
+              }
+            }
+          }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(38, 38, 38, 0.4);
+            backdrop-filter: blur(12px);
+            border-top: 2px solid rgba(114, 220, 255, 0.2);
+            border-bottom: 2px solid transparent;
+            transition: all 0.5s ease;
+        }
+        .glass-card:hover {
+            background: rgba(38, 38, 38, 0.6);
+            border-top: 2px solid #00d2ff;
+        }
+        .circuit-line {
+            height: 1px;
+            background: linear-gradient(90deg, rgba(74, 222, 128, 0.5), transparent);
+        }
+        .glow-sm { text-shadow: 0 0 10px rgba(114, 220, 255, 0.5); }
+        .tag-chip {
+            padding: 2px 8px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            font-size: 9px;
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #3b82f6;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .spec-grid-item {
+            border-left: 2px solid rgba(59, 130, 246, 0.3);
+            padding-left: 1rem;
+        }
+        body { background-color: #0e0e0e; color: #ffffff; }
+        .grid-bg {
+            background-image:
+                linear-gradient(rgba(114, 220, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(114, 220, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+    </style>
+</head>
+<body class="bg-surface text-white font-body selection:bg-accent-blue/30 grid-bg">
+
+<!-- Top Navigation Placeholder (Simplified) -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-white/5">
+    <div class="flex justify-between items-center px-8 h-16 max-w-7xl mx-auto font-label">
+        <a href="index.html" class="text-xl font-bold tracking-tighter text-primary uppercase hover:glow-sm transition-all">ARCHITECT_OS</a>
+        <div class="hidden md:flex gap-8 text-xs uppercase tracking-widest text-on-surface-variant">
+            <a href="index.html" class="hover:text-white transition-colors">Systems</a>
+            <a href="software.html" class="hover:text-white transition-colors">Software</a>
+            <a href="research.html" class="hover:text-white transition-colors">Research</a>
+            <a href="projects.html" class="text-accent-blue hover:text-accent-blue transition-colors">Projects</a>
+        </div>
+        <a href="projects.html" class="text-xs uppercase tracking-widest text-white hover:text-accent-blue transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Projects
+        </a>
+    </div>
+</nav>
+
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+    
+    <!-- Hero Section -->
+    <section class="mb-20 reveal">
+        <div class="flex items-center gap-4 mb-6">
+            <div class="h-[1px] w-12 bg-accent-blue"></div>
+            <span class="font-label text-[10px] uppercase tracking-[0.3em] text-accent-blue">System Documentation // Push Sorting</span>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter uppercase mb-6 leading-none">Push <br/><span class="text-accent-blue">Sorting System</span></h1>
+                <p class="text-on-surface-variant text-lg leading-relaxed mb-8">
+                    An automated logistics conveyor simulation modeled and animated in SolidWorks. It features decentralized logic utilizing a diverter arm to actively sort specified packages between a primary and auxiliary conveyor line.
+                </p>
+                <div class="flex flex-wrap gap-3 mb-10">
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-blue rounded-full pulse-dot"></span>SolidWorks</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-blue rounded-full"></span>Motion Study</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-blue rounded-full"></span>Logistics</span>
+                    <span class="tag-chip"><span class="w-1.5 h-1.5 bg-accent-blue rounded-full"></span>Automation</span>
+                </div>
+                <!-- Stats / Spec Grid -->
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="spec-grid-item">
+                        <div class="font-headline text-2xl font-bold text-accent-blue">2</div>
+                        <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Conveyor Lines</div>
+                    </div>
+                    <div class="spec-grid-item">
+                        <div class="font-headline text-2xl font-bold text-accent-blue">1</div>
+                        <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Diverter Arm</div>
+                    </div>
+                    <div class="spec-grid-item">
+                        <div class="font-headline text-2xl font-bold text-accent-blue">CAD</div>
+                        <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Simulation Env</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video/Image Hero -->
+            <div class="space-y-3">
+                <div class="overflow-hidden rounded-sm border border-white/10 bg-surface-container aspect-video relative group">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover mix-blend-screen scale-105">
+                        <source src="PushSortingSystem/demo_video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <!-- Overlay gradient for UI -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent opacity-40"></div>
+                </div>
+            </div>
+        </div>
+        <div class="circuit-line mt-16"></div>
+    </section>
+
+    <!-- Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
+        
+        <!-- Sidebar -->
+        <div class="lg:col-span-3 space-y-8 lg:sticky lg:top-24 lg:h-fit">
+            <div class="glass-card p-8 rounded-sm">
+                <h3 class="font-headline text-sm uppercase tracking-widest text-accent-blue mb-6">System_Specs</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Environment</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">SolidWorks</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Type</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">Motion Study</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Domain</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">Mechatronics</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Focus</span>
+                        <span class="text-accent-blue font-bold text-xs uppercase">Kinematics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="lg:col-span-9 space-y-24">
+            
+            <!-- Mechanics Section -->
+            <section class="space-y-12 reveal">
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">01_Kinematics & Control</h2>
+                    <p class="text-on-surface-variant leading-relaxed text-lg max-w-2xl">
+                        The core challenge of this project was simulating timing and physical interactions between moving bodies on an automated line. The sorting system evaluates items coming down the primary conveyor block and selectively triggers a pneumatic/motorized arm mechanism.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="material-symbols-outlined text-accent-blue">alt_route</span>
+                            <h5 class="text-accent-blue font-headline text-xs uppercase tracking-widest">Diverter Mechanism</h5>
+                        </div>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+                            The lateral push arm is actuated in a sweeping motion, interrupting the path of specific packages based on simulated sensor triggers. This forces the sorted package off the primary belt and onto the perpendicular gravity/auxiliary conveyor.
+                        </p>
+                    </div>
+
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="material-symbols-outlined text-accent-blue">conveyor_belt</span>
+                            <h5 class="text-accent-blue font-headline text-xs uppercase tracking-widest">Continuous Feed</h5>
+                        </div>
+                        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+                            The primary conveyor models a continuous friction feed system. Target blocks (yellow and red) respond to friction and gravity simulations within SolidWorks Motion to create a realistic flow of materials past the sorting checkpoint.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CAD View Section -->
+            <section class="space-y-12 reveal">
+                <div>
+                    <h2 class="font-headline text-4xl font-bold mb-4 tracking-tight text-white uppercase">02_System Design</h2>
+                </div>
+                
+                <div class="glass-card p-4 overflow-hidden group">
+                    <div class="relative overflow-hidden bg-[#e6e6e6]">
+                        <img src="PushSortingSystem/ui_main.png" alt="SolidWorks CAD View of Push Sorting System" class="w-full h-auto mix-blend-multiply group-hover:scale-105 transition-transform duration-700"/>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+                    <div class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded-full bg-accent-blue/10 border border-accent-blue/30 flex items-center justify-center shrink-0">
+                            <span class="font-headline text-accent-blue font-bold text-xs block">1</span>
+                        </div>
+                        <div>
+                            <h6 class="font-bold text-sm uppercase tracking-wider mb-2">Primary Line</h6>
+                            <p class="text-xs text-on-surface-variant leading-relaxed">The main transport artery with simulated belt friction, delivering parts linearly to the sorting gate.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded-full bg-accent-blue/10 border border-accent-blue/30 flex items-center justify-center shrink-0">
+                            <span class="font-headline text-accent-blue font-bold text-xs block">2</span>
+                        </div>
+                        <div>
+                            <h6 class="font-bold text-sm uppercase tracking-wider mb-2">Sorting Arm</h6>
+                            <p class="text-xs text-on-surface-variant leading-relaxed">Rotary actuated arm mapped to keyframes in SolidWorks Motion Analysis to reject specific profiles.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-8 h-8 rounded-full bg-accent-blue/10 border border-accent-blue/30 flex items-center justify-center shrink-0">
+                            <span class="font-headline text-accent-blue font-bold text-xs block">3</span>
+                        </div>
+                        <div>
+                            <h6 class="font-bold text-sm uppercase tracking-wider mb-2">Auxiliary Belt</h6>
+                            <p class="text-xs text-on-surface-variant leading-relaxed">Secondary collection path perpendicular to the main line, capturing the sorted/diverted items.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Simple intersection observer for reveal animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
