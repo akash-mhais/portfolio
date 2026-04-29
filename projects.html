@@ -126,14 +126,12 @@
 <a href="index.html" class="text-xl font-bold tracking-tighter text-[#00d2ff] uppercase hover:glow-sm transition-all">ARCHITECT_OS</a>
 <div class="hidden md:flex items-center gap-8">
 <a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="index.html">Systems</a>
-<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="software.html">Software</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="certificates.html">Certificates</a>
 <a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="research.html">Research</a>
 <a class="text-[#00d2ff] border-b-2 border-[#00d2ff] pb-1" href="projects.html">Projects</a>
-<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="index.html#contact">Logs</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] transition-colors" href="logs.html">Logs</a>
+<a href="logs.html" class="hidden md:block bg-primary-container text-on-primary-container px-5 py-1.5 rounded-sm font-label font-bold text-sm uppercase tracking-wider scale-95 active:scale-90 transition-transform glow-btn">Connect</a>
 </div>
-<a href="index.html#contact" class="hidden md:block bg-primary-container text-on-primary-container px-5 py-1.5 rounded-sm font-label font-bold text-sm uppercase tracking-wider scale-95 active:scale-90 transition-transform glow-btn">
-    Connect
-</a>
 <button class="md:hidden text-primary" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
 <span class="material-symbols-outlined">menu</span>
 </button>
@@ -146,10 +144,10 @@
 </button>
 <div class="flex flex-col gap-6 mt-12 font-['Space_Grotesk']">
 <a class="text-[#adaaaa] hover:text-[#ffffff]" href="index.html">Systems</a>
-<a class="text-[#adaaaa] hover:text-[#ffffff]" href="software.html">Software</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="certificates.html">Certificates</a>
 <a class="text-[#adaaaa] hover:text-[#ffffff]" href="research.html">Research</a>
 <a class="text-[#00d2ff]" href="projects.html">Projects</a>
-<a class="text-[#adaaaa] hover:text-[#ffffff]" href="index.html#contact">Logs</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff]" href="logs.html">Logs</a>
 </div>
 </div>
 
@@ -166,10 +164,19 @@
 </p>
 </header>
 
+<!-- Filter Navigation -->
+<div class="flex flex-wrap gap-4 mb-12 border-b border-outline-variant/20 pb-4 reveal" id="project-filters">
+    <button class="filter-btn active text-primary font-label text-xs uppercase tracking-widest px-4 py-2 hover:bg-surface-container transition-all" data-filter="all">All Projects</button>
+    <button class="filter-btn text-on-surface-variant hover:text-primary font-label text-xs uppercase tracking-widest px-4 py-2 hover:bg-surface-container transition-all" data-filter="software">Software & AI</button>
+    <button class="filter-btn text-on-surface-variant hover:text-primary font-label text-xs uppercase tracking-widest px-4 py-2 hover:bg-surface-container transition-all" data-filter="robotics">Robotics & Kinematics</button>
+    <button class="filter-btn text-on-surface-variant hover:text-primary font-label text-xs uppercase tracking-widest px-4 py-2 hover:bg-surface-container transition-all" data-filter="hardware">Hardware & Embedded</button>
+    <button class="filter-btn text-on-surface-variant hover:text-primary font-label text-xs uppercase tracking-widest px-4 py-2 hover:bg-surface-container transition-all" data-filter="design">Industrial Design</button>
+</div>
+
 <!-- Bento Grid Projects -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6" id="project-grid">
 <!-- Project 1: PREcision 360 -->
-<div class="md:col-span-8 group relative overflow-hidden glass-card p-8 reveal reveal-stagger" style="--delay: 0ms">
+<div class="project-card md:col-span-8 group relative overflow-hidden glass-card p-8 reveal reveal-stagger" style="--delay: 0ms" data-category="software">
 <div class="flex justify-between items-start mb-12">
 <div>
 <span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Software / Automation</span>
@@ -191,7 +198,7 @@
                 </div>
 
 <!-- Project 2: Nexus Knowledge QA -->
-<div class="md:col-span-4 group relative overflow-hidden glass-card p-0 reveal reveal-stagger" style="--delay: 100ms">
+<div class="project-card md:col-span-4 group relative overflow-hidden glass-card p-0 reveal reveal-stagger" style="--delay: 100ms" data-category="software">
 <div class="h-40 overflow-hidden bg-surface-container">
     <img class="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" alt="Nexus Knowledge QA — glassmorphic chat UI with sidebar knowledge base" src="NexusQA/ui_main.png"/>
 </div>
@@ -210,7 +217,7 @@
 </div>
 
 <!-- Project 3: EMO Robot -->
-<div class="md:col-span-4 group relative overflow-hidden bg-surface-container-low p-8 border-t-2 border-primary/20 hover:border-primary transition-all duration-500 reveal reveal-stagger" style="--delay: 200ms">
+<div class="project-card md:col-span-4 group relative overflow-hidden bg-surface-container-low p-8 border-t-2 border-primary/20 hover:border-primary transition-all duration-500 reveal reveal-stagger" style="--delay: 200ms" data-category="robotics">
 <span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Social Robotics / HMI</span>
 <h3 class="font-headline text-2xl font-bold mt-2 uppercase tracking-tight mb-4">EMO Robot</h3>
 <p class="text-on-surface-variant text-sm mb-6">Personal Companion Robot with emotive LCD expressions, touch & vibration sensors, servo articulation, and audio feedback. Built on Raspberry Pi.</p>
@@ -226,7 +233,7 @@
 </div>
 
 <!-- Project 4: Vision Studio Pro -->
-<div class="md:col-span-8 group relative overflow-hidden glass-card p-8 reveal reveal-stagger" style="--delay: 300ms">
+<div class="project-card md:col-span-8 group relative overflow-hidden glass-card p-8 reveal reveal-stagger" style="--delay: 300ms" data-category="software">
 <div class="grid md:grid-cols-2 gap-8 items-center h-full">
 <div>
 <span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Machine Vision / Industrial Protocols</span>
@@ -248,7 +255,7 @@
 </div>
 
                 <!-- Project 5: Cartesian Robot -->
-                <div class="md:col-span-3 group relative overflow-hidden glass-card p-6 reveal reveal-stagger" style="--delay: 400ms">
+                <div class="project-card md:col-span-3 group relative overflow-hidden glass-card p-6 reveal reveal-stagger" style="--delay: 400ms" data-category="robotics">
                     <h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-2 text-[#00f5d4]">Cartesian Robot</h3>
                     <span class="font-label text-[9px] text-on-surface-variant uppercase mb-4 block">Palletization Systems</span>
                     <p class="text-on-surface-variant text-xs mb-6">Linear movement optimization for heavy-duty payload distribution. Built on Arduino Mega & TB6600 drivers.</p>
@@ -260,7 +267,7 @@
                 </div>
 
 <!-- Project 6: Delta Robot -->
-<div class="md:col-span-3 group relative overflow-hidden glass-card p-6 reveal reveal-stagger" style="--delay: 500ms">
+<div class="project-card md:col-span-3 group relative overflow-hidden glass-card p-6 reveal reveal-stagger" style="--delay: 500ms" data-category="robotics">
 <h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-2 text-primary">High-Speed Delta</h3>
 <span class="font-label text-[9px] text-on-surface-variant uppercase mb-4 block">Parallel Kinematics Automation</span>
 <p class="text-on-surface-variant text-xs mb-6 leading-relaxed">Industrial-grade pick-and-place robot featuring rapid acceleration, parallel link stability, and GRBL-synced multi-axis control.</p>
@@ -272,7 +279,7 @@
 </div>
 
 <!-- Project 7: EMO Robot (Mini Card) -->
-<div class="md:col-span-3 group relative overflow-hidden glass-card p-6 reveal reveal-stagger" style="--delay: 600ms">
+<div class="project-card md:col-span-3 group relative overflow-hidden glass-card p-6 reveal reveal-stagger" style="--delay: 600ms" data-category="robotics">
 <h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-2 text-primary">EMO Robot</h3>
 <span class="font-label text-[9px] text-on-surface-variant uppercase mb-4 block">Social Robotics / Companion</span>
 <p class="text-on-surface-variant text-xs mb-6">Raspberry Pi-powered companion with 13 emotion animations, touch & vibration sensing, and 3-axis servo articulation.</p>
@@ -284,7 +291,7 @@
 </div>
 
 <!-- Project 8: Shape Optimization -->
-<div class="md:col-span-3 group relative overflow-hidden glass-card p-6 reveal reveal-stagger" style="--delay: 700ms">
+<div class="project-card md:col-span-3 group relative overflow-hidden glass-card p-6 reveal reveal-stagger" style="--delay: 700ms" data-category="design">
 <h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-2">Gripper Optimization</h3>
 <span class="font-label text-[9px] text-on-surface-variant uppercase mb-4 block">Design / FEA</span>
 <p class="text-on-surface-variant text-xs mb-6">Topology optimization for lightweight, high-strength end effectors.</p>
@@ -296,7 +303,7 @@
 </div>
 
 <!-- Project 9: Ore Secure Armor -->
-<div class="md:col-span-6 group relative overflow-hidden glass-card p-8 reveal reveal-stagger" style="--delay: 800ms">
+<div class="project-card md:col-span-6 group relative overflow-hidden glass-card p-8 reveal reveal-stagger" style="--delay: 800ms" data-category="design">
 <span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Design / Defense</span>
 <h3 class="font-headline text-3xl font-bold mt-2 uppercase tracking-tight mb-4">Ore Secure Armor</h3>
 <p class="text-on-surface-variant mb-6 leading-relaxed">Advanced ballistic shielding concept integrating modular kinetic absorption layers for extreme environment protection.</p>
@@ -304,7 +311,7 @@
 </div>
 
 <!-- Project 10: Push Sorting System -->
-<div class="md:col-span-6 group relative overflow-hidden glass-card p-0 reveal reveal-stagger" style="--delay: 900ms">
+<div class="project-card md:col-span-6 group relative overflow-hidden glass-card p-0 reveal reveal-stagger" style="--delay: 900ms" data-category="robotics">
 <div class="h-48 overflow-hidden bg-[#e6e6e6]">
     <img class="w-full h-full object-cover object-center mix-blend-multiply opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" alt="SolidWorks Push Sorting System" src="PushSortingSystem/ui_main.png"/>
 </div>
@@ -324,7 +331,7 @@
 </div>
 
 <!-- Project 11: Drone Design -->
-<div class="md:col-span-4 group relative overflow-hidden glass-card p-8 reveal reveal-stagger" style="--delay: 1000ms">
+<div class="project-card md:col-span-4 group relative overflow-hidden glass-card p-8 reveal reveal-stagger" style="--delay: 1000ms" data-category="design">
 <span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Design / Aerodynamics</span>
 <h3 class="font-headline text-2xl font-bold mt-2 uppercase tracking-tight mb-4">Photography Drone</h3>
 <p class="text-on-surface-variant text-sm mb-6">Carbon-fiber frame design optimized for stability and long-exposure aerial photography.</p>
@@ -335,7 +342,7 @@
 </div>
 
                 <!-- Project 12: Electronics Learning Kit — Featured: Maker Faire Rome 2024 -->
-                <div class="md:col-span-8 group relative overflow-hidden glass-card p-0 reveal reveal-stagger" style="--delay: 1100ms" id="maker-faire-rome">
+                <div class="project-card md:col-span-8 group relative overflow-hidden glass-card p-0 reveal reveal-stagger" style="--delay: 1100ms" id="maker-faire-rome" data-category="hardware">
                     <div class="grid md:grid-cols-2">
                         <!-- Maker Faire Rome Photo -->
                         <div class="relative overflow-hidden h-72 md:h-auto">
@@ -373,7 +380,7 @@
                 </div>
 
 <!-- Project 13: Aakruti 2023 -->
-<div class="md:col-span-4 group relative overflow-hidden glass-card p-8 bg-gradient-to-br from-surface-container-low to-primary/5 reveal reveal-stagger" style="--delay: 1200ms">
+<div class="project-card md:col-span-4 group relative overflow-hidden glass-card p-8 bg-gradient-to-br from-surface-container-low to-primary/5 reveal reveal-stagger" style="--delay: 1200ms" data-category="robotics">
 <span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Robotics / Prosthetics</span>
 <h3 class="font-headline text-2xl font-bold mt-2 uppercase tracking-tight mb-4">Aakruti 2023</h3>
 <p class="text-on-surface-variant text-sm mb-6">Prosthetic Hand development focused on biomimetic articulation and low-cost manufacturing.</p>
@@ -382,6 +389,25 @@
 <span class="font-label text-[10px] text-on-surface-variant tracking-widest uppercase">Bio_Link_System</span>
 </div>
 </div>
+
+<!-- Project 14: Autodraft AI -->
+<div class="project-card md:col-span-8 group relative overflow-hidden glass-card p-8 reveal reveal-stagger" style="--delay: 1300ms" data-category="software">
+    <span class="font-label text-[10px] text-primary tracking-[0.2em] uppercase">Software / AI</span>
+    <h3 class="font-headline text-3xl font-bold mt-2 uppercase tracking-tight mb-4">Autodraft AI</h3>
+    <p class="text-on-surface-variant mb-6 leading-relaxed">An LLM-powered assistant for mechatronics engineers. Converts natural language requirements into functional Python scripts for CAD environments and motion control logic.</p>
+    <div class="bg-surface-container p-4 border-l-2 border-primary mb-6">
+        <p class="italic text-xs text-on-surface">"Generate a compliant joint mechanism for 5kg payload..."</p>
+    </div>
+    <div class="flex gap-2 flex-wrap mb-6">
+        <span class="px-2 py-1 border border-outline-variant text-[9px] font-label text-on-surface-variant uppercase">Python</span>
+        <span class="px-2 py-1 border border-outline-variant text-[9px] font-label text-on-surface-variant uppercase">LLMs</span>
+        <span class="px-2 py-1 border border-outline-variant text-[9px] font-label text-on-surface-variant uppercase">CAD API</span>
+    </div>
+    <button class="text-primary font-label text-[10px] uppercase tracking-widest hover:glow-sm transition-all flex items-center gap-2">
+        Access_Beta <span class="material-symbols-outlined text-sm">arrow_forward</span>
+    </button>
+</div>
+
 </div>
 
 <!-- Certifications Banner -->
@@ -451,7 +477,7 @@
 <div class="text-[#72dcff] font-bold mb-4 md:mb-0">ARCHITECT_IDENTITY_V1.2</div>
 <div class="flex gap-8 mb-6 md:mb-0">
 <a class="text-[#adaaaa] hover:text-[#ffffff] hover:glow-sm transition-all" href="index.html">Systems</a>
-<a class="text-[#adaaaa] hover:text-[#ffffff] hover:glow-sm transition-all" href="software.html">Software</a>
+<a class="text-[#adaaaa] hover:text-[#ffffff] hover:glow-sm transition-all" href="certificates.html">Certificates</a>
 <a class="text-[#adaaaa] hover:text-[#ffffff] hover:glow-sm transition-all" href="research.html">Research</a>
 <a class="text-[#adaaaa] hover:text-[#ffffff] hover:glow-sm transition-all" href="projects.html">Projects</a>
 </div>
@@ -472,6 +498,47 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 window.addEventListener('scroll', () => {
     const nav = document.getElementById('main-nav');
     nav.style.background = window.scrollY > 50 ? 'rgba(14, 14, 14, 0.9)' : 'rgba(14, 14, 14, 0.6)';
+});
+
+// Project Filtering Logic
+document.addEventListener("DOMContentLoaded", () => {
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    const projectCards = document.querySelectorAll(".project-card");
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            // Update active state
+            filterBtns.forEach(b => {
+                b.classList.remove("active", "text-primary");
+                b.classList.add("text-on-surface-variant");
+            });
+            btn.classList.add("active", "text-primary");
+            btn.classList.remove("text-on-surface-variant");
+
+            const filter = btn.getAttribute("data-filter");
+
+            // Filter cards
+            projectCards.forEach(card => {
+                const category = card.getAttribute("data-category");
+                
+                // Check if card matches filter
+                if (filter === "all" || category === filter) {
+                    card.style.display = "block";
+                    // Brief timeout to allow display block to apply before opacity transition
+                    setTimeout(() => {
+                        card.style.opacity = "1";
+                        card.style.transform = "scale(1)";
+                    }, 50);
+                } else {
+                    card.style.opacity = "0";
+                    card.style.transform = "scale(0.95)";
+                    setTimeout(() => {
+                        card.style.display = "none";
+                    }, 300); // Wait for transition
+                }
+            });
+        });
+    });
 });
 </script>
 </body>
